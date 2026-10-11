@@ -1,15 +1,14 @@
-# Roadmap — after v0.3
+# Roadmap — after v0.4
 
-| Version / status | Theme | Work |
+| Version / status | Theme | Scope |
 | --- | --- | --- |
-| v0.1 implemented | First Light | Scalar circular Gaussian spatial overlap; preserved offline artifact |
-| v0.2 implemented | Angular Alignment | Common-plane paraxial phase tilt, two direction components; preserved engine/tests/artifact |
-| v0.3 implemented RC | Gameplay Redesign + Passive Tolerance | Seven differentiated missions, hidden diagnosis, environment decisions, seeded independent Normal variation, Yield/CI/P95, saved designs and migration |
-| v0.4 planned | Optical Interface Builder | Gaussian propagation, ABCD matrices, waist/mode expansion, lens/collimation, longitudinal gap/defocus, beam turning; define curvature and walk-off separately |
-| v0.5 planned | Mechanical & Manufacturing Engineering | Mechanical datum, active/passive alignment, assembly sequence, component tolerances and cost per good assembly |
-| v0.6 planned | Industrial Reference Lab | Public precision mechanical interfaces, photonic plugs/mode transformation and CPO assembly; label Published / Modeled / Assumed; never infer private designs |
-| Later planned | Multi-channel / Reliability / Sandbox | FAU pitch and uniformity, bonding/thermal displacement, measured correlated process distributions and held-out yield validation |
+| v0.1 implemented | First Light | Spatial Gaussian overlap; artifact preserved |
+| v0.2 implemented | Angular Alignment | Common-plane paraxial phase tilt; engine/tests/artifact preserved |
+| v0.3 merged | Problem-solving / Passive Tolerance | Seven differentiated missions, Normal variation, Yield/CI/P95, saved factory designs |
+| v0.4 implemented RC | Optical Interface Builder | Coaxial Gaussian q/ABCD, 0–2 ideal lenses, waist/size/curvature matching, gap/defocus, ideal folded centerline; Missions 08–10 |
+| v0.5 planned | Mechanical & Manufacturing Engineering | Datums, component body/clearance, active/passive assembly sequence, component tolerances, cost per good assembly |
+| v0.6 planned | Industrial Reference Lab | Public precision mechanical interface, photonic plugs and CPO assembly; Published / Modeled / Assumed labeling, no private-design inference |
+| Later planned | Optical propagation extensions | Derive combined decenter/tilt propagation, aperture/clipping, aberration and correlated/held-out assembly verification |
+| Later planned | Multi-channel / Reliability | FAU pitch/uniformity, thermal/bonding, calibrated correlated process distributions |
 
-This user-directed roadmap supersedes the earlier version-number schedule. Planned features are not implemented. Evanescent coupling requires its own coupled-mode/calibrated-field model; the butt-coupling Gaussian overlap equation is insufficient.
-
-Before adding more controls, observe first-time players in Missions 02–04 and the transition from nominal alignment to Yield. Add usability evidence and independent-seed confirmation after repeated optimization. For v0.4, retain explainable optical assumptions and modular source with offline export rather than turning Chapter 1 into CAD.
+v0.4's ideal fold is not a reflected vector-field model; three deterministic gap probes are not whole-range tolerance or Yield. An arbitrary optical chain/editor and real finite optics remain unimplemented. Evanescent coupling requires its own model. Before expanding controls, observe first-time players and test whether Chapter 3 objectives are understood. v0.5 should connect the current optical centerline to mechanical dimensions and honest cost/assembly assumptions.

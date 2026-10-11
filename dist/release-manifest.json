@@ -1,22 +1,22 @@
 {
-  "version": "0.3.0",
+  "version": "0.4.0",
   "status": "Release Candidate",
-  "baseline": "0cb4c3a4feb69bde4c7cc59b526376116ff40e35",
+  "baseline": "e66573f81fbda98352f30f121c0ddef549ec2544",
   "files": {
-    "optical-packaging-master-v0.3.html": "8568a5cbd3d3ced60af5ceedc7ff722ad33d9dd9353b306d3713d7c61188f3b6",
-    "README.md": "b6f8211e3f214192d4a614184a4be16ebb63e173c3ae792f660e7a7c702eb911",
-    "PHYSICS_MODEL.md": "da720475be2b3d8dccf943876eff843d024396366e8122293c07a372c2ce718d",
-    "RELEASE_NOTES.md": "418689c9ae339f11cd3a2ec3ee12acbaed414094249dbc0f862fcf797cda545a",
-    "TEST_SUMMARY.md": "f23c8391ff1130f41e09d35593f7f05bd3514be5731a9f5916064d5dd96a07d8",
-    "GAME_DESIGN.md": "fb0686f321db80b6f783cdb7878884f1d4452c62ed719e77050520b0baa28999",
-    "GAMEPLAY_AUDIT.md": "a5da67b014067c1cee12370aa03c5b4a15c45674faf42a420e9748df3f8f8347"
+    "optical-packaging-master-v0.4.html": "d2125042c1c1609881b363789638f7fb7a82b3ad267570de18b683d32e5e22bb",
+    "README.md": "09930461bf2a1d173d893062d3d9a5ca2f4a1d20d824c9d2f83b8dfaf369d5b9",
+    "PHYSICS_MODEL.md": "828acf349d378b3e644cf19d920037221c85e3e105ead860eaff80e0574e8d86",
+    "RELEASE_NOTES.md": "48dd9160644a405b92bedd3317e9556490162a1a505717ecda088d96c8169a5e",
+    "TEST_SUMMARY.md": "e8f3101f2d27ed0ac7b7607261838e890c3cdf43b95afa91bbcb9d53e47c34b3",
+    "GAME_DESIGN.md": "6f2245cef20c7eaca3a8115e5e9e27b1625e844573df4b763be2f7d0148fd8da",
+    "GAMEPLAY_AUDIT.md": "72beee0639b96fdbf7886112c6abc69cd76bf1ca577d3dc641bd8439488dbabd"
   },
   "html": {
-    "path": "dist/optical-packaging-master-v0.3.html",
-    "sha256": "8568a5cbd3d3ced60af5ceedc7ff722ad33d9dd9353b306d3713d7c61188f3b6"
+    "path": "dist/optical-packaging-master-v0.4.html",
+    "sha256": "d2125042c1c1609881b363789638f7fb7a82b3ad267570de18b683d32e5e22bb"
   },
   "zip": {
-    "path": "dist/optical-packaging-master-v0.3-release.zip",
-    "sha256": "5f2327732f9bb0afe3566ba513f61e621b25f6e25b3e1776a54028f43fff3754"
+    "path": "dist/optical-packaging-master-v0.4-release.zip",
+    "sha256": "f5f188b535c81f28176f19c3e0b04067d6ae77717c516f93fe1a410b7bd40d38"
   }
 }

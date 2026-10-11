@@ -9,7 +9,7 @@
       "networkMode": "native offline emulation"
     }
   ],
-  "pass": 54,
+  "pass": 72,
   "fail": 0,
   "results": [
     {
@@ -173,6 +173,62 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / Chapter 3 begins with converging input and locked coaxial position",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Receiver Z mouse drag captures focus and synchronizes slider",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / longitudinal keyboard maintains handle focus across redraw",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / focus completion explains curvature and given launch assumption",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / thin lens installs without fabricating a performance pass",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / ABCD refocus across fixed 1000 gap passes actual optical target",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / expanded matching straight relay still fails package constraint",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / optical success alone cannot pass an oversized folded route",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / ideal folded expansion satisfies three actual gap probes with explicit fixed loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / third chapter achievement states finite probe and footprint boundaries",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / independent interface practice edits train without changing campaign best",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / builder autosave restores q inputs, lenses and fold after offline refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / short practice train remains valid and can return to lens-free propagation",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / lens-free practice has no campaign tolerance restriction",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / Free Practice preserves full controls and separates fixed loss",
       "status": "PASS"
     },
@@ -217,7 +273,23 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / mobile mission 8 objective, controls and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / mobile mission 10 objective, controls and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / actual Touch Receiver Z drag captures focus",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / real v0.2 file upgrade keeps scores, unlocks Chapter 2 and distinguishes new content",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / real v0.3 file upgrade preserves all seven badges and factory designs",
       "status": "PASS"
     },
     {
