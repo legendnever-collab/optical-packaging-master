@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Optical Packaging Master — First Light</title><style>*{box-sizing:border-box} :root{--bg:#0c121b;--panel:#121d29;--line:#273746;--muted:#93a6b8;--text:#e2eaf0;--cyan:#51d5df;--blue:#759ef4;--amber:#e9b96b;--green:#83c9ae}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Segoe UI","Malgun Gothic",system-ui,sans-serif;font-size:14px;line-height:1.6}button,input,select{font:inherit}button{cursor:pointer;color:var(--text);border:1px solid var(--line);border-radius:6px;background:#1a2735;min-height:42px;padding:9px 15px;font-weight:600}button:hover:not(:disabled){border-color:var(--cyan);background:#203344}button:focus-visible,input:focus-visible,select:focus-visible,canvas:focus-visible{outline:2px solid var(--amber);outline-offset:3px}button:disabled{cursor:default;opacity:.43}h1,h2,h3,p{margin:0}h2{font-size:20px;font-weight:650;line-height:1.5}h3{font-size:17px} .app-header{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid var(--line);gap:16px}.brand{display:flex;align-items:center;gap:12px}.brand h1{font-size:20px;font-weight:650;letter-spacing:-.5px}.brand h1 span{font-weight:400;color:var(--cyan)}.brand p{font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:3px}.brand p b{color:var(--cyan);padding:0 6px}.header-status{display:flex;align-items:center;gap:13px;font-size:11px;color:var(--muted)}.version{padding:3px 8px;border:1px solid var(--line);border-radius:4px}.quiet{background:transparent;border-color:transparent;color:var(--muted)}.small{font-size:11px;padding:6px 10px;min-height:34px}.lab-layout{max-width:1600px;margin:auto;padding:28px 28px 20px;display:grid;grid-template-columns:240px minmax(300px,1fr) 285px;gap:26px;align-items:start}.eyebrow{font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:650;margin-bottom:12px}.left-panel nav{display:grid;gap:8px}.mission-button{width:100%;text-align:left;display:flex;gap:12px;align-items:center;padding:14px 12px;min-height:76px}.mission-button .number{font-size:13px;color:var(--muted);font-family:ui-monospace,monospace}.mission-button strong{display:block;font-size:12px}.mission-button small{display:block;font-size:10px;color:var(--muted);font-weight:400}.mission-button.active{border-color:#4a8a9a;background:#172d38}.mission-button.active .number{color:var(--cyan)}.mission-button .done{margin-left:auto;color:var(--green)}.practice-button{width:100%;margin-top:12px;text-align:left;background:transparent}.practice-button span,.practice-button small{display:block}.practice-button small{color:var(--muted);font-size:10px;font-weight:400}.practice-button.active{border-color:var(--cyan)}.brief{margin-top:28px}.brief h2{font-size:17px}.brief p{color:#b5c4d0;font-size:12px;margin-top:10px;line-height:1.8}.target-card{margin-top:18px;padding:12px 14px;border-left:2px solid var(--amber);background:#171f2a}.target-card span{display:block;color:var(--muted);font-size:9px;letter-spacing:1.2px}.target-card strong{font-family:ui-monospace,monospace;font-size:21px;color:var(--amber)}.hint-card{border-top:1px solid var(--line);margin-top:22px;padding-top:20px}.hint-card p{font-size:12px;color:var(--muted)}.model-note{margin-top:28px;font-size:10px;color:var(--muted)}.model-note small{display:block;font-size:10px;margin-top:6px;padding-left:10px}.tiny-dot{display:inline-block;width:4px;height:4px;background:var(--amber);border-radius:50%;margin-right:6px}.workspace-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}.workspace-heading .eyebrow{margin-bottom:4px;color:var(--cyan)}.workspace-heading h2{font-size:20px}.state-chip{font:10px ui-monospace,monospace;letter-spacing:1px;border:1px solid var(--line);padding:6px 9px;border-radius:4px;white-space:nowrap}.state-chip.pass{color:var(--green);border-color:#44665b}.tutorial{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid #38565d;background:#14252e;border-radius:7px;padding:12px 14px;margin-bottom:15px}.tutorial strong{color:var(--cyan);font-size:12px}.tutorial p{font-size:11px;color:#b6c9d0;margin-top:3px}.instrument{border:1px solid var(--line);background:#0b1520;border-radius:9px;overflow:hidden}.scene-toolbar{padding:13px 16px;display:flex;gap:18px;border-bottom:1px solid var(--line);font-size:10px;color:var(--muted);align-items:center}.swatch{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}.fiber{background:var(--cyan)}.target{background:var(--blue)}.plane-tag{margin-left:auto;font:9px ui-monospace,monospace;letter-spacing:.5px}.canvas-wrap{position:relative}canvas{display:block;width:100%;aspect-ratio:640/520;touch-action:none;cursor:grab;max-height:520px}canvas.dragging{cursor:grabbing}#scene-lock{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);padding:8px 14px;border:1px solid var(--line);background:#101d2bee;border-radius:5px;white-space:nowrap;font-size:11px;pointer-events:none}.scene-footer{padding:10px 15px;border-top:1px solid #203040;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);gap:10px}#scene-coordinates{color:var(--amber);font-family:ui-monospace,monospace}.transmission{display:flex;align-items:center;gap:12px;background:#121e2a;padding:14px 16px}.transmission>span{font-size:9px;letter-spacing:1px;color:var(--muted)}.transmission-track{flex:1;height:5px;background:#263747;border-radius:3px;overflow:hidden}.transmission-track div{width:0;height:100%;background:var(--cyan);transition:width .08s}.transmission strong{font:12px ui-monospace,monospace;min-width:61px;text-align:right;color:var(--cyan)}.feedback{margin:14px 0;padding:0 4px;color:var(--muted);font-size:12px;min-height:22px}.feedback.success{color:var(--green)}.feedback.warning{color:var(--amber)}.actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:5px}.actions button{font-size:12px}.primary{color:#0d2029;background:var(--cyan);border-color:var(--cyan)}.primary:hover:not(:disabled){background:#85e4ea;color:#0d2029}.secondary{background:#152231}.right-panel{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:20px}.loss-instrument>span{font-size:11px;color:var(--muted)}.loss-instrument>div:nth-child(2){display:flex;align-items:baseline;gap:8px}.loss-instrument strong{font:44px ui-monospace,monospace;letter-spacing:-2px;color:var(--text)}.loss-instrument small{color:var(--muted);font-size:14px}.loss-gauge{height:6px;background:#2c3a48;position:relative;margin-top:12px;border-radius:2px}.loss-gauge div{height:100%;background:var(--amber);border-radius:2px;max-width:100%}.loss-gauge i{position:absolute;top:-3px;height:12px;width:2px;background:var(--cyan)}.loss-instrument p{margin-top:8px;font-size:10px;color:var(--muted)}.metrics{border-bottom:1px solid var(--line);padding:12px 0}.metrics>div{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0}.metrics span{font-size:10px;color:var(--muted)}.metrics small{display:block;font-size:9px}.metrics strong{font:16px ui-monospace,monospace;color:var(--cyan)}.loss-breakdown{padding:15px 0;border-bottom:1px solid var(--line)}.loss-breakdown div{display:flex;justify-content:space-between;font-size:10px;margin:5px 0;color:var(--muted)}.loss-breakdown b{font-family:ui-monospace,monospace;font-weight:400;color:var(--text)}.control-panel{padding:18px 0;border-bottom:1px solid var(--line)}.slider-label{display:flex;justify-content:space-between;font-size:11px;margin-top:12px}.slider-label output{color:var(--amber);font-family:ui-monospace,monospace}input[type=range]{display:block;width:100%;accent-color:var(--cyan);height:25px;margin:8px 0 14px;cursor:pointer}.full{width:100%}.control-panel button{font-size:11px}.control-panel select{width:100%;margin-top:5px}.control-panel label:not(.slider-label){display:block;font-size:10px;color:var(--muted);margin-top:14px}select{padding:9px 8px;color:var(--text);background:#0f1a26;border:1px solid #354755;border-radius:5px;max-width:100%}.radii{color:var(--muted);font-size:10px;margin-top:14px}.radii span,.radii small{display:block}.radii small{font-size:9px}.session-stats{padding-top:18px}.session-stats>div:not(.eyebrow){display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin:8px 0}.session-stats b{color:var(--text);font-family:ui-monospace,monospace;font-weight:400}.session-stats small{display:block;font-size:9px;color:var(--muted);margin-top:15px}.comparison-panel{padding:18px;background:#121e2a;border:1px solid var(--line);border-radius:8px;margin-bottom:16px}.comparison-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.comparison-head .eyebrow{margin-bottom:4px}.muted{font-size:10px;color:var(--muted);margin:10px 0}.table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:11px}th{text-align:left;color:var(--muted);font-size:9px;font-weight:500}td,th{padding:10px 6px;border-bottom:1px solid var(--line)}td:not(:first-child){font-family:ui-monospace,monospace}tr.selected td{color:var(--cyan)}.quiz{display:grid;grid-template-columns:1fr 1fr;gap:12px}.quiz label{font-size:11px;color:var(--muted)}.quiz select{display:block;width:100%;margin-top:8px}.capture-note{font-size:11px;color:var(--amber);margin-top:14px}.app-footer{display:flex;justify-content:space-between;align-items:center;margin:10px 28px 0;padding:16px 0;border-top:1px solid var(--line);color:#758c9e;font-size:10px;gap:10px}.app-footer>span:first-child{letter-spacing:1.8px;font-size:9px}dialog{border:1px solid #3a5264;border-radius:10px;background:#13202d;color:var(--text);width:min(590px,calc(100% - 30px));max-height:85vh;padding:25px}dialog::backdrop{background:#040a12cf}.dialog-top{display:flex;justify-content:space-between;align-items:center}.dialog-top button{font-size:25px;min-height:30px;line-height:1}.dialog-top .eyebrow{margin:0}dialog h2{color:var(--cyan);font-size:25px;margin:12px 0}dialog p{font-size:12px;color:#b6c8d5;margin:8px 0 18px}dialog h3{font-size:12px;color:var(--amber);margin-top:20px}.summary-score{display:flex;gap:24px;margin:15px 0 24px;padding:15px;background:#0e1924;border-radius:6px}.summary-score strong{font:24px ui-monospace,monospace;display:block}.summary-score span{font-size:10px;color:var(--muted)}#dialog-continue{margin-top:16px}[hidden]{display:none!important}@media(min-width:1600px){.lab-layout{gap:32px}}@media(max-width:1150px){.lab-layout{grid-template-columns:200px minmax(280px,1fr) 245px;gap:16px;padding:22px 16px}.right-panel{padding:15px}.plane-tag{display:none}.scene-toolbar{gap:12px}.brand h1{font-size:18px}.workspace-heading h2{font-size:17px}.actions{gap:6px}.actions button{padding:8px 10px;font-size:11px}}@media(max-width:920px){.lab-layout{grid-template-columns:minmax(0,1fr) 260px;gap:18px}.left-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 180px;gap:12px;align-items:start}.left-panel>.eyebrow{grid-column:1/-1;margin:0}.left-panel nav{grid-template-columns:repeat(3,1fr)}.mission-button{min-height:66px;padding:10px 8px;gap:8px}.mission-button strong{font-size:10px}.mission-button small{font-size:9px}.practice-button{margin:0}.brief{grid-column:1/-1;display:flex;gap:15px;align-items:center;margin:0;padding:10px 0}.brief>.eyebrow,.brief h2,.hint-card,.model-note{display:none}.brief p{margin:0;flex:1;font-size:11px}.target-card{margin:0;min-width:150px;padding:8px 12px}.target-card strong{font-size:18px}.app-header{padding:15px 18px}.header-status{gap:8px}.header-status button{display:none}}@media(max-width:640px){.app-header{padding:14px;flex-wrap:wrap;gap:9px}.brand h1{font-size:17px}.brand svg{width:30px}.brand p{font-size:8px}.header-status{width:100%;justify-content:space-between}.header-status button{display:inline-block;min-height:28px;padding:2px 4px}.lab-layout{display:flex;flex-direction:column;padding:16px 12px;gap:14px}.left-panel,.workspace,.right-panel{width:100%;min-width:0}.left-panel{display:block}.left-panel>.eyebrow{margin-bottom:8px}.left-panel nav{display:grid;gap:5px}.mission-button{padding:9px 6px;gap:4px;min-height:63px}.mission-button .number{font-size:10px}.mission-button strong{font-size:9px}.mission-button small{font-size:8px}.practice-button{margin-top:8px;padding:7px 12px;min-height:35px;display:flex;align-items:center;justify-content:space-between}.practice-button span{font-size:11px}.practice-button small{font-size:9px}.brief{padding:12px 0 0;gap:10px}.brief p{font-size:10px}.target-card{min-width:125px;padding:7px 9px}.target-card span{font-size:7px}.target-card strong{font-size:16px}.workspace-heading{margin-bottom:10px}.workspace-heading h2{font-size:18px}.tutorial{padding:10px}.tutorial p{font-size:10px}.scene-toolbar{padding:10px 12px}.scene-footer{font-size:8px;padding:8px}.transmission{padding:11px 12px;gap:8px}.transmission>span{font-size:8px}.right-panel{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}.right-panel>.eyebrow{grid-column:1/-1;margin:0}.loss-instrument strong{font-size:36px}.metrics{border:0;padding:0}.metrics>div{margin:10px 0}.metrics strong{font-size:13px}.loss-breakdown{grid-column:1/-1;padding:6px 0 12px}.control-panel{grid-column:1/-1;padding:5px 0 12px}.session-stats{grid-column:1/-1;padding-top:3px}.actions button{min-height:44px;flex:1;white-space:nowrap;font-size:10px;padding:8px}.quiz{grid-template-columns:1fr}.comparison-panel{padding:13px}.comparison-head h3{font-size:15px}.comparison-head button{font-size:10px}.app-footer{margin:0 12px;font-size:8px}.app-footer>span:nth-child(2){display:none}.app-footer>span:first-child{font-size:8px}#scene-lock{font-size:9px;bottom:10px;padding:6px 10px}.summary-score{gap:16px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head>
+<body>
+<header class="app-header"><div class="brand"><svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><circle cx="16" cy="19" r="11" fill="none" stroke="#51d5df" stroke-width="1.5"/><circle cx="23" cy="19" r="11" fill="none" stroke="#759ef4" stroke-width="1.5"/><path d="M2 19h34" stroke="#51d5df"/></svg><div><h1>Optical Packaging <span>Master</span></h1><p>CHAPTER 01 <b>／</b> FIRST LIGHT</p></div></div><div class="header-status"><span class="version">v0.1.0 RC</span><span id="save-status" role="status">저장 준비</span><button id="reset-progress" class="quiet small">Progress 초기화</button></div></header>
+<main class="lab-layout">
+<aside class="left-panel"><div class="eyebrow">YOUR LAB JOURNEY</div><nav id="mission-nav" aria-label="Mission 선택"></nav><button id="practice" class="practice-button"><span>↗ Free Practice</span><small>모든 Mode를 자유롭게 실험</small></button><section class="brief"><div class="eyebrow">MISSION BRIEF</div><h2 id="mission-title"></h2><p id="objective"></p><div class="target-card"><span id="target-label">TOTAL LOSS TARGET</span><strong id="target-value"></strong></div></section><section class="hint-card"><div class="eyebrow">ENGINEERING NOTE</div><p id="hint-text">청록색 Fiber Mode를 움직이고, 파란색 Waveguide Mode와 겹쳐보세요.</p></section><div class="model-note"><span class="tiny-dot"></span>Simplified Gaussian Mode Model<small>횡방향 X/Y · 이상적인 원형 Mode<br>Mode Radius: Field Amplitude의 1/e</small></div></aside>
+<section class="workspace"><div class="workspace-heading"><div><div class="eyebrow" id="mode-badge">ALIGNMENT STATION / 01</div><h2 id="scene-title">두 중심을 만나게 하세요</h2></div><span id="mission-state" class="state-chip">READY</span></div>
+<div id="tutorial" class="tutorial"><div><strong id="tutorial-title">01 / 실험을 시작하세요</strong><p id="tutorial-text">Start를 누른 뒤 Fiber Mode의 중심을 잡고 움직여보세요. 약 20초면 첫 원리를 경험합니다.</p></div><button id="skip-tutorial" class="quiet small">건너뛰기</button></div>
+<div class="instrument"><div class="scene-toolbar"><span><i class="swatch fiber"></i>Fiber Mode</span><span><i class="swatch target"></i>Waveguide Mode</span><span class="plane-tag">TRANSVERSE PLANE · µm</span></div><div class="canvas-wrap"><canvas id="alignment-canvas" width="640" height="520" tabindex="0" aria-label="Optical Alignment Scene. Fiber Mode를 드래그하거나 방향키로 조정하세요. Shift 방향키는 미세 조정입니다."></canvas><div id="scene-lock">Start를 눌러 Alignment를 시작하세요</div></div><div class="scene-footer"><span id="scene-coordinates">X +4.00 / Y −3.00 µm</span><span>Drag / 방향키 · Shift: 0.01 µm</span></div><div class="transmission"><span>TRANSMITTED POWER</span><div class="transmission-track"><div id="power-fill"></div></div><strong id="power-number">0.00%</strong></div></div>
+<div id="feedback" class="feedback" role="status">관찰하고, 움직이고, 빛을 연결하세요.</div>
+<section id="comparison-panel" class="comparison-panel" hidden><div class="comparison-head"><div><div class="eyebrow">DESIGN COMPARISON</div><h3>같은 Offset, 다른 Mode</h3></div><button id="capture-comparison" class="secondary small">비교 실험 기록</button></div><p class="muted" id="comparison-caption"></p><div class="table-scroll"><table><thead><tr><th>Mode / Radius</th><th>Matched Loss</th><th>Fixed WG Loss</th><th>Matched 1 dB 허용 반경</th></tr></thead><tbody id="comparison-rows"></tbody></table></div><p class="muted">Matched: w₁ = w₂ · Fixed WG: w₂ = 2.5 µm · 색칠된 원은 현재 설계의 1 dB Total Loss 허용 영역입니다.</p><div id="comparison-quiz" class="quiz"><label>Matched pair에서 횡방향 정렬 허용도가 가장 넓은 Mode는?<select id="tolerance-answer"><option value="">결과를 보고 선택</option><option>Narrow</option><option>Medium</option><option>Expanded</option></select></label><label>Fixed WG = 2.5 µm에서 Zero Offset의 Mismatch가 가장 작은 Mode는?<select id="mismatch-answer"><option value="">Center에서도 비교해보세요</option><option>Narrow</option><option>Medium</option><option>Expanded</option></select></label></div><p id="capture-status" class="capture-note">0.5 µm 이상의 Error에서 비교 실험을 기록하세요.</p></section>
+<div class="actions"><button id="start" class="primary">▶ 실험 시작</button><button id="reset" class="secondary">↺ Retry</button><button id="hint" class="secondary">Hint</button><button id="complete" class="primary">Complete Mission</button><button id="next" class="secondary">Next →</button></div>
+</section>
+<aside class="right-panel"><div class="eyebrow">LIVE MEASUREMENTS</div><section class="loss-instrument"><span>Total Coupling Loss</span><div><strong id="total-loss">0.00</strong><small>dB</small></div><div class="loss-gauge"><div id="loss-fill"></div><i id="loss-target-marker"></i></div><p id="loss-status">실험 대기</p></section><div class="metrics"><div><span>Coupling Efficiency <small>Mode Overlap</small></span><strong id="efficiency">0.00%</strong></div><div><span>Alignment Error</span><strong id="alignment-error">0.00 µm</strong></div></div><div class="loss-breakdown"><div><span>Mode Mismatch Loss</span><b id="mismatch-loss"></b></div><div><span>Alignment Loss</span><b id="alignment-loss"></b></div><div><span>Mode Overlap Loss</span><b id="overlap-loss"></b></div><div><span>Fixed Interface Loss</span><b id="fixed-loss"></b></div></div>
+<section class="control-panel"><div class="eyebrow">ALIGNMENT CONTROLS</div><label class="slider-label" for="x-offset">X Offset <output id="x-output"></output></label><input type="range" id="x-offset" min="-6" max="6" step="0.01" value="4"><label class="slider-label" for="y-offset">Y Offset <output id="y-output"></output></label><input type="range" id="y-offset" min="-6" max="6" step="0.01" value="-3"><button id="center" class="secondary full">⊕ Center Alignment</button><div id="mode-controls" hidden><label for="mode-size">Fiber Mode Radius</label><select id="mode-size"><option value="1.5">Narrow — 1.5 µm</option><option value="2.5">Medium — 2.5 µm</option><option value="4">Expanded — 4.0 µm</option></select><label for="pair-type">Waveguide Mode</label><select id="pair-type"><option value="matched">Matched pair (w₂ = w₁)</option><option value="fixed">Fixed WG (w₂ = 2.5 µm)</option></select></div><div id="fixed-controls" hidden><label for="fixed-interface">Fixed Interface Loss <output id="fixed-output">0.0 dB</output></label><input id="fixed-interface" type="range" min="0" max="3" step="0.1" value="0"></div><div class="radii"><span id="radii-label"></span><small>MFD = 2 × Mode Radius</small></div></section>
+<section class="session-stats"><div class="eyebrow">EXPERIMENT LOG</div><div><span>Attempts</span><b id="attempts">0</b></div><div><span>Best Achieved Loss</span><b id="best-loss">—</b></div><div><span>Personal Best Score</span><b id="best-score">—</b></div><small>Game Score는 Physics Result와 별도입니다.<br>Drag 한 번 / Slider 조정 한 번 = 1 Attempt.</small></section></aside>
+</main>
+<footer class="app-footer"><span>OPTICAL PACKAGING MASTER</span><span>Observe → Manipulate → Diagnose → Master</span><button id="assumptions" class="quiet small">모델 가정과 한계</button></footer>
+<dialog id="summary-dialog"><div class="dialog-top"><div class="eyebrow">FIRST LIGHT LAB</div><button id="close-dialog" class="quiet" aria-label="닫기">×</button></div><div id="dialog-content"></div><button id="dialog-continue" class="primary full">실험으로 돌아가기</button></dialog>
+<script>
+(()=>{'use strict';
+// Independent scalar Gaussian physics; every length is in micrometres.
+function gaussianCoupling({w1, w2, dx=0, dy=0, fixedLoss=0}) {
+  if (![w1,w2,dx,dy,fixedLoss].every(Number.isFinite) || w1<=0 || w2<=0 || fixedLoss<0)
+    throw new RangeError('Finite positive radii, finite offsets and nonnegative fixedLoss required.');
+  const l1=Math.log(w1), l2=Math.log(w2), top=Math.max(l1,l2);
+  const logSum=2*top+Math.log(Math.exp(2*(l1-top))+Math.exp(2*(l2-top)));
+  const logPrefactor=Math.min(0,2*(Math.LN2+l1+l2-logSum));
+  const r=Math.hypot(dx,dy);
+  const offsetExponent=r===0 ? 0 : 2*Math.exp(2*Math.log(r)-logSum);
+  const logEta=logPrefactor-offsetExponent;
+  const efficiency=Math.min(1,Math.max(0,Math.exp(logEta)));
+  const mismatchLoss=Math.max(0,-10/Math.LN10*logPrefactor);
+  const alignmentLoss=10/Math.LN10*offsetExponent;
+  const overlapLoss=mismatchLoss+alignmentLoss;
+  const totalLoss=overlapLoss+fixedLoss;
+  return {efficiency, totalEfficiency:Math.exp(logEta-fixedLoss*Math.LN10/10), mismatchLoss, alignmentLoss, overlapLoss, fixedLoss, totalLoss, error:r};
+}
+function alignmentTolerance(w1,w2,targetLoss,fixedLoss=0) {
+  if (!Number.isFinite(targetLoss) || targetLoss<0) throw new RangeError('Nonnegative finite target loss required.');
+  const base=gaussianCoupling({w1,w2,fixedLoss}).totalLoss;
+  if (targetLoss<base) return null; // Impossible target, not a zero-tolerance success.
+  return Math.hypot(w1,w2)*Math.sqrt((targetLoss-base)*Math.LN10/20);
+}
+function compareModes(dx,dy,matched=true) {
+  return [1.5,2.5,4].map((w1,i)=>({name:['Narrow','Medium','Expanded'][i],w1,w2:matched?w1:2.5,...gaussianCoupling({w1,w2:matched?w1:2.5,dx,dy}),tolerance:alignmentTolerance(w1,matched?w1:2.5,1)}));
+}
+
+const missions=[
+ {id:1,title:'Find the Light',subtitle:'두 Mode의 중심을 만나게 하세요',target:1,w1:2.5,w2:2.5,initial:[4,-3],objective:'Fiber Mode를 드래그해 Total Loss를 1.00 dB 이하로 낮추세요.',hints:['청록색은 움직이는 Fiber Mode, 파란색은 고정된 Waveguide Mode입니다.','두 중심이 가까워질수록 Mode Overlap이 커집니다. X와 Y를 모두 줄여보세요.','Center Alignment를 사용하거나 두 중심의 + 표시를 겹쳐보세요.']},
+ {id:2,title:'The Alignment Challenge',subtitle:'정밀함과 효율의 균형',target:.4,w1:1.5,w2:1.5,initial:[3,-2],objective:'서로 다른 시작 위치의 Challenge 3개를 각각 0.40 dB 이하로 정렬하세요. Center는 사용할 수 없습니다.',hints:['Narrow Mode에서는 같은 거리의 Offset도 더 큰 Loss를 만듭니다.','Loss는 횡방향 Error의 제곱에 비례합니다. 마지막 조정은 작게 해보세요.','Slider 또는 방향키로 정밀하게 조정하세요. 조작 횟수는 드래그 한 번을 한 번으로 셉니다.']},
+ {id:3,title:'Mode Size Trade-off',subtitle:'허용도는 넓어지고, Mismatch는 남는다',target:1,w1:1.5,w2:1.5,initial:[1.5,0],objective:'동일한 Offset에서 세 Mode를 비교한 뒤, 정렬 허용도와 Mode Mismatch 질문에 답하세요.',hints:['Matched pair에서는 Fiber와 Waveguide의 Radius가 함께 바뀝니다.','Fixed Waveguide에서는 Waveguide Radius가 2.5 µm로 유지됩니다. Center에서도 Mismatch가 남을 수 있습니다.','횡방향 정렬 허용도와 서로 다른 Mode의 크기 차이를 따로 판단하세요.']}
+];
+const challengeOffsets=[[3,-2],[-2.6,2.2],[2.8,2.7]];
+function canAccess(id,progress,practice=false) { return practice || id===1 || Boolean(progress.missions[id-1]?.complete); }
+function missionPass(id,result,session) {
+ if (!session.started || session.completed) return false;
+ if (id===3) return session.comparisonRecorded && session.toleranceAnswer==='Expanded' && session.mismatchAnswer==='Medium';
+ return result.totalLoss<=missions[id-1].target+1e-9;
+}
+function makeSession(id) {return {started:false,completed:false,attempts:0,hints:0,bestLoss:Infinity,challenge:0,challengeResults:[],comparisonRecorded:false,toleranceAnswer:'',mismatchAnswer:'',id};}
+
+// Game reward only; never changes the physics or PASS threshold.
+function gameScore(loss,target,attempts,hints=0) {
+ if (!Number.isFinite(loss)||loss>target+1e-9) return 0;
+ const accuracy=600+300*Math.max(0,1-loss/target);
+ const efficiency=Math.max(0,100-4*Math.max(0,attempts-1));
+ return Math.max(0,Math.round(accuracy+efficiency-20*hints));
+}
+
+const STORAGE_KEY='optical-packaging-master.progress';
+const SCHEMA_VERSION=1;
+function freshProgress() {return {schemaVersion:1,gameVersion:'0.1.0',tutorialSeen:false,missions:{},lastMission:1};}
+function validateProgress(value) {
+ if (!value || typeof value!=='object' || value.schemaVersion!==1) throw new Error('Unsupported or invalid progress schema');
+ const p=freshProgress();p.tutorialSeen=value.tutorialSeen===true;
+ p.lastMission=[1,2,3].includes(value.lastMission)?value.lastMission:1;
+ for (const id of [1,2,3]) {
+  const m=value.missions?.[id];
+  if (m?.complete===true && Number.isFinite(m.bestScore)&&m.bestScore>=0&&m.bestScore<=1000&&Number.isFinite(m.bestLoss)&&m.bestLoss>=0)
+   p.missions[id]={complete:true,bestScore:m.bestScore,bestLoss:m.bestLoss};
+ }
+ // Preserve campaign ordering even if a corrupt save claims an unlocked later mission.
+ if (!p.missions[1]) {delete p.missions[2];delete p.missions[3];}
+ else if (!p.missions[2]) delete p.missions[3];
+ return p;
+}
+function loadProgress(storage) {
+ try {const raw=storage.getItem(STORAGE_KEY);return {progress:raw?validateProgress(JSON.parse(raw)):freshProgress(),status:'ready',writable:true};}
+ catch(error) {return {progress:freshProgress(),status:'unavailable',writable:false};}
+}
+function saveProgress(storage,progress) {
+ try {storage.setItem(STORAGE_KEY,JSON.stringify(validateProgress(progress)));return true;}catch {return false;}
+}
+function recordCompletion(progress,id,score,loss) {
+ if (!Number.isFinite(loss)||loss<0||!Number.isFinite(score)||score<0||score>1000) throw new RangeError('Invalid completion result');
+ const old=progress.missions[id];
+ progress.missions[id]={complete:true,bestScore:Math.max(old?.bestScore??0,score),bestLoss:Math.min(old?.bestLoss??Infinity,loss)};
+ return progress;
+}
+
+class AlignmentScene {
+ constructor(canvas,getState,onMove,onAttempt) {
+  this.canvas=canvas;this.ctx=canvas.getContext('2d');this.getState=getState;this.onMove=onMove;this.onAttempt=onAttempt;this.drag=null;
+  this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  new ResizeObserver(()=>this.draw()).observe(canvas);
+  canvas.addEventListener('pointerdown',e=>this.down(e));
+  canvas.addEventListener('pointermove',e=>this.move(e));
+  for(const event of ['pointerup','pointercancel','lostpointercapture']) canvas.addEventListener(event,e=>this.up(e));
+  canvas.addEventListener('keydown',e=>{
+   const s=this.getState();if (!s.enabled || !['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) return;
+   e.preventDefault();const d=e.shiftKey?.01:.1;
+   this.onMove(s.dx+(e.key==='ArrowLeft'?-d:e.key==='ArrowRight'?d:0),s.dy+(e.key==='ArrowUp'?d:e.key==='ArrowDown'?-d:0));this.onAttempt();
+  });
+  const tick=t=>{if(!this.reduced && !document.hidden)this.draw(t);this.frame=requestAnimationFrame(tick);};
+  this.frame=requestAnimationFrame(tick);
+ }
+ dimensions(){const r=this.canvas.getBoundingClientRect();return {width:r.width,height:r.height,scale:Math.min(r.width,r.height)/14};}
+ point(e){const r=this.canvas.getBoundingClientRect(),{scale}=this.dimensions();return {x:(e.clientX-r.left-r.width/2)/scale,y:-(e.clientY-r.top-r.height/2)/scale};}
+ down(e){const s=this.getState();if(!s.enabled || e.button>0 || this.drag)return;const p=this.point(e),{scale}=this.dimensions();if(Math.hypot(p.x-s.dx,p.y-s.dy)>Math.max(s.w1,24/scale))return;
+  this.canvas.focus({preventScroll:true});this.canvas.setPointerCapture(e.pointerId);this.drag={id:e.pointerId,ox:s.dx-p.x,oy:s.dy-p.y,moved:false};this.canvas.classList.add('dragging');e.preventDefault();}
+ move(e){if(!this.drag || this.drag.id!==e.pointerId)return;const p=this.point(e);this.drag.moved=true;this.onMove(p.x+this.drag.ox,p.y+this.drag.oy);}
+ up(e){if(!this.drag || this.drag.id!==e.pointerId)return;const d=this.drag;this.drag=null;this.canvas.classList.remove('dragging');if(this.canvas.hasPointerCapture(e.pointerId))this.canvas.releasePointerCapture(e.pointerId);if(d.moved)this.onAttempt();}
+ draw(time=0){const s=this.getState(),c=this.ctx,{width:w,height:h,scale:k}=this.dimensions();if(!w||!h)return;const dpr=Math.min(devicePixelRatio||1,2);
+  if(this.canvas.width!==Math.round(w*dpr)||this.canvas.height!==Math.round(h*dpr)){this.canvas.width=Math.round(w*dpr);this.canvas.height=Math.round(h*dpr);}
+  c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);const cx=w/2,cy=h/2;
+  c.strokeStyle='#1c2b3b';c.lineWidth=.7;
+  for(let i=-6;i<=6;i++){c.beginPath();c.moveTo(cx+i*k,cy-6*k);c.lineTo(cx+i*k,cy+6*k);c.stroke();c.beginPath();c.moveTo(cx-6*k,cy+i*k);c.lineTo(cx+6*k,cy+i*k);c.stroke();}
+  c.strokeStyle='#3c5063';c.lineWidth=1;c.beginPath();c.moveTo(cx-6.5*k,cy);c.lineTo(cx+6.5*k,cy);c.moveTo(cx,cy-6.5*k);c.lineTo(cx,cy+6.5*k);c.stroke();
+  c.fillStyle='#6e869b';c.font='9px monospace';c.textAlign='center';for(const i of [-6,-4,-2,2,4,6]){c.fillText(i.toString(),cx+i*k,cy+13);c.fillText(i.toString(),cx-13,cy-i*k+3);}c.fillText('X',cx+6.5*k,cy-8);c.fillText('Y',cx+11,cy-6.5*k);
+  if(s.tolerance!==null&&s.showTolerance){c.beginPath();c.arc(cx,cy,s.tolerance*k,0,Math.PI*2);c.fillStyle='#e9b96b0b';c.fill();c.setLineDash([4,4]);c.strokeStyle='#e9b96b8c';c.stroke();c.setLineDash([]);}
+  const heat=(x,y,r,rgb)=>{const radius=2*r*k,g=c.createRadialGradient(x,y,0,x,y,radius);for(let i=0;i<=20;i++){const t=i/20;g.addColorStop(t,`rgba(${rgb},${.68*Math.exp(-8*t*t)})`);}c.fillStyle=g;c.beginPath();c.arc(x,y,radius,0,2*Math.PI);c.fill();c.beginPath();c.arc(x,y,r*k,0,2*Math.PI);c.strokeStyle=`rgba(${rgb},.55)`;c.lineWidth=1;c.stroke();};
+  heat(cx,cy,s.w2,'117,158,244');c.globalCompositeOperation='screen';heat(cx+s.dx*k,cy-s.dy*k,s.w1,'81,213,223');c.globalCompositeOperation='source-over';
+  const fx=cx+s.dx*k,fy=cy-s.dy*k;c.setLineDash([3,4]);c.strokeStyle='#e9b96b99';c.beginPath();c.moveTo(cx,cy);c.lineTo(fx,fy);c.stroke();c.setLineDash([]);
+  const marker=(x,y,color)=>{c.strokeStyle=color;c.lineWidth=1.5;c.beginPath();c.moveTo(x-6,y);c.lineTo(x+6,y);c.moveTo(x,y-6);c.lineTo(x,y+6);c.stroke();c.beginPath();c.arc(x,y,11,0,Math.PI*2);c.stroke();};marker(cx,cy,'#759ef4');marker(fx,fy,'#70e7ec');
+  // Transmission pulses are explicitly a power indicator, not longitudinal rays.
+  c.fillStyle='#71899e';c.font='8px monospace';c.textAlign='left';c.fillText('RELATIVE MODE INTENSITY',12,18);c.fillText('POWER INDICATOR',12,h-15);
+  const power=s.result.totalEfficiency;c.strokeStyle=`rgba(81,213,223,${power*.75})`;c.lineWidth=2;c.beginPath();c.moveTo(w*.43,h-18);c.lineTo(w-20,h-18);c.stroke();
+  for(let i=0;i<5;i++){const phase=this.reduced?i/5:((time/1800+i/5)%1);c.fillStyle=`rgba(133,237,242,${power})`;c.beginPath();c.arc(w*.43+(w*.57-20)*phase,h-18,2+2*power,0,2*Math.PI);c.fill();}
+ }
+}
+
+function learningSummary(id,before,after) {
+ const learn={
+  1:{title:'First Light Achieved!',happened:`Error를 줄여 Total Loss가 ${before.toFixed(2)} → ${after.toFixed(2)} dB로 변했습니다.`,why:'두 Gaussian Mode의 중심이 가까워지면서 Field Overlap이 증가했습니다.',principle:'동일한 Mode와 Zero Offset에서는 이 이상적인 모델의 Efficiency가 100%입니다.',real:'실제 Fiber-to-Waveguide Assembly에서는 정렬 외에도 반사, Mode 형상, Gap, 각도, 접착·열 변화가 추가됩니다.'},
+  2:{title:'Alignment Challenge Mastered',happened:'서로 다른 초기 위치의 세 Challenge를 정렬했습니다. 각 Loss는 기록된 실제 계산값입니다.',why:'동일한 Radius에서 Alignment Loss는 dx² + dy²에 비례합니다. Offset을 두 배로 늘리면 Alignment Loss는 네 배가 됩니다.',principle:'Narrow Mode에서는 같은 횡방향 Error가 더 큰 Loss를 만듭니다. 정확도와 조작 효율은 별도의 Game Score로 평가합니다.',real:'정렬 공정에서는 최적점을 찾는 능력과 측정·조정 시간 모두 중요합니다. v0.1은 실제 공정 시간을 예측하지 않습니다.'},
+  3:{title:'Mode Trade-off Understood',happened:'동일한 Offset에서 Matched pair와 Fixed Waveguide의 세 Mode를 비교했습니다.',why:'Matched Mode를 함께 키우면 횡방향 Error에 둔감해지지만, Fixed Waveguide에서는 Mode 크기 차이에 따른 Mismatch가 남습니다.',principle:'Alignment Tolerance와 Mode Matching은 서로 다른 설계 축입니다. 큰 Mode가 항상 최선은 아닙니다.',real:'실제 Spot-size Converter 설계는 Mode Matching, Footprint, Bend, 파장·편광 및 제조 가능성을 함께 검토합니다. 이 게임은 그중 횡방향 Gaussian Overlap만 계산합니다.'}
+ };return learn[id];
+}
+function showLearning(dialog,learn,score,loss,extra='') {
+ document.getElementById('dialog-content').innerHTML=`<h2>${learn.title}</h2><div class="summary-score"><div><strong>${score}</strong><span>GAME SCORE / 1000</span></div><div><strong>${loss.toFixed(2)} dB</strong><span>PHYSICS RESULT${extra}</span></div></div><h3>What Happened?</h3><p>${learn.happened}</p><h3>Why Did It Happen?</h3><p>${learn.why}</p><h3>Engineering Principle</h3><p>${learn.principle}</p><h3>Real-world Packaging Connection</h3><p>${learn.real}</p>`;
+ dialog.showModal();
+}
+
+function bindControls({move,attempt,selectMode,selectPair,selectFixed,answer}) {
+ for(const axis of ['x','y']){const input=document.getElementById(`${axis}-offset`);input.addEventListener('input',()=>move(axis,Number(input.value)));input.addEventListener('change',attempt);}
+ document.getElementById('mode-size').addEventListener('change',e=>selectMode(Number(e.target.value)));
+ document.getElementById('pair-type').addEventListener('change',e=>selectPair(e.target.value));
+ document.getElementById('fixed-interface').addEventListener('input',e=>selectFixed(Number(e.target.value)));
+ document.getElementById('fixed-interface').addEventListener('change',attempt);
+ for(const key of ['tolerance','mismatch'])document.getElementById(`${key}-answer`).addEventListener('change',e=>answer(key,e.target.value));
+}
+
+
+
+
+
+
+
+
+const $=id=>document.getElementById(id);
+let storage;try{storage=window.localStorage;}catch{storage=null;}
+const loaded=loadProgress(storage);let progress=loaded.progress,saved=loaded.writable;
+let missionId=canAccess(progress.lastMission,progress)?progress.lastMission:1,practice=false,session=makeSession(missionId),dx=0,dy=0,w1=2.5,w2=2.5,fixedLoss=0,pairType='matched',result,initialLoss=0,scene;
+const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n):'∞';
+const signed=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(2);
+function persist(){saved=saveProgress(storage,progress);$('save-status').textContent=saved?'● Progress 저장됨':'△ 저장 제한 · 이 세션에서 플레이 가능';}
+function feedback(text,tone=''){$('feedback').textContent=text;$('feedback').className='feedback '+tone;}
+function renderNav(){
+ $('mission-nav').innerHTML=missions.map(m=>`<button class="mission-button ${!practice&&m.id===missionId?'active':''}" data-mission="${m.id}" ${canAccess(m.id,progress)?'':'disabled'} aria-current="${!practice&&m.id===missionId?'step':'false'}"><span class="number">0${m.id}</span><span><strong>${m.title}</strong><small>${canAccess(m.id,progress)?m.subtitle:'이전 Mission 완료 후 Unlock'}</small></span>${progress.missions[m.id]?.complete?'<span class="done" aria-label="완료">✓</span>':''}</button>`).join('');
+ $('practice').classList.toggle('active',practice);
+}
+function loadMission(id,isPractice=false){
+ if(!canAccess(id,progress,isPractice))return;
+ missionId=id;practice=isPractice;session=makeSession(id);const m=missions[id-1];[dx,dy]=m.initial;w1=m.w1;w2=m.w2;fixedLoss=0;pairType='matched';
+ if(practice){dx=2;dy=1;w1=w2=2.5;session.started=true;}
+ result=gaussianCoupling({w1,w2,dx,dy,fixedLoss});initialLoss=result.totalLoss;
+ if(!practice){progress.lastMission=id;persist();}
+ $('mission-title').textContent=practice?'Free Practice':m.title;$('objective').textContent=practice?'Mode Radius, Pair Type, X/Y Offset와 Fixed Loss를 바꿔 자유롭게 비교하세요. Campaign Progress와 Score에는 영향을 주지 않습니다.':m.objective;
+ $('scene-title').textContent=practice?'자유로운 Optical Experiment':m.subtitle;
+ $('mode-badge').textContent=practice?'ENGINEERING SANDBOX':`ALIGNMENT STATION / 0${id}`;
+ $('target-label').textContent=id===3&&!practice?'MISSION TARGET':'TOTAL LOSS TARGET';$('target-value').textContent=id===3&&!practice?'비교 + 원리 이해':`≤ ${m.target.toFixed(2)} dB`;
+ $('hint-text').textContent=m.hints[0];$('mode-controls').hidden=!(id===3||practice);$('fixed-controls').hidden=!practice;$('comparison-panel').hidden=!(id===3||practice);$('comparison-quiz').hidden=practice;
+ $('mode-size').value=String(w1);$('pair-type').value=pairType;$('fixed-interface').value='0';$('tolerance-answer').value='';$('mismatch-answer').value='';
+ $('capture-status').textContent='0.5 µm 이상의 Error에서 비교 실험을 기록하세요.';
+ $('tutorial').hidden=progress.tutorialSeen||practice||id!==1;$('tutorial-title').textContent='01 / 실험을 시작하세요';$('tutorial-text').textContent='Start를 누른 뒤 Fiber Mode의 중심을 잡고 움직여보세요. 약 20초면 첫 원리를 경험합니다.';
+ renderNav();feedback(practice?'자유 실험 중 · 결과는 Physics Model에 따라 실시간 계산됩니다.':'관찰하고, 움직이고, 빛을 연결하세요.');render();
+}
+function renderComparison(){
+ const matched=compareModes(dx,dy,true),fixed=compareModes(dx,dy,false);
+ $('comparison-caption').textContent=`공통 Offset: X ${signed(dx)} / Y ${signed(dy)} µm · 현재 표시: ${pairType==='matched'?'Matched pair':'Fixed Waveguide'}`;
+ $('comparison-rows').innerHTML=matched.map((m,i)=>`<tr class="${w1===m.w1?'selected':''}"><td>${m.name} / ${m.w1.toFixed(1)} µm</td><td>${fmt(m.totalLoss)} dB</td><td>${fmt(fixed[i].totalLoss)} dB</td><td>${fmt(m.tolerance)} µm</td></tr>`).join('');
+}
+function render(){
+ result=gaussianCoupling({w1,w2,dx,dy,fixedLoss});const m=missions[missionId-1],enabled=session.started&&!session.completed;
+ if(session.started)session.bestLoss=Math.min(session.bestLoss,result.totalLoss);
+ $('total-loss').textContent=fmt(result.totalLoss);$('efficiency').textContent=fmt(result.efficiency*100)+'%';$('alignment-error').textContent=fmt(result.error)+' µm';
+ for(const [key,val] of [['mismatch-loss',result.mismatchLoss],['alignment-loss',result.alignmentLoss],['overlap-loss',result.overlapLoss],['fixed-loss',fixedLoss]])$(key).textContent=fmt(val)+' dB';
+ $('power-fill').style.width=(result.totalEfficiency*100)+'%';$('power-number').textContent=fmt(result.totalEfficiency*100)+'%';$('loss-fill').style.width=Math.min(100,result.totalLoss/10*100)+'%';$('loss-target-marker').style.left=(m.target/10*100)+'%';
+ const within=result.totalLoss<=m.target+1e-9;
+ $('loss-status').textContent=missionId===3&&!practice?'Loss는 관찰값 · 완료 조건은 비교와 원리 이해':within?'PASS · 현재 Loss Target 달성':'TARGET NOT MET · 중심 간격 또는 Mismatch를 확인';
+ $('mission-state').textContent=practice?'FREE PRACTICE':session.completed?'COMPLETE':!session.started?'READY':missionId===2?`CHALLENGE ${session.challenge+1} / 3`:missionId===3?'COMPARE':within?'TARGET MET':'ALIGNING';$('mission-state').classList.toggle('pass',session.completed||within&&session.started);
+ $('x-offset').value=dx.toFixed(2);$('y-offset').value=dy.toFixed(2);$('x-output').textContent=signed(dx)+' µm';$('y-output').textContent=signed(dy)+' µm';$('scene-coordinates').textContent=`X ${signed(dx)} / Y ${signed(dy)} µm`;
+ $('radii-label').textContent=`w₁ ${w1.toFixed(1)} µm / w₂ ${w2.toFixed(1)} µm`;$('fixed-output').textContent=fixedLoss.toFixed(1)+' dB';
+ $('attempts').textContent=session.attempts;$('best-loss').textContent=Number.isFinite(session.bestLoss)?fmt(session.bestLoss)+' dB':'—';$('best-score').textContent=practice?'연습 · Score 없음':progress.missions[missionId]?.bestScore??'—';
+ for(const id of ['x-offset','y-offset','mode-size','pair-type','fixed-interface'])$(id).disabled=!enabled;
+ $('center').disabled=!enabled||!practice&&missionId===2;$('start').disabled=session.started;$('start').hidden=practice;$('scene-lock').hidden=enabled;
+ $('scene-lock').textContent=session.completed?'Mission Complete · Retry로 다시 실험':'Start를 눌러 Alignment를 시작하세요';
+ $('complete').disabled=practice||!session.started||session.completed;$('complete').textContent=missionId===2&&!session.completed?`Challenge ${session.challenge+1} 완료`:'Complete Mission';
+ $('next').disabled=practice||missionId===3||!progress.missions[missionId]?.complete;$('hint').disabled=!session.started||session.completed;$('capture-comparison').disabled=!enabled;
+ $('tolerance-answer').disabled=!enabled;$('mismatch-answer').disabled=!enabled;
+ if(missionId===3||practice)renderComparison();
+ if(scene)scene.draw();
+}
+function moveTo(x,y){if(!session.started||session.completed)return;dx=Math.round(Math.max(-6,Math.min(6,x))*100)/100;dy=Math.round(Math.max(-6,Math.min(6,y))*100)/100;
+ if(!progress.tutorialSeen&&!practice&&missionId===1){$('tutorial-title').textContent='03 / Loss 변화를 관찰하세요';$('tutorial-text').textContent='중심이 가까워질수록 Error와 Loss가 함께 줄어듭니다. Target 이하라면 Complete Mission을 누르세요.';}
+ render();
+}
+function attempt(){if(session.started&&!session.completed){session.attempts++;render();}}
+function complete(){
+ if(practice)return;
+ if(!missionPass(missionId,result,session)){feedback(missionId===3?'비교 실험을 기록하고 두 질문을 다시 확인하세요. Matched와 Fixed WG를 구분해보세요.':`TARGET NOT MET · Total Loss를 ${missions[missionId-1].target.toFixed(2)} dB 이하로 조정하세요.`,'warning');return;}
+ if(missionId===2){
+  session.challengeResults.push({loss:result.totalLoss,score:gameScore(result.totalLoss,.4,session.attempts,session.hints),attempts:session.attempts});
+  if(session.challenge<2){session.challenge++;[dx,dy]=challengeOffsets[session.challenge];session.attempts=0;session.hints=0;session.bestLoss=Infinity;feedback(`Challenge ${session.challenge} PASS · 다음 위치에서도 정렬해보세요.`,'success');render();return;}
+ }
+ let score=missionId===3?Math.max(0,1000-20*session.hints):gameScore(result.totalLoss,missions[missionId-1].target,session.attempts,session.hints);
+ let loss=result.totalLoss;
+ if(missionId===2){score=Math.round(session.challengeResults.reduce((n,r)=>n+r.score,0)/3);loss=Math.max(...session.challengeResults.map(r=>r.loss));}
+ // Mission 03 stores the selected comparison design's actual Loss; no Loss-based grading.
+ session.completed=true;recordCompletion(progress,missionId,score,loss);progress.tutorialSeen=true;persist();renderNav();render();feedback('MISSION COMPLETE · Learning Summary에서 결과의 이유를 확인하세요.','success');
+ const learn=learningSummary(missionId,initialLoss,loss);
+ if(missionId===2)learn.happened+=` Challenge Loss: ${session.challengeResults.map(r=>r.loss.toFixed(2)+' dB').join(' / ')}.`;
+ showLearning($('summary-dialog'),learn,score,loss,missionId===2?' / WORST OF 3':missionId===3?' / SELECTED DESIGN':'');
+}
+bindControls({move:(axis,v)=>moveTo(axis==='x'?v:dx,axis==='y'?v:dy),attempt,
+ selectMode:v=>{w1=v;w2=pairType==='matched'?v:2.5;attempt();render();},selectPair:v=>{pairType=v;w2=v==='matched'?w1:2.5;attempt();render();},selectFixed:v=>{fixedLoss=v;render();},
+ answer:(key,v)=>{session[key+'Answer']=v;render();}});
+$('mission-nav').addEventListener('click',e=>{const b=e.target.closest('[data-mission]');if(b)loadMission(Number(b.dataset.mission));});
+$('practice').addEventListener('click',()=>loadMission(3,true));
+$('start').addEventListener('click',()=>{session.started=true;session.bestLoss=result.totalLoss;feedback('Fiber Mode의 중심을 드래그해보세요.');
+ $('tutorial-title').textContent='02 / Fiber를 잡고 움직이세요';$('tutorial-text').textContent='청록색 + 표시를 파란색 + 표시 쪽으로 옮기세요. Slider와 방향키도 같은 위치를 조정합니다.';render();});
+$('reset').addEventListener('click',()=>{const wasStarted=session.started;loadMission(missionId,practice);session.started=wasStarted||practice;render();feedback('실험을 초기 위치로 되돌렸습니다. Progress와 Personal Best는 유지됩니다.');});
+$('center').addEventListener('click',()=>{if($('center').disabled)return;moveTo(0,0);attempt();feedback(result.mismatchLoss>0?'Center Alignment 완료 · Mode 크기가 다르면 Mismatch Loss는 남습니다.':'Center Alignment 완료 · 이상적인 Matched Mode에서 0 dB를 확인하세요.');});
+$('hint').addEventListener('click',()=>{const m=missions[missionId-1];$('hint-text').textContent=m.hints[Math.min(session.hints,m.hints.length-1)];session.hints++;feedback(`Hint ${Math.min(session.hints,3)} · Engineering Note를 확인하세요.`);render();});
+$('complete').addEventListener('click',complete);$('next').addEventListener('click',()=>loadMission(Math.min(3,missionId+1)));
+$('skip-tutorial').addEventListener('click',()=>{progress.tutorialSeen=true;$('tutorial').hidden=true;persist();});
+$('capture-comparison').addEventListener('click',()=>{if(result.error<.5){feedback('Error 0.5 µm 이상에서 비교해보세요. Center 결과는 Mismatch 확인에 활용할 수 있습니다.','warning');return;}
+ session.comparisonRecorded=true;session.captured={dx,dy,matched:compareModes(dx,dy,true),fixed:compareModes(dx,dy,false)};
+ $('capture-status').textContent=`비교 기록 ✓ X ${signed(dx)} / Y ${signed(dy)} µm에서 3 Matched + 3 Fixed WG 측정. 이제 Center에서도 Mismatch를 관찰하세요.`;feedback('동일한 Offset의 여섯 계산값을 기록했습니다. 두 원리 질문에 답해보세요.','success');render();});
+const closeDialog=()=>$('summary-dialog').close();$('close-dialog').addEventListener('click',closeDialog);$('dialog-continue').addEventListener('click',closeDialog);
+$('assumptions').addEventListener('click',()=>{$('dialog-content').innerHTML='<h2>Engineering Assumptions</h2><h3>Simplified Gaussian Mode Model</h3><p>같은 평면의 이상적인 원형 Gaussian Mode, 횡방향 X/Y Offset만 계산합니다. Mode Radius는 Field Amplitude 1/e 반경이며, 모든 길이는 µm입니다.</p><h3>Physics Result와 Game Score</h3><p>η = [2w₁w₂/(w₁²+w₂²)]² × exp[−2(dx²+dy²)/(w₁²+w₂²)]. Loss = −10 log₁₀(η). Fixed Interface Loss는 별도 dB 항목입니다. Game Score가 Physics Result를 바꾸지 않습니다.</p><h3>Visual Interpretation</h3><p>Heatmap은 상대 Intensity, 중앙 장면은 Transverse Plane입니다. 하단 Transmission Pulse와 Power Meter는 실제 Total Efficiency에 연동된 지표입니다. 색상의 겹침 자체가 Overlap Integral은 아닙니다.</p><h3>현재 계산하지 않는 항목</h3><p>Full-vector EM, Fresnel Reflection, Polarization, Gap, Angular Offset, Evanescent Coupling, Propagation, Thermal, Adhesive, Yield. 실제 공정 가능성은 후속 버전에서 별도 모델로 다룹니다.</p><h3>Progress 저장</h3><p>Local Storage를 사용하며 Browser·Profile·파일 경로에 따라 저장 영역이 달라질 수 있습니다. 같은 HTML 경로와 같은 Browser Profile에서 이어서 실행하세요. 저장이 제한되면 이 세션에서는 계속 플레이할 수 있습니다.</p>';$('summary-dialog').showModal();});
+$('reset-progress').addEventListener('click',()=>{if(!confirm('저장된 Mission 완료 상태와 Personal Best를 모두 초기화할까요?'))return;progress=freshProgress();persist();loadMission(1);});
+scene=new AlignmentScene($('alignment-canvas'),()=>({dx,dy,w1,w2,result,enabled:session.started&&!session.completed,showTolerance:missionId===3||practice,tolerance:alignmentTolerance(w1,w2,1,fixedLoss)}),moveTo,attempt);
+loadMission(missionId);persist();
+
+})();
+</script></body></html>
