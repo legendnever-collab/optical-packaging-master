@@ -49,7 +49,7 @@ function render(){
  $('mission-state').textContent=practice?'FREE PRACTICE':session.completed?'COMPLETE':!session.started?'READY':missionId===2?`CHALLENGE ${session.challenge+1} / 3`:missionId===3?'COMPARE':within?'TARGET MET':'ALIGNING';$('mission-state').classList.toggle('pass',session.completed||within&&session.started);
  $('x-offset').value=dx.toFixed(2);$('y-offset').value=dy.toFixed(2);$('x-output').textContent=signed(dx)+' µm';$('y-output').textContent=signed(dy)+' µm';$('scene-coordinates').textContent=`X ${signed(dx)} / Y ${signed(dy)} µm`;
  $('radii-label').textContent=`w₁ ${w1.toFixed(1)} µm / w₂ ${w2.toFixed(1)} µm`;$('fixed-output').textContent=fixedLoss.toFixed(1)+' dB';
- $('attempts').textContent=session.attempts;$('best-loss').textContent=Number.isFinite(session.bestLoss)?fmt(session.bestLoss)+' dB':'—';$('best-score').textContent=practice?'연습 · Score 없음':progress.missions[missionId]?.bestScore??'—';
+ $('attempts').textContent=session.attempts;$('best-loss').textContent=Number.isFinite(session.bestLoss)?fmt(session.bestLoss)+' dB':'—';$('best-score').textContent=practice?'연습 · Score 없음':progress.missions[missionId]?.bestScore??'—';$('personal-best-loss').textContent=!practice&&progress.missions[missionId]?fmt(progress.missions[missionId].bestLoss)+' dB':'—';
  for(const id of ['x-offset','y-offset','mode-size','pair-type','fixed-interface'])$(id).disabled=!enabled;
  $('center').disabled=!enabled||!practice&&missionId===2;$('start').disabled=session.started;$('start').hidden=practice;$('scene-lock').hidden=enabled;
  $('scene-lock').textContent=session.completed?'Mission Complete · Retry로 다시 실험':'Start를 눌러 Alignment를 시작하세요';

@@ -1,0 +1,50 @@
+name: First Light CI
+on:
+  push:
+    branches: [main, feature/v0.1-first-light]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Physics, gameplay, persistence and deterministic build
+        run: npm test
+      - name: Verify committed standalone HTML matches source
+        run: |
+          npm run build
+          git diff --exit-code -- dist/optical-packaging-master-v0.1.html
+      - name: Verify release manifest and ZIP
+        run: python3 scripts/release.py --verify
+  browser:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - run: npm run build
+      - name: Offline local-file game QA
+        env:
+          OPM_BROWSERS: ${{ matrix.engine }}
+        run: npm run test:ui
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-${{ matrix.engine }}
+          path: |
+            docs/browser-qa-results.json
+            tmp/qa/
