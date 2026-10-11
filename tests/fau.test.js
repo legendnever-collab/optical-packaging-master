@@ -24,3 +24,5 @@ test('future content 9 and invalid array data preserve stored bytes',()=>{for(co
 test('v0.7 release artifacts remain exactly byte-identical',()=>{const refs=JSON.parse(readFileSync('tests/reference-v07-hashes.json'));for(const [p,sha] of Object.entries(refs))assert.equal(createHash('sha256').update(readFileSync(p)).digest('hex'),sha,p);});
 
 test('new Chapter 7 project and array survive full campaign validation',()=>{const p=freshCampaign();p.drafts[7]=chapterDraft(7);const q=validateCampaign(p);assert.equal(q.drafts[7].project.targetType,'Silicon PIC');assert.deepEqual(q.drafts[7].fau,p.drafts[7].fau);});
+
+test('array optical reference cannot be changed to an unsupported project during restore',()=>{for(const edit of [p=>p.architecture='datum',p=>p.alignment.dx=1,p=>p.relay.installed=1]){const p=freshCampaign();p.drafts[7]=chapterDraft(7);edit(p.drafts[7].project);assert.throws(()=>validateCampaign(p));}});

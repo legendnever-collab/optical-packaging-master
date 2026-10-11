@@ -168,16 +168,19 @@ function validatedEvidence(e,project){
  if(e.factoryComparisons!==undefined){if(!Array.isArray(e.factoryComparisons)||e.factoryComparisons.length>4)throw new RangeError('Invalid factory comparison list.');copy.factoryComparisons=e.factoryComparisons.map(c=>{if(!c||typeof c.label!=='string'||c.label.length>90)throw new RangeError('Invalid factory comparison label.');return {label:c.label,factory:validateCampaignFactory(project,c.factory)};});}
  return copy;
 }
+function validateFAUProject(p){
+ validateInterfaceProject(p);if(p.converter!=='sin'||p.converterIndex!==1||p.architecture!=='direct'||p.relay.installed!==0||Object.values(p.alignment).some(v=>v!==0))throw new RangeError('Unsupported FAU optical reference.');
+}
 export function validateCampaign(value){
  if(value?.schemaVersion!==1||![7,8].includes(value?.contentVersion)||value?.modelVersion!==campaignModel)throw new RangeError('Unsupported Campaign schema / model.');
  const p=freshCampaign();
  for(let id=1;id<=7;id++){
-  const d=value.drafts?.[id];if(!d)continue;validateInterfaceProject(d.project);
+  const d=value.drafts?.[id];if(!d)continue;if(id===7)validateFAUProject(d.project);else validateInterfaceProject(d.project);
   if(d.project.targetType!==(id===1?'SMF':id===2?'Glass WG':'Silicon PIC'))throw new RangeError('Invalid chapter platform.');
   const e=validatedEvidence(d.evidence,d.project);if(id===7&&value.contentVersion!==8)throw new RangeError('FAU requires Content 8.');
   p.drafts[id]={project:structuredClone(d.project),evidence:structuredClone(e),factory:id===6?validateCampaignFactory(d.project,d.factory):null,...(id===7?{fau:validateFAU(d.fau)}:{})};
   const saved=value.frozen?.[id];if(saved&&value.completed?.[id]&&(id===1||p.completed[id-1])){
-   validateInterfaceProject(saved.project);const fd={project:structuredClone(saved.project),evidence:validatedEvidence(saved.evidence,saved.project),factory:id===6?validateCampaignFactory(saved.project,saved.factory):null,...(id===7?{fau:validateFAU(saved.fau)}:{})};
+   if(id===7)validateFAUProject(saved.project);else validateInterfaceProject(saved.project);const fd={project:structuredClone(saved.project),evidence:validatedEvidence(saved.evidence,saved.project),factory:id===6?validateCampaignFactory(saved.project,saved.factory):null,...(id===7?{fau:validateFAU(saved.fau)}:{})};
    if(canCompleteChapter(id,fd)){const current=p.drafts[id],downstream=p.drafts[id+1];p.drafts[id]=fd;delete p.drafts[id+1];freezeChapter(p,id);p.drafts[id]=current;if(downstream)p.drafts[id+1]=downstream;}
   }
  }

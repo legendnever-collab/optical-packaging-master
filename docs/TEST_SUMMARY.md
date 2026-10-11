@@ -4,11 +4,11 @@
 
 | 실제 Local 실행 | PASS | FAIL |
 |---|---:|---:|
-| Node Physics / Gameplay / Persistence / Build | 282 | 0 |
+| Node Physics / Gameplay / Persistence / Build | 283 | 0 |
 | Retained Legacy / q·ABCD / Factory Browser | 123 | 0 |
 | Chapter 1–6 / Guidance / Responsive Layout | 101 | 0 |
-| Chapter 7 FAU 4→8→16 / Process / Mobile | 25 | 0 |
-| 합계 | 531 | 0 |
+| Chapter 7 FAU 4→8→16 / Process / Mobile | 26 | 0 |
+| 합계 | 533 | 0 |
 
 Local 환경: Node 24.19.0 / Chromium 141.0.7390.0 / native offline emulation / reduced-motion 및 기존 일반 Motion 검사. Firefox / WebKit은 Local 실행으로 집계하지 않으며 GitHub CI Matrix에서 각각 실제 설치·실행합니다. PR의 최종 SHA 기준 CI 결과를 별도로 확인합니다.
 

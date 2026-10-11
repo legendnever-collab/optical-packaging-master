@@ -20,6 +20,7 @@ export function fauControls(view){
 }
 export function renderFAUScene(view){
  const a=view.draft.fau,report=view.fauReport,row=view.inspectRow!==null?report?.rows[view.inspectRow]:null,r=row?.result??fauNominal(a),selected=Math.min(view.fauChannel??0,a.stage-1),ch=r.channels[selected],svg=view.$('scene'),focus=document.activeElement?.getAttribute('data-pc-drag'),channelFocus=document.activeElement?.getAttribute('data-fau-channel');
+ view.$('fau-channel-picker').innerHTML=r.channels.map(c=>`<option value="${c.index}" ${c.index===selected?'selected':''}>CH ${c.index+1} · ${c.pass?'PASS':'FAIL'} · ${fauFmt(c.result.totalLoss)} dB</option>`).join('');
  svg.dataset.chapter='7';svg.dataset.count=String(a.stage);svg.dataset.good=String(r.good);svg.dataset.power=String(r.averagePower);svg.dataset.worstPower=String(r.worstPower);svg.dataset.loss=String(r.worstLoss);svg.dataset.dx=String(a.settings.dx);svg.dataset.dy=String(a.settings.dy);
  view.$('system').textContent=`${a.stage}-channel FAU → Parallel SSC / WG`;
  view.$('power').textContent=fauFmt(r.averagePower*100)+'%';view.$('loss').textContent=`평균 Power · ${r.good}/${r.count} CH PASS`;

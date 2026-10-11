@@ -143,6 +143,9 @@ select.next-target{border:2px solid #e9c68d;box-shadow:0 0 0 4px #e9c68d22}
 #pc-scene [data-fau-channel] {cursor:pointer;outline:none}
 #pc-scene [data-fau-channel]:focus-visible {outline:2px solid #f8f3d9;outline-offset:3px}
 @media(max-width:600px) {.pc-fau-metrics {gap:14px}.pc-fau-metrics div {gap:6px}.pc-fau-metrics strong {font-size:18px}.pc-fau-metrics span {font-size:9px}}
+
+.pc-fau-channel-navigation {display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--line);font-size:12px}
+.pc-fau-channel-navigation select {min-height:44px;min-width:150px;max-width:100%;padding:8px}
 </style></head>
 <body>
 <header class="app-header"><div class="brand"><svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><circle cx="16" cy="19" r="11" fill="none" stroke="#51d5df" stroke-width="1.5"/><circle cx="23" cy="19" r="11" fill="none" stroke="#759ef4" stroke-width="1.5"/><path d="M2 19h34" stroke="#51d5df"/></svg><div><h1>Optical Packaging <span>Master</span></h1><p>ENGINEERING GAME <b>／</b> THE OPTICAL LAB</p></div></div><div class="header-status"><span class="version">v0.8.0</span><button id="show-physics-campaign" class="primary small">Campaign</button><button id="show-legacy-lab" class="quiet small">Engineering Lab</button><button id="open-assembly" class="primary small">Assembly Challenge</button><button id="sound-toggle" class="quiet small" aria-pressed="false">Sound OFF</button><span id="save-status" role="status">저장 준비</span><button id="reset-progress" class="quiet small">Progress 초기화</button></div></header>
@@ -1347,16 +1350,19 @@ function validatedEvidence(e,project){
  if(e.factoryComparisons!==undefined){if(!Array.isArray(e.factoryComparisons)||e.factoryComparisons.length>4)throw new RangeError('Invalid factory comparison list.');copy.factoryComparisons=e.factoryComparisons.map(c=>{if(!c||typeof c.label!=='string'||c.label.length>90)throw new RangeError('Invalid factory comparison label.');return {label:c.label,factory:validateCampaignFactory(project,c.factory)};});}
  return copy;
 }
+function validateFAUProject(p){
+ validateInterfaceProject(p);if(p.converter!=='sin'||p.converterIndex!==1||p.architecture!=='direct'||p.relay.installed!==0||Object.values(p.alignment).some(v=>v!==0))throw new RangeError('Unsupported FAU optical reference.');
+}
 function validateCampaign(value){
  if(value?.schemaVersion!==1||![7,8].includes(value?.contentVersion)||value?.modelVersion!==campaignModel)throw new RangeError('Unsupported Campaign schema / model.');
  const p=freshCampaign();
  for(let id=1;id<=7;id++){
-  const d=value.drafts?.[id];if(!d)continue;validateInterfaceProject(d.project);
+  const d=value.drafts?.[id];if(!d)continue;if(id===7)validateFAUProject(d.project);else validateInterfaceProject(d.project);
   if(d.project.targetType!==(id===1?'SMF':id===2?'Glass WG':'Silicon PIC'))throw new RangeError('Invalid chapter platform.');
   const e=validatedEvidence(d.evidence,d.project);if(id===7&&value.contentVersion!==8)throw new RangeError('FAU requires Content 8.');
   p.drafts[id]={project:structuredClone(d.project),evidence:structuredClone(e),factory:id===6?validateCampaignFactory(d.project,d.factory):null,...(id===7?{fau:validateFAU(d.fau)}:{})};
   const saved=value.frozen?.[id];if(saved&&value.completed?.[id]&&(id===1||p.completed[id-1])){
-   validateInterfaceProject(saved.project);const fd={project:structuredClone(saved.project),evidence:validatedEvidence(saved.evidence,saved.project),factory:id===6?validateCampaignFactory(saved.project,saved.factory):null,...(id===7?{fau:validateFAU(saved.fau)}:{})};
+   if(id===7)validateFAUProject(saved.project);else validateInterfaceProject(saved.project);const fd={project:structuredClone(saved.project),evidence:validatedEvidence(saved.evidence,saved.project),factory:id===6?validateCampaignFactory(saved.project,saved.factory):null,...(id===7?{fau:validateFAU(saved.fau)}:{})};
    if(canCompleteChapter(id,fd)){const current=p.drafts[id],downstream=p.drafts[id+1];p.drafts[id]=fd;delete p.drafts[id+1];freezeChapter(p,id);p.drafts[id]=current;if(downstream)p.drafts[id+1]=downstream;}
   }
  }
@@ -1401,6 +1407,7 @@ function fauControls(view){
 }
 function renderFAUScene(view){
  const a=view.draft.fau,report=view.fauReport,row=view.inspectRow!==null?report?.rows[view.inspectRow]:null,r=row?.result??fauNominal(a),selected=Math.min(view.fauChannel??0,a.stage-1),ch=r.channels[selected],svg=view.$('scene'),focus=document.activeElement?.getAttribute('data-pc-drag'),channelFocus=document.activeElement?.getAttribute('data-fau-channel');
+ view.$('fau-channel-picker').innerHTML=r.channels.map(c=>`<option value="${c.index}" ${c.index===selected?'selected':''}>CH ${c.index+1} · ${c.pass?'PASS':'FAIL'} · ${fauFmt(c.result.totalLoss)} dB</option>`).join('');
  svg.dataset.chapter='7';svg.dataset.count=String(a.stage);svg.dataset.good=String(r.good);svg.dataset.power=String(r.averagePower);svg.dataset.worstPower=String(r.worstPower);svg.dataset.loss=String(r.worstLoss);svg.dataset.dx=String(a.settings.dx);svg.dataset.dy=String(a.settings.dy);
  view.$('system').textContent=`${a.stage}-channel FAU → Parallel SSC / WG`;
  view.$('power').textContent=fauFmt(r.averagePower*100)+'%';view.$('loss').textContent=`평균 Power · ${r.good}/${r.count} CH PASS`;
@@ -1441,7 +1448,7 @@ class PhysicsCampaign {
  <section class="pc-workspace"><div class="pc-heading"><div><span id="pc-kicker" class="eyebrow"></span><h2 id="pc-title"></h2></div><span id="pc-status" class="state-chip">DESIGN DRAFT</span></div>
  <div id="pc-hud" class="pc-hud"><div class="pc-live-meter"><div class="pc-power"><span>OUTPUT / INPUT · 실시간 전달률</span><strong id="pc-power">LIGHT OFF</strong><small id="pc-loss"></small></div><div id="pc-power-meter" class="pc-power-meter" role="meter" aria-label="Output / Input Power" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="pc-power-fill"></div></div><small id="pc-reading" class="pc-reading"></small><div id="pc-fau-metrics" class="pc-fau-metrics" hidden><div><span>WORST CHANNEL</span><strong id="pc-fau-worst"></strong></div><div><span>CHANNELS PASS</span><strong id="pc-fau-good"></strong></div></div></div><div class="pc-next-action"><span>지금 할 일</span><strong id="pc-action" role="status" aria-live="polite" aria-atomic="true"></strong><button id="pc-quick" class="primary small">작업 시작</button></div></div>
  <div class="pc-play-layout"><div class="pc-stage"><div id="pc-observation" class="pc-observation"><div class="pc-brief"><div><span class="eyebrow">CURRENT PROBLEM · 현재 문제</span><p id="pc-problem"></p></div><details class="pc-goal"><summary>목표 · Engineering Goal</summary><p id="pc-goal"></p></details></div>
- <section class="pc-bench"><div class="pc-bench-top"><div><span class="eyebrow">PHYSICAL OPTICAL SYSTEM</span><h3 id="pc-system"></h3></div><span class="pc-bench-hint">Drag · Arrow Keys · ±</span></div><div class="pc-scene-wrap"><svg id="pc-scene" viewBox="0 0 800 350" role="img" aria-label="Physical optical interface와 Mode 비교"></svg></div><div id="pc-scene-note" class="pc-scene-note"></div><div id="pc-inventory" class="pc-inventory"></div></section></div></div>
+ <section class="pc-bench"><div class="pc-bench-top"><div><span class="eyebrow">PHYSICAL OPTICAL SYSTEM</span><h3 id="pc-system"></h3></div><span class="pc-bench-hint">Drag · Arrow Keys · ±</span></div><div class="pc-scene-wrap"><svg id="pc-scene" viewBox="0 0 800 350" role="img" aria-label="Physical optical interface와 Mode 비교"></svg></div><div id="pc-fau-channel-navigation" class="pc-fau-channel-navigation" hidden><label for="pc-fau-channel-picker">확대할 채널 선택</label><select id="pc-fau-channel-picker" aria-label="FAU 확대 채널 선택"></select></div><div id="pc-scene-note" class="pc-scene-note"></div><div id="pc-inventory" class="pc-inventory"></div></section></div></div>
  <aside class="pc-console" aria-label="조작 패널"><div class="pc-console-heading"><span class="eyebrow">CONTROL PANEL</span><h3>조작 · 실험</h3><p>장면과 위의 전달률을 보며 조절하세요.</p></div><div id="pc-feedback" class="feedback" role="status"></div><section id="pc-controls" class="pc-controls" aria-label="현재 Chapter 조작"></section><section id="pc-results" class="pc-results" aria-label="실험 결과"></section>
  <div class="pc-completion"><div><strong id="pc-readiness"></strong><p id="pc-transfer"></p></div><button id="pc-complete" class="primary">실험 완료</button></div></aside></div>
  <details id="pc-advanced" class="pc-advanced"><summary>Advanced Engineering View · Field / Loss / Assumptions</summary><div id="pc-advanced-content"></div></details>
@@ -1460,6 +1467,7 @@ class PhysicsCampaign {
   window.addEventListener('resize',update);update();
  }
  bind(){
+  this.$('fau-channel-picker').addEventListener('change',event=>{this.fauChannel=Number(event.target.value);this.renderScene();});
   this.$('quick').addEventListener('click',()=>revealAction(this.$(this.guidance().target)));
   this.$('lab').addEventListener('click',()=>{this.cancel();this.openLegacy();});
   this.$('nav').addEventListener('click',event=>{const b=event.target.closest('[data-chapter]');if(b&&!b.disabled)this.navigate(Number(b.dataset.chapter));});
@@ -1573,7 +1581,7 @@ class PhysicsCampaign {
  nextAction(){return this.guidance().text;}
  syncGuidance(){const g=this.guidance();this.$('action').textContent=g.text;this.$('action').dataset.target='pc-'+g.target;const target=highlightAction(this.root,'pc-'+g.target);this.$('quick').hidden=!target;this.$('quick').disabled=this.running;this.$('quick').textContent='NEXT → 위치 보기';}
  render(rebuildControls=true){
-  const c=campaignChapters[this.id-1],p=this.p;this.$('fau-metrics').hidden=this.id!==7;
+  const c=campaignChapters[this.id-1],p=this.p;this.$('fau-metrics').hidden=this.id!==7;this.$('fau-channel-navigation').hidden=this.id!==7;
   this.$('nav').innerHTML=campaignChapters.map(ch=>`<button data-chapter="${ch.id}" class="pc-chapter ${ch.id===this.id?'active':''}" ${ch.id>1&&!this.progress.completed[ch.id-1]||this.fourChapterPreview&&ch.id>4?'disabled':''} aria-current="${ch.id===this.id?'step':'false'}"><span class="pc-chapter-num">${this.progress.completed[ch.id]?'✓':String(ch.id).padStart(2,'0')}</span><span><strong>${ch.short}</strong><small>${ch.id>1&&!this.progress.completed[ch.id-1]?'이전 단계의 설계 전달 후 시작':this.progress.completed[ch.id]?'Chapter Completed':ch.title}</small></span></button>`).join('');
   this.$('kicker').textContent=`CHAPTER ${this.id} / 07 · PHYSICS-DRIVEN CAMPAIGN`;this.$('title').textContent=c.title;this.$('problem').textContent=c.problem;this.$('goal').textContent=c.goal;this.$('action').textContent=this.nextAction();this.$('status').textContent=this.running?'FACTORY RUNNING':this.progress.completed[this.id]?'CHAPTER COMPLETED':p.qualificationStatus==='draft'?'DESIGN DRAFT':p.qualificationStatus.toUpperCase();this.$('feedback').textContent=this.message;
   const legacy=Object.keys(this.progress.legacyHistory.missions).length;

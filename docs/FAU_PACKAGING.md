@@ -45,3 +45,5 @@ Current Settings가 바뀌면 평가를 무효화하고 이전 비교와 Frozen 
 상단 고정 HUD는 Average Power, Worst Channel Power, Channels Pass, Prototype / Sample 출처와 실제 다음 행동을 표시합니다. 좌측 Array / Field와 우측 조작을 유지하며 모바일은 상하 배치와 고정 HUD를 사용합니다. Highlight는 활성 단계의 유효한 Control 하나에만 적용하고 Step / Chapter 전환 시 갱신합니다. Reduced Motion은 기존 기능을 그대로 사용합니다.
 
 Node 검증은 Rigid Rotation / Pitch의 해석 좌표, Gaussian 전달률, 극단 채널 합격, 실제 AND 기반 제품 판정, 공정 Cohort / Detection / 경제 조건 / 독립 Seed / Migration / Bounds / 이전 Release Hash를 포함합니다. Browser 검증은 기존 Campaign 전체 다음에 실제 FAU 4→8→16 흐름, ± / native Mouse / Keyboard / Touch, 저장·Sample·고정 지표와 320–1440 px Layout을 실행합니다. 실행 결과는 `TEST_SUMMARY.md`와 JSON Report에 분리합니다.
+
+채널 선택은 SVG 클릭 / Tab과 함께 장면 아래 Native Select로 제공하며 터치 조작 높이 44px를 확보합니다. 작은 모바일 Array에서도 개별 Channel의 실제 Loss / Field를 선택할 수 있습니다.
