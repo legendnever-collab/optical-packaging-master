@@ -19,3 +19,8 @@
 15. Keep geometric q/ABCD propagation independent from the common-plane lateral/angular model. Same homogeneous n only; geometric free-space B=d. Derive decenter/tilt propagation before combining models. Require complex-field and analytical regression tests.
 16. Fold is unfolded-axis identity plus centerline geometry and separately assumed fixed mirror attenuation. Do not claim reflection physics, apertures or mechanical envelope. Mission 10 uses three deterministic gap checks, not Yield or whole-range acceptance. Store/score their worst loss explicitly.
 17. Preserve v3 content badges (M01–07), factory designs and process evaluations in schema 4. Independent Builder autosave must not alter campaign achievements. Rebuild v0.4 artifacts without overwriting older standalone releases.
+
+18. v0.5 is based on unmerged v0.4 PR #4. Keep stacked dependency explicit. Never merge either without approval. After #4 merge fetch latest main and update/revalidate v0.5 PR base.
+19. PhysicalScene is presentation, not new physics. Field overlays are pointer-transparent; camera/exploded edits cannot mutate engineering state. Concealed fault geometry stays concealed across every view.
+20. Factory playback consumes actual evaluateDesign rows, previews only ten, and must cancel on navigation/retry. Inspect actual row.state/results; full dashboard counts use full report. Do not fabricate PASS/FAIL for animation.
+21. Keep schema 4/content versions 3/4 to preserve v0.4 achievements. Vertical-slice mode is fresh memory-only progress, opens 01/05/09 directly, and must never read/write campaign progress. Preserve prior releases.

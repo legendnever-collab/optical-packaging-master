@@ -9,7 +9,7 @@
       "networkMode": "native offline emulation"
     }
   ],
-  "pass": 72,
+  "pass": 90,
   "fail": 0,
   "results": [
     {
@@ -33,6 +33,22 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / reduced motion disables light travel without changing calculated power",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / hardware default shows physical Fiber/PIC and collapses advanced instruments",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / physical Fiber drag changes exact shared XY physics and output light",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / zoom pan exploded and Optical View preserve physical result",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / mouse drag shares exact slider state and physical loss",
       "status": "PASS"
     },
@@ -50,6 +66,10 @@
     },
     {
       "name": "chromium / offline restore preserves achievement and unlock",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Hardware and Inspection keep diagnostic evidence concealed",
       "status": "PASS"
     },
     {
@@ -125,6 +145,10 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / factory dashboard reconciles full production and Inspection replays actual rejected package",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / same seed reproduces identical yield",
       "status": "PASS"
     },
@@ -177,6 +201,10 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / physical Receiver Z follows fixed coordinate mapping and captures focus",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / Receiver Z mouse drag captures focus and synchronizes slider",
       "status": "PASS"
     },
@@ -186,6 +214,18 @@
     },
     {
       "name": "chromium / focus completion explains curvature and given launch assumption",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Inventory Drag Drop installs a physical lens and updates q result",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / physical Lens keyboard preserves focus and changes shared z input",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / physical focal adjustment changes actual beam envelope and output power",
       "status": "PASS"
     },
     {
@@ -237,6 +277,14 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / motion-enabled light flow uses animation with computed attenuation",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / navigation cancels in-flight production without stale sample mutation",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / unavailable audio keeps the choice and does not block gameplay",
       "status": "PASS"
     },
@@ -246,6 +294,10 @@
     },
     {
       "name": "chromium / mobile layout avoids horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / actual Touch physical Fiber drag updates shared XY state",
       "status": "PASS"
     },
     {
@@ -285,6 +337,10 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / actual Touch Inventory Drop installs Lens on the optical path",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / real v0.2 file upgrade keeps scores, unlocks Chapter 2 and distinguishes new content",
       "status": "PASS"
     },
@@ -293,11 +349,27 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / real v0.4 upgrade retains all ten badges and independent Builder configuration",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / vertical slice opens 01 05 09 directly and preserves campaign save",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / preview Factory and Lens slices run without overwriting v0.4/v0.5 progress",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / unknown future schema is preserved during play",
       "status": "PASS"
     },
     {
       "name": "chromium / explicit Reset relocks local campaign state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / all auxiliary contexts have no runtime HTTP assets or critical page errors",
       "status": "PASS"
     }
   ]

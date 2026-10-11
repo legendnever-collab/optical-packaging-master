@@ -1,4 +1,4 @@
-# Simplified Gaussian Mode Model — v0.4
+# Simplified Gaussian Mode Model — v0.5
 
 ## Spatial overlap (unchanged from v0.1)
 
@@ -126,3 +126,15 @@ Mission 10 applies the actual model at Receiver deltas [−100,0,+100] µm and c
 Coaxial scalar paraxial propagation, ideal thin lenses, diffraction, longitudinal defocus and curvature are implemented. No decentered/tilted lenses, angular ray propagation, lateral walk-off, finite aperture/clipping, aberration, index transition/refraction, astigmatism, true mirror reflection, polarization or vector field. Chapters 1–2 and Chapter 3 have separate assumptions and outputs; multiplying their efficiencies would require a derived decenter/tilt propagation model and is deliberately unsupported. No Full Optical CAD or arbitrary component chain is claimed.
 
 Tests include analytical free propagation, matrix composition/inverses, signed focal length, radius continuity and curvature kick, 4f magnification, size-only regression, curvature penalty, defocus, n/λ conventions, extreme stability, domain validation, three-point acceptance and feasible/wrong designs. A separate 30,000-point complex radial field integral checks overlap for unequal incident/target beams. These numerical tests validate the specified simplified model, not an industrial package.
+
+## v0.5 rendering integrity
+
+No optical solver or process distribution changed. Spatial, angular, assembly and q/ABCD core modules and their reference tests are preserved from the v0.4 baseline. Physical renderers consume those states/results. Hardware components are schematic drawings, not new optical/mechanical models. Body dimensions, datum, substrate depth, stage placement and mounting blocks are illustrative and do not add gap, clipping, body interference, thermal or manufacturing mechanics.
+
+For Chapters 1–2 the Fiber Facet's display point is (455+16dx,220−16dy). Its depicted body/gap is not a longitudinal propagation calculation. Angular orientation is a 4× direction glyph/visual body rotation; the common-plane phase-tilt result remains the actual model, with no traced walk-off. In Mission 02 geometry/parameters are concealed until the corresponding paid inspection; changing views does not obtain hidden evidence. In Mission 04 direction remains concealed until the discovery action.
+
+For Chapter 3, every lens, mirror and Receiver has an unfolded z coordinate projected by a reversible route adapter. Beam Envelope radii sample existing beamAtQ(opticalPathQ(config,z)); radius display scale is declared separately from z/body scales. No transverse/tilt state is folded into q. Folded route uses the same v0.4 ideal unfolded-coordinate model, not a reflected vector field. Negative/future local-waist interpretation remains limited to the next lens segment.
+
+Input flow is normalized to 1. Chapter 3 path segments use only fixed attenuation of preceding lenses/mirror, and Receiver output uses the full computed Total Efficiency. Chapters 1–2 output uses existing angularCoupling.totalEfficiency. Pulse velocity is a display effect without a physical time axis. Light OFF gates visibility, not the computed optical result. Reduced Motion stops travel and accelerates preview playback without changing samples/outcomes.
+
+FactoryPlayback receives real evaluateDesign rows and never generates/mutates results. Only the first ten are staged PLACE/TEST/SORT; GOOD=actual row.pass and REJECT=!row.pass. Full produced/good/reject/Yield/P95/CI use the selected full report. Inspection restores the actual row.state and recomputes the same existing physics. Sorting graphics and achievements cannot add physical performance. Pan/Zoom/Exploded only alter camera/presentation. See PHYSICAL_SCENE_ARCHITECTURE.md for mappings and input controls.

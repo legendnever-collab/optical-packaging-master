@@ -1,12 +1,22 @@
 # Optical Packaging Master
 
-**v0.4.0 Release Candidate — Optical Interface Builder**
+**v0.5.0 Release Candidate — The Packaging Experience**
 
-Fiber를 직접 움직여 빛을 연결한 다음, 출력 저하를 진단하고 조립 환경에 맞는 설계를 선택하는 오프라인 Engineering Game입니다. 안내는 한국어, 기술 용어는 영어입니다.
+Fiber-to-PIC Package를 직접 정렬하고, Lens를 설치하고, 조립품을 생산·검사하는 오프라인 Engineering Game입니다. 안내는 한국어, 기술 용어는 영어입니다.
+
+## Hardware-first 플레이
+
+기본 Workbench에는 Fiber Body/Core/Facet, PIC/Waveguide/Port, Lens/Mount, Ideal Mirror, Receiver, Mechanical Base와 Datum 개념도가 나타납니다. **Light ON → 부품 조작 → 실제 출력 관찰 → 실패 검사 → 설계 수정 → Achievement** 순서로 플레이합니다. Hardware / Optical / Engineering / Inspection은 같은 Engineering State를 사용합니다. Gaussian Mode와 수식·기존 수치 제어는 Advanced를 열어 볼 수 있습니다.
+
+- Mission 01: Fiber Body/Facet을 PIC Port로 Drag하여 First Light를 점등합니다.
+- Mission 05: 실제 Seeded Samples 10개가 PLACE → OPTICAL TEST → SORT를 통과합니다. GOOD/REJECT와 전체 생산 Dashboard를 먼저 보고, 실패 Package를 눌러 X/Y·Tilt·Loss를 확대 검사합니다. 전체 100/1000/10000 통계는 기존 엔진으로 계산합니다.
+- Mission 09: Inventory의 Lens를 광로로 Drag & Drop합니다. 설치한 Body를 이동하거나 선택한 Lens의 Focal Length를 바꾸면 실제 Beam Envelope와 Receiver Power가 변합니다. 버튼/Keyboard 설치 대안도 있습니다.
+
+Zoom/Pan/Exploded는 표시 기능입니다. 물리 상태를 바꾸지 않습니다. Body 크기와 2.5D 배치는 교육용 개념도이며 기계 치수/간섭 모델이 아닙니다. [Coordinate Mapping](docs/PHYSICAL_SCENE_ARCHITECTURE.md)에 변환과 각 모델의 경계를 기록했습니다.
 
 ## 실행
 
-[실행 HTML](dist/optical-packaging-master-v0.4.html)을 **Download raw file**로 다운로드해 더블클릭하세요. [Release ZIP](dist/optical-packaging-master-v0.4-release.zip)을 풀고 HTML을 열어도 됩니다. 인터넷, 설치, 서버, CDN, API Key, 파일 업로드가 필요하지 않습니다. 이전 v0.1/v0.2/v0.3 실행 파일도 보존합니다.
+[실행 HTML](dist/optical-packaging-master-v0.5.html)을 **Download raw file**로 다운로드해 더블클릭하세요. [Release ZIP](dist/optical-packaging-master-v0.5-release.zip)을 풀고 HTML을 열어도 됩니다. 인터넷, 설치, 서버, CDN, API Key, 파일 업로드가 필요하지 않습니다. 이전 v0.1/v0.2/v0.3/v0.4 실행 파일도 보존합니다.
 
 | Mission | 지금 할 일 | 새로운 문제 |
 | --- | --- | --- |
@@ -14,7 +24,7 @@ Fiber를 직접 움직여 빛을 연결한 다음, 출력 저하를 진단하고
 | 02 Find the Fault | 최대 2개 검사 → 원인 진단 → 복구, 장치 3개 | 위치 / Mode 크기 / 방향 Fault 구분 |
 | 03 Choose the Optical Interface | 설계 예측 → 실험 → 연결안 확정, 환경 2개 | 위치가 정밀한 환경과 방향이 안정적인 환경은 다른 설계 필요 |
 | 04 Aim the Light | 일치한 중심 확인 → 숨은 Direction 검사 → 방향 핸들 조정 | Center가 같아도 Angular Loss 발생 |
-| 05 The Assembly Lottery | 10개 조립 관찰 → 100/1,000/10,000 평가 → 실패 부품 확인 | Nominal 0 dB와 Assembly Yield는 다름 |
+| 05 Assembly Factory | 10개 조립 관찰 → 100/1,000/10,000 평가 → 실패 부품 확인 | Nominal 0 dB와 Assembly Yield는 다름 |
 | 06 Make It Tolerant | 고정 Waveguide/공정에서 Fiber Radius 하나를 연속 조정 | 동일 Sample에서 Yield ≥95% 달성 |
 | 07 Beat the Factory | 설계 2–3개 저장·비교 → 공정 변화에 대응 | 두 공정에서 Yield ≥95%, P95 ≤1 dB |
 
@@ -26,9 +36,11 @@ Interface Builder도 처음부터 열립니다. Source/Target Waist, 입력 Wais
 
 Free Practice는 처음부터 열립니다. X/Y, Tilt, Radius, Matched/Fixed Pair, Wavelength와 Fixed Loss를 자유롭게 실험하며 Campaign 성과를 바꾸지 않습니다. Mouse/Touch Drag, Sliders와 Arrow keys가 같은 State를 공유합니다. Shift+Arrow는 미세 조정입니다. Sound는 기본 OFF이며 켜면 오프라인 Web Audio로 성공음을 합성합니다. Retry는 현재 실험만 초기화합니다.
 
+[Vertical Slice HTML](dist/optical-packaging-master-v0.5-vertical-slice.html)은 01/05/09를 순서 제한 없이 바로 열어볼 수 있는 독립 검토 빌드입니다. 초기 중간 Snapshot은 Phase Commit에 보존했습니다. 기존 저장을 읽거나 덮어쓰지 않는 메모리 플레이이며, 최종 Campaign은 기존 Unlock 규칙을 유지합니다.
+
 ## 저장과 호환
 
-Local Storage Schema 4는 v0.1/v0.2/v0.3 완료, Best Score/Loss와 Unlock을 보존합니다. 새 Gameplay의 Achievement는 별도로 표시합니다. v0.3의 Mission 01–07 Achievement와 Factory Design은 유지됩니다. Mission 07 완료자는 Chapter 3가 열리며 이전 미션을 Replay할 수 있습니다. 설계 3개와 최근 평가 조건(Seed, 공정 Bias/Sigma, Sample Count, 모델, 기준, 결과)을 저장합니다. Campaign 미완료 실험은 새로고침 시 다시 시작하며 독립 Builder는 마지막 Configuration을 복원합니다.
+저장 구조 변경 없이 Local Storage Schema 4는 v0.1/v0.2/v0.3 완료, Best Score/Loss와 Unlock을 보존합니다. 새 Gameplay의 Achievement는 별도로 표시합니다. v0.3/v0.4의 Mission 01–10 Achievement, Factory Design/evaluation과 Builder Configuration은 유지됩니다. 기존 content version 3/4를 유지해 완료 기록을 다시 요구하지 않습니다. Mission 07 완료자는 Chapter 3가 열리며 이전 미션을 Replay할 수 있습니다. 설계 3개와 최근 평가 조건(Seed, 공정 Bias/Sigma, Sample Count, 모델, 기준, 결과)을 저장합니다. Campaign 미완료 실험은 새로고침 시 다시 시작하며 독립 Builder는 마지막 Configuration을 복원합니다.
 
 Browser/Profile/파일 경로에 따라 file:// 저장 영역이 달라질 수 있습니다. 같은 Browser/Profile에서 실행하세요. 저장 제한 환경에서도 현재 세션 플레이가 가능합니다. 알 수 없는 미래 저장 형식은 덮어쓰지 않으며 Progress Reset은 확인 후 동작합니다.
 
@@ -58,4 +70,6 @@ Source `index.html`은 ESM 개발용이며 `python3 -m http.server`로 열 수 �
 
 ## 개발 기준
 
-사용자 승인에 따라 v0.3 PR #3을 main에 병합했습니다: `e66573f81fbda98352f30f121c0ddef549ec2544`. 이 최신 main을 직접 확인한 뒤 `feature/v0.4-optical-interface-builder`에서 증분 개발했습니다. v0.4는 별도 PR의 RC이며 추가 승인 전 Merge, Auto-merge, Tag를 하지 않습니다. 사람 대상 학습 효과/만족도와 실물 휴대기기는 미검증입니다. 첨부 자료와 회사 문서 bytes는 공개 저장소에 재배포하지 않습니다.
+최신 GitHub를 직접 확인했습니다: main v0.3 `e66573f81fbda98352f30f121c0ddef549ec2544`, PR #4 open / unmerged, v0.4 Head `3f94233f17a0af010b3ebfb33c1ebef4f666fb81`. 이 v0.4 Head에서 `feature/v0.5-packaging-experience`를 생성했습니다. v0.5 PR은 v0.4 Branch를 대상으로 하는 stacked PR이며 PR #4에 의존합니다. PR #4 병합 후 최신 main을 fetch하여 v0.5 기준선/PR base를 재정렬하고 CI를 다시 확인해야 합니다. **두 PR을 승인 없이 병합하지 않습니다.**
+
+RC는 플레이 검토용입니다. 사람 대상 학습 효과/재미·만족도와 실물 휴대기기는 미검증입니다. 첨부 자료와 회사 문서 bytes는 공개 저장소에 재배포하지 않습니다.
