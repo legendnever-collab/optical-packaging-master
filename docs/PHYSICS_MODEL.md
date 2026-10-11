@@ -1,4 +1,4 @@
-# Simplified Gaussian Mode Model — v0.5
+# Simplified Gaussian Mode Model — v0.6
 
 ## Spatial overlap (unchanged from v0.1)
 
@@ -138,3 +138,9 @@ For Chapter 3, every lens, mirror and Receiver has an unfolded z coordinate proj
 Input flow is normalized to 1. Chapter 3 path segments use only fixed attenuation of preceding lenses/mirror, and Receiver output uses the full computed Total Efficiency. Chapters 1–2 output uses existing angularCoupling.totalEfficiency. Pulse velocity is a display effect without a physical time axis. Light OFF gates visibility, not the computed optical result. Reduced Motion stops travel and accelerates preview playback without changing samples/outcomes.
 
 FactoryPlayback receives real evaluateDesign rows and never generates/mutates results. Only the first ten are staged PLACE/TEST/SORT; GOOD=actual row.pass and REJECT=!row.pass. Full produced/good/reject/Yield/P95/CI use the selected full report. Inspection restores the actual row.state and recomputes the same existing physics. Sorting graphics and achievements cannot add physical performance. Pan/Zoom/Exploded only alter camera/presentation. See PHYSICAL_SCENE_ARCHITECTURE.md for mappings and input controls.
+
+## v0.6 mechanical assembly / assumed economics
+
+Optical/Statistical solver files and their 102 reference tests are unchanged. The new independent Challenge composes declared Fixture/part Normal errors and fixed Datum bias before calling `angularCoupling`. Actual Prototype calibration is derived from its observed sample. Independent production uses another seed; candidate designs share standard normals. Active correction and optional rejected-unit rework feed actual assumed residual X/Y/angles into the same engine, preserving mismatch and recomputing Loss. No optical score discount is used.
+
+The top view evaluates declared Carrier/PIC rectangles inside a Package with axis-aligned clearance and mount constraints. Z motion changes geometry only, not unimplemented optical gap loss. Facet microscopy uses a separately stated common transverse scale. Lock is a state constraint without material shrinkage. Rework costs/time, Fixture prices and correction residuals are uncalibrated teaching assumptions. Prototype, First Pass, final Yield, confidence interval and cost per actual Good are distinct. Full derivation, mapping, fixed seeds, policies and limitations are in [ASSEMBLY_CHALLENGE.md](ASSEMBLY_CHALLENGE.md). Current q/ABCD and phase-tilt models remain separate.

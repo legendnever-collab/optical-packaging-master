@@ -19,7 +19,7 @@ jobs:
         run: |
           npm run build
           node scripts/build.mjs --vertical-slice
-          git diff --exit-code -- dist/optical-packaging-master-v0.5.html dist/optical-packaging-master-v0.5-vertical-slice.html
+          git diff --exit-code -- dist/optical-packaging-master-v0.6.html dist/optical-packaging-master-v0.6-vertical-slice.html
       - name: Verify release manifest and ZIP
         run: python3 scripts/release.py --verify
   browser:

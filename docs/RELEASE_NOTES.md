@@ -1,15 +1,14 @@
-# v0.5.0 Release Candidate — The Packaging Experience
+# v0.6.0 Release Candidate — Assemble, Lock & Test
 
-Dependency: PR #4 v0.4 remains open at 3f94233f17a0af010b3ebfb33c1ebef4f666fb81; main is v0.3. This branch feature/v0.5-packaging-experience builds incrementally on v0.4 and uses it as stacked PR base. Merge neither PR without approval. After v0.4 merge, realign to latest main and rerun CI before v0.5 merge.
+Baseline: main v0.5 merge `80fe758062745772da7f7f3c5f16a84eaa7b2f56`. Branch `feature/v0.6-assemble-lock-test`. Source/artifacts remain incremental. No Mission 11 or new high-order optical solver.
 
-- Default physical 2.5D assembly bench: Fiber/Core/Facet, PIC/Port/Waveguide, lens mount, ideal mirror, Receiver, base and datum concept.
-- Direct physical Fiber drag, path Receiver/Lens/Mirror drag/keyboard, Lens Inventory Drop plus accessible install, actual refocus and power/envelope updates.
-- Hardware / Optical / Engineering / Inspection, optional Gaussian overlay, selection, camera Zoom/Pan/Exploded; Advanced numeric instruments preserved.
-- Real seeded ten-sample PLACE / TEST / SORT line, GOOD/REJECT dashboard for whole report, click rejected Package and replay exact X/Y/Tilt/loss state.
-- Lit/stamped completion, restored-link zoom and retained learning feedback/sound.
-- Ten existing missions and all physics engines/thresholds preserved. Same schema 4/content versions 3/4 keep progress and independent Builder draft.
-- Offline HTML, isolated direct-access vertical-slice snapshot 01/05/09, deterministic ZIP/manifest, coordinate/architecture and gameplay change reports plus visual screenshots.
+- New directly accessible assembly challenge: select Fixture/process, inventory Carrier placement, actual finite geometric fit, optical Facet drag/keyboard, Lock/Test, charged Unlock and rework, 100-unit manufacturing and visible qualified-order achievement.
+- Actual Fixture + part + Datum tolerance states use preserved Gaussian Phase-Tilt physics. Independent Prototype/production seeds; candidate comparison shares standard normals. Active residual/rework recompute actual Loss. First Pass/Final Yield, Good/Reject, P95/Wilson CI and raw/final Inspection remain distinct.
+- Several qualified strategies; excessive precision/Active cost and oversized Fixture failures show engineering tradeoffs. Teaching costs/time include Prototype and actual per-part rework, not hidden score multipliers.
+- Independent schema-1 challenge draft/Lock/Test/run/award/design snapshots auto-restore. Campaign schema 4 and all ten badges/designs/Builder inputs persist from v0.5. Both keys protected in preview, future schema and restricted storage.
+- Mobile bench first, inventory adjacent to scene, adaptive next-action text, keyboard and emulated Touch, Reduced Motion, canceled navigation playback.
+- Single HTML / isolated preview / deterministic SHA256 ZIP. No runtime CDN, server, font, tracking or API key. Prior artifacts unchanged. Screenshots and full model, audit and test evidence included.
 
-No new solver, Mission 11, body/collision/aperture, traced reflection, decenter/tilt propagation, optical/statistical model fusion or new mechanical Yield model. Body and datum sizes are illustrative; q Envelope/z/body scales are disclosed separately. Animation velocity is theatrical; output attenuation and sample sorting are computed. Human first-play fun/learning, physical devices and branded platforms remain untested. See actual test counts in TEST_SUMMARY.md and completed CI in the PR.
+Executed local validation: **206 Node PASS / 0 FAIL**, **123 Chromium offline UI PASS / 0 FAIL**. Existing 102 optical/statistical reference checks unchanged. Cross-browser CI evidence is added to PR after actual execution. No human first-play/fun/learning or real-device certification.
 
-Cross-browser release evidence: CI run #18 completed with 172 Node + 90 Chromium + 85 Firefox + 85 WebKit = **432 PASS / 0 FAIL**. Exact versions, network modes and boundaries are in TEST_SUMMARY.md. No human play observation is claimed.
+Known limits: declared 2D rectangles only, Z has mechanical effect but no Gap optical calculation in this Challenge; Lock no shrinkage, Active residual/cost/time all assumed; no unified q+decenter/tilt, 3D collision, aperture, calibrated economics or industrial yield guarantee. Current campaign limitations remain. No merge/tag without new user approval.

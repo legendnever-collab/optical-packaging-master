@@ -2,17 +2,18 @@
 import sys,json,hashlib,zipfile
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
-items={'optical-packaging-master-v0.5.html':'dist/optical-packaging-master-v0.5.html','README.md':'README.md','PHYSICS_MODEL.md':'docs/PHYSICS_MODEL.md','RELEASE_NOTES.md':'docs/RELEASE_NOTES.md','TEST_SUMMARY.md':'docs/TEST_SUMMARY.md','GAME_DESIGN.md':'docs/GAME_DESIGN.md','GAMEPLAY_AUDIT.md':'docs/GAMEPLAY_AUDIT.md'}
-items.update({'optical-packaging-master-v0.5-vertical-slice.html':'dist/optical-packaging-master-v0.5-vertical-slice.html','PHYSICAL_SCENE_ARCHITECTURE.md':'docs/PHYSICAL_SCENE_ARCHITECTURE.md','GAMEPLAY_CHANGES.md':'docs/GAMEPLAY_CHANGES.md','browser-qa-results.json':'docs/browser-qa-results.json'})
-for path in sorted((root/'docs/screenshots').glob('v0.5-*.png')):items['screenshots/'+path.name]=str(path.relative_to(root))
+items={'optical-packaging-master-v0.6.html':'dist/optical-packaging-master-v0.6.html','README.md':'README.md','PHYSICS_MODEL.md':'docs/PHYSICS_MODEL.md','RELEASE_NOTES.md':'docs/RELEASE_NOTES.md','TEST_SUMMARY.md':'docs/TEST_SUMMARY.md','GAME_DESIGN.md':'docs/GAME_DESIGN.md','GAMEPLAY_AUDIT.md':'docs/GAMEPLAY_AUDIT.md'}
+items['ASSEMBLY_CHALLENGE.md']='docs/ASSEMBLY_CHALLENGE.md'
+items.update({'optical-packaging-master-v0.6-vertical-slice.html':'dist/optical-packaging-master-v0.6-vertical-slice.html','PHYSICAL_SCENE_ARCHITECTURE.md':'docs/PHYSICAL_SCENE_ARCHITECTURE.md','GAMEPLAY_CHANGES.md':'docs/GAMEPLAY_CHANGES.md','browser-qa-results.json':'docs/browser-qa-results.json'})
+for path in sorted((root/'docs/screenshots').glob('v0.6-*.png')):items['screenshots/'+path.name]=str(path.relative_to(root))
 sha=lambda b:hashlib.sha256(b).hexdigest()
 contents={name:(root/src).read_bytes() for name,src in items.items()}
 hashes={name:sha(b) for name,b in contents.items()}
-archive=root/'dist/optical-packaging-master-v0.5-release.zip'
+archive=root/'dist/optical-packaging-master-v0.6-release.zip'
 manifest_path=root/'dist/release-manifest.json'
 if '--verify' in sys.argv:
  m=json.loads(manifest_path.read_text())
- assert m['version']=='0.5.0' and m['status']=='Release Candidate'
+ assert m['version']=='0.6.0' and m['status']=='Release Candidate'
  assert m['zip']['sha256']==sha(archive.read_bytes())
  assert m['files']==hashes
  with zipfile.ZipFile(archive) as z:
@@ -20,13 +21,13 @@ if '--verify' in sys.argv:
   assert set(z.namelist())==set(contents)|{'SHA256SUMS.txt'}
   for name,data in contents.items():assert z.read(name)==data,name+' stale'
   assert z.read('SHA256SUMS.txt').decode()==''.join(f'{h}  {name}\n' for name,h in hashes.items())
- assert m['html']['sha256']==hashes['optical-packaging-master-v0.5.html']
+ assert m['html']['sha256']==hashes['optical-packaging-master-v0.6.html']
  print('PASS: release manifest, ZIP integrity, all source bytes and SHA256SUMS')
 else:
  contents['SHA256SUMS.txt']=''.join(f'{h}  {name}\n' for name,h in hashes.items()).encode()
  with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
   for name,data in contents.items():
    info=zipfile.ZipInfo(name,(2026,10,11,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o644<<16;z.writestr(info,data)
- manifest={'version':'0.5.0','status':'Release Candidate','baseline':'3f94233f17a0af010b3ebfb33c1ebef4f666fb81','dependency':'Open PR #4 / feature/v0.4-optical-interface-builder','files':hashes,'html':{'path':'dist/optical-packaging-master-v0.5.html','sha256':hashes['optical-packaging-master-v0.5.html']},'zip':{'path':str(archive.relative_to(root)),'sha256':sha(archive.read_bytes())}}
+ manifest={'version':'0.6.0','status':'Release Candidate','baseline':'80fe758062745772da7f7f3c5f16a84eaa7b2f56','dependency':'main / merged v0.5','files':hashes,'html':{'path':'dist/optical-packaging-master-v0.6.html','sha256':hashes['optical-packaging-master-v0.6.html']},'zip':{'path':str(archive.relative_to(root)),'sha256':sha(archive.read_bytes())}}
  manifest_path.write_text(json.dumps(manifest,indent=2)+'\n')
  print(f'RC ZIP: {archive.name} ({archive.stat().st_size} bytes)')
