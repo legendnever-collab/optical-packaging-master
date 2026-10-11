@@ -20,7 +20,7 @@ Default: six physics-driven development chapters. Optional Engineering Lab prese
 
 One completion dialog reports achievement, physical cause, transferred context and next problem. Primary: **다음 개발 단계로** (final: Engineering Lab 탐색). Secondary: **현재 설계 계속 실험**. No “다시 돌아가기”, no second specification-confirmation dialog. Ch1–4 transfer experimental results rather than claim a qualified product.
 
-Changing Glass to Silicon is explicitly announced as a new platform challenge. Old glass result remains a baseline. Replaying a completed chapter edits its draft; downstream frozen designs stay stable rather than silently reset. A new upstream freeze is a new result; previously created downstream drafts are deliberately retained for reproducibility and must be deliberately reviewed (not automatically overwritten).
+Changing Glass to Silicon is explicitly announced as a new platform challenge. Old glass result remains a baseline. Replaying a completed chapter edits its draft; downstream frozen designs stay stable rather than silently reset. A new Ch4 converter handoff updates the compatible Ch5 draft while retaining lens placement and invalidating its acceptance. A changed Ch5 freeze archives the prior Ch6 manufacturing draft and starts qualification with the new exact optical project. Previous products are not silently reused for different optics.
 
 Mouse, captured Pointer/Touch and keyboard control the supported source facet / lens / receiver / Carrier. Shift+Arrow is fine movement. Basic decisions and actual power are visible first; advanced assumptions/calculations stay collapsed. All labels include non-color status. Reduced motion keeps calculated results while shortening the optional first-ten production visualization.
 

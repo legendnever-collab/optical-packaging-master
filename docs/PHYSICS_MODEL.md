@@ -1,3 +1,80 @@
+# v0.7 Optical Interface Physics
+
+기존 `gaussian-coupling.js`, `angular-coupling.js`, `assembly.js`, `gaussian-propagation.js`는 v0.6 기준에서 변경하지 않았습니다. 새 모델은 별도 Module로 추가합니다. 모든 길이는 µm, 입력 Tilt는 °이며 계산 시 rad로 변환합니다. Mode Radius는 Field Amplitude 1/e Radius이고 MFD=2w입니다. 기본 λ₀=1.55 µm, 공통 매질 n=1입니다.
+
+## 정규화된 2D Gaussian
+
+회전 행렬 R과 양의 Radius wx, wy에 대해:
+
+`A = R diag(1/wx², 1/wy²) Rᵀ`
+
+`E(r) = N exp[-(r-d)ᵀ (A+iB) (r-d) - i k θᵀ r]`
+
+`N² = 2 sqrt(det A)/π`, `B = (k/2) C`, `k = 2πn/λ₀`
+
+C는 대칭 Inverse Wavefront Curvature Matrix입니다. A는 Positive Definite이며 ∫|E|²d²r=1입니다. Separable Elliptical Mode도 회전하면 XY 교차 항을 포함하므로 한 개 Radius로 취급하지 않습니다. Core Ellipticity와 Optical Mode Ellipticity를 동일시하지 않습니다.
+
+`H₁=A₁+iB₁`, `S=H₁+conj(H₂)`, `l=2H₁d - ikθ`
+
+정확한 Gaussian 적분으로:
+
+`η = [4 sqrt(det A₁ det A₂) / |det S|] exp{Re[-2 dᵀH₁d + (1/2) lᵀ S⁻¹ l]}`
+
+Loss는 log-domain에서 계산합니다. `Loverlap = -10 log10 η`, `Ltotal = Loverlap + Lfixed`, `Pout/Pin=η·10^(-Lfixed/10)`입니다. Zero Curvature에서는 Mismatch / Lateral / Angular 항을 독립적으로 분리할 수 있습니다. Curvature가 있을 때는 Offset / Tilt 교차 효과가 있으므로 독립된 η들을 곱하지 않습니다.
+
+Circular 특수화는 기존 Spatial / Angular 모델과 일치합니다. 회전된 프로필과 Curvature+Offset+Tilt를 독립 2D Complex Quadrature로 검증합니다. 입력 Radius 0.1–200 µm, Tilt ±5°의 명시적 Domain 밖에서는 결과를 거절합니다. 이 Domain은 EM 정확성 보장이 아닙니다.
+
+## SMF / Glass / Silicon / Converter provenance
+
+| 값 / 개념 | 출처 분류 | 사용 방법 |
+|---|---|---|
+| SMF MFD 10.4 µm @1550 nm; Cladding 125 µm; Core 약8.2 µm | Corning 공개 Datasheet / Catalog | Circular Gaussian Reference; 실제 Fiber Full-vector 해석 아님 |
+| Glass wx/wy 4.8/2.6, 5/5, 4.8/4.0 µm | 교육용 가정 | 다양한 가능한 형상을 보여줌; 모든 Glass가 Elliptical이라는 뜻 아님 |
+| 500×220 nm SOI 구조 개념 | 공개 Silicon Photonics 문헌 | Stack/Confinement 설명용; 특정 PDK 재현 아님 |
+| Bare Si wx/wy 0.45/0.30 µm | 문헌의 강한 Confinement에 근거한 illustrative Effective Field | TE-like Scalar Gaussian 근사; 문헌에서 추출한 검증된 Full-vector Mode Dataset이 아님 |
+| Si Inverse Taper w=1.5 / 2.5 µm, Conversion 0.15 dB | 공개 원리 + 명시적 수치 가정 | Tip/Length에서 계산한 값 아님 |
+| SiN-assisted SSC w=3.8 / 4.8 µm, Conversion 0.25 dB | 공개 Hybridization 원리 + 명시적 수치 가정 | SiN standalone Coupler 측정값을 SiN-assisted Si 구조로 전용하지 않음 |
+| Length=250/500 µm, Tip=100 nm | illustrative Geometry metadata | Performance surrogate의 입력으로 사용하지 않음 |
+| Lens당 0.10 dB / Mirror 0.15 dB | 교육용 Fixed Loss 가정 | 실제 제품 실측 아님 |
+
+**Converter 정량 성능은 검증된 PDK / EM Dataset으로 Calibration하지 않았습니다.** 현재 Reference는 물리적으로 가능한 원리를 설명하는 제한된 Effective-field 모델입니다. 수학적 Overlap 검증과 실제 Taper의 정량 EM 검증을 구분합니다. 지원된 몇 개의 Field만 선택하게 하며 Tip Width/Length와 Loss 사이에 허구의 연속 함수를 만들지 않습니다.
+
+## Lens Relay: 같은 q와 Ray 좌표 전달
+
+기존 q 정의 `q=z+i zR`, `zR=π n w₀²/λ₀`, Free Space `P(d)=[[1,d],[0,1]]`, Lens `L(f)=[[1,0],[-1/f,1]]`를 사용합니다. 같은 Transform으로 Ray `[x,θ]`도 전달합니다. Lens Decenter δ는 `θout=θin−x/f+δ/f`입니다. 이상적인 무한 Thin Lens의 독립 Tilt 성능 함수는 추가하지 않았습니다.
+
+Source → P(z₁) → Lens A → P(f₁) → Detachable Plane → Receiver Module frame shift → P(z₂−z₁−f₁) → Lens B → P(length−z₂) → Receiver입니다.
+
+Detachable Plane에서 `x ← x−δx`, `θ ← θ−δθ`를 적용합니다. q는 이 좌표 이동으로 바뀌지 않으며 Lens/Free Space를 통해 전달됩니다. 최종 Receiver Plane에서 q의 Radius와 Curvature, Ray의 Offset/Tilt를 위 Complex Gaussian 적분으로 한 번에 평가합니다. Source/Lens의 영구 정렬 잔차도 실제 Ray 입력으로 적용합니다.
+
+기준 f₁=260, f₂=240, z₁=260, z₂=760, length=1000 µm의 4f Relay는 wsource=5.2 → wtarget=4.8 µm의 Waist/Curvature를 맞춥니다. Nominal Loss는 두 Lens 0.20 + Converter 0.25 =0.45 dB입니다. Lens 0/1/2개 설치, Source Working Distance, Receiver Axial 좌표가 실제 q와 출력에 영향을 줍니다.
+
+Expanded Detachable Plane의 Matched Radius는 λf₁/(πwsource)≈24.67 µm입니다. 같은 Plane의 Circular Phase-tilt 기준과 최종 Receiver 적분이 일치합니다. 이 Plane의 위치 편차가 최종 Receiver의 Angle로 변환될 수 있어 Offset와 Angle을 각각 독립된 Score penalty로 붙이지 않습니다.
+
+Fold는 **Ideal Unfolded Equivalent**로 처리합니다. q/Ray의 경로 길이는 유지하고 장면/패키지 Envelope만 접습니다. Mirror 고정 감쇠를 추가하지만 3D Reflection / Polarization / Aberration 모델을 주장하지 않습니다.
+
+## 공정과 제조
+
+Seed 20261013 / N=1000는 Ch4/5 공통 비교 Cohort입니다. 동일한 표준 Normal Sample을 설계별 Scale에 적용합니다. Economy Mating σXY=1.8 µm, Precision Fixture σXY=0.12 µm. Mating σTilt=0.08° 또는 Loose Angular 환경0.8°. Relay의 Permanent Source/Lens σXY=0.08 µm, Axial σ=2 µm는 별도, 고정 Seed에서 생성합니다. Relay는 사전에 정렬된 영구 Subassembly가 있다는 명시적 구조 가정입니다.
+
+Ch6는 Seed 20261014 / N=100의 독립 생산 Cohort입니다. v0.6 Fixture의 유한 형상 / AABB / Datum Slot / 기본 Cost/Time를 재사용하지만 광학 오차 Scale과 예산은 Campaign-specific 명시적 교육 가정입니다. v0.6의 독립 Challenge σ=0.70을 새 1.8 µm 공정으로 몰래 동일시하지 않습니다.
+
+Prototype Calibration은 생산 평균에 전달됩니다. Active는 Mating Residual σXY=0.08 µm / σTilt=0.015°를 명시적으로 적용하며 Permanent Module 오차를 유지합니다. Rework는 실제 First-pass Reject Row만 다시 계산하고 비용을 추가합니다. Geometry가 맞지 않으면 Lock할 수 없고, Locked 상태에서 Alignment를 바꿀 수 없습니다. Unlock은 9 Credits / 6 s를 더합니다. Lock은 Adhesive/Shrinkage 계산이 아닙니다.
+
+Serial Cost/Time는 Prototype + 각 Row의 Carrier / Fixture / Optics / Alignment / Lock / Test / Rework를 실제 합산합니다. 렌즈 비용은 영구 Subassembly 비용을 포함하는 교육 가정이며 측정 공장 견적이 아닙니다. 공정 Raw / First / Final Result를 유지합니다. Nearest-rank P95, Good/Reject counts와 Wilson 95% Interval을 보고합니다. 동일 Seed의 설계 최적화는 독립적인 실측 Yield 검증을 뜻하지 않습니다.
+
+## 공개 근거
+
+- Corning SMF-28 Ultra 공개 Datasheet: https://www.corning.com/content/dam/corning/media/worldwide/coc/documents/Fiber/product-information-sheets/PI-1424-AEN.pdf ; Catalog 예: https://ecatalog.corning.com/optical-communications/EMEA/en_GB/Fibre-Optic-Cable-Assemblies/Indoor-Cable-Assemblies/Simplex-Indoor-Cable-Assemblies/Basic-0-9-mm-1-Fibre-Pigtail/p/F002201G1Z09002M-RD
+- Du et al., *Detachable interface toward a low-loss reflow-compatible fiber coupling for co-packaged optics*, Optics Express 31, 1318–1329 (2023), DOI https://doi.org/10.1364/OE.480418. Expanded Beam / Angular / Lateral Trade-off / Permanent active-prealigned module 개념의 근거. 논문의 Lens/성능 숫자를 이 게임의 제조 보증값으로 사용하지 않음.
+- Boucaud et al., APL Photonics (2024), DOI https://doi.org/10.1063/5.0221309. Glass/Polymer/PIC integration과 Hybridization의 실제 복잡성. 보고된 높은 실험 Loss를 저손실 게임 Preset으로 전용하지 않음.
+- Chrostowski & Hochberg, *Silicon Photonics Design: From Devices to Systems*, §5.3 / §12.1.1. Inverse Taper의 Confinement 완화, Mode Overlap과 Packaging 설명. 저작물 그림/본문은 배포하지 않음.
+- *Ultra-low loss SiN edge coupler interfacing with a single-mode fiber*, Optics Letters 47, 4786 (2022): https://opg.optica.org/ol/abstract.cfm?uri=ol-47-18-4786. Cladding이 Mode 크기/형상에 중요하다는 공개 근거; SiN standalone 측정 성능을 SiN-assisted Si Reference로 간주하지 않음.
+
+아래는 변경하지 않은 Legacy Solver 설명입니다.
+
+---
+
 # Simplified Gaussian Mode Model — v0.6
 
 ## Spatial overlap (unchanged from v0.1)

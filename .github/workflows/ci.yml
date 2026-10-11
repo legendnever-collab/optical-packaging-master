@@ -1,4 +1,4 @@
-name: Optical Alignment CI
+name: Optical Packaging v0.7 CI
 on:
   push:
     branches: [main]
@@ -19,7 +19,7 @@ jobs:
         run: |
           npm run build
           node scripts/build.mjs --vertical-slice
-          git diff --exit-code -- dist/optical-packaging-master-v0.6.html dist/optical-packaging-master-v0.6-vertical-slice.html
+          git diff --exit-code -- dist/optical-packaging-master-v0.7.html dist/optical-packaging-master-v0.7-vertical-slice.html
       - name: Verify release manifest and ZIP
         run: python3 scripts/release.py --verify
   browser:
@@ -40,12 +40,15 @@ jobs:
       - name: Offline local-file game QA
         env:
           OPM_BROWSERS: ${{ matrix.engine }}
-        run: npm run test:ui
+        run: |
+          npm run test:ui
+          npm run test:campaign
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: qa-${{ matrix.engine }}
           path: |
             docs/browser-qa-results.json
+            docs/campaign-qa-results.json
             tmp/qa/
             docs/screenshots/

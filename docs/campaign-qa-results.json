@@ -1,0 +1,343 @@
+{
+  "version": "0.7.0",
+  "artifact": {
+    "path": "optical-packaging-master-v0.7.html",
+    "sha256": "b8d365c6725a639e30d9e14abb58845f3da07b98ac046d98cd5fe4905a4ac5d7"
+  },
+  "status": "completed",
+  "pass": 81,
+  "fail": 0,
+  "skipped": 0,
+  "environments": [
+    {
+      "engine": "chromium",
+      "version": "141.0.7390.0"
+    }
+  ],
+  "results": [
+    {
+      "name": "chromium / campaign scene-first default boots Chapter 1, old lab remains optional",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign position alignment alone leaves deliberate angular loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign matched SMF zero error gives real 100% power and completion",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign handoff has two clear CTAs and no repeated spec dialog",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign Glass chapter changes physical platform and retains SMF baseline",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign Glass axis experiment shows invariant center and swapped XY sensitivity",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign principal-axis orientation changes supported mode overlay",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign Bare Si remains poor at perfect alignment instead of impossible PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign wrong diagnosis cannot advance intentional learning success",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign correct physical diagnosis succeeds without claiming low-loss link",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign SSC improves overlap via differentiated supported references",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign good nominal coupling still fails identical passive process, no observation gate",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign reload resumes Chapter 4 and recomputes saved variation results",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign Precision Datum is a viable low-component solution",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign physically installed lens inventory changes real q propagation and power",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign Lens keyboard movement affects optics and retains selected object",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign high yield cannot qualify straight relay in compact package",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign folded route solves geometry with honest additional mirror loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign loose angular registration defeats expanded optics",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign one explicit freeze is inside handoff with no vague return wording",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign manufacturing receives exact architecture, SSC and installed lens design",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign locked assembly prohibits alignment and requires paid unlock",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign independent production qualifies full optical/yield/cost/time product",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign sample inspection uses real production loss and state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign final handoff gives clear product achievement and optional lab",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign Text Backup contains frozen full project, no upload requirement",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign invalid paste rejects without discarding current design",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign valid paste restore resumes exact manufacturing project",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign Legacy Mission 01–10 and Assembly Challenge remain accessible",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign return from optional lab resumes new campaign and factory qualification",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign completed chapter replay retains exact selected converter rather than resetting",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign offline refresh restores product and completed chapter history",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign mobile scene precedes controls and has no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign actual CDP touch drag changes shared physical XY state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign future schema remains byte-preserved while current session plays",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign legacy history retained without automatic new campaign completion",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign blocked storage permits session play and Text Backup",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / scene-first default boots Chapter 1, old lab remains optional",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / position alignment alone leaves deliberate angular loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / matched SMF zero error gives real 100% power and completion",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / handoff has two clear CTAs and no repeated spec dialog",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / Glass chapter changes physical platform and retains SMF baseline",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / Glass axis experiment shows invariant center and swapped XY sensitivity",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / principal-axis orientation changes supported mode overlay",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / Bare Si remains poor at perfect alignment instead of impossible PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / wrong diagnosis cannot advance intentional learning success",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / correct physical diagnosis succeeds without claiming low-loss link",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / SSC improves overlap via differentiated supported references",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview / good nominal coupling still fails identical passive process, no observation gate",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign first-four preview completes without unlocking later chapters or reading/writing saved keys",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign actual mouse inventory drop installs lens and changes optical state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign physical mouse lens drag changes actual working distance and q loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign new manufacturing carrier keyboard updates finite geometry and retains focus",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign all native offline campaign contexts have zero HTTP assets/page errors",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX first action is one real enabled Light ON target",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX explicit reveal focuses visible target without performing its action",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX Light ON removes previous highlight and highlights inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX inspection switches guidance to actual X adjustment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX fine XY buttons update engineering values and real loss/power",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX repeated buttons retain exact tenths without float display artifacts",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX upper bound blocks increment, lower bound blocks decrement",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX center completion switches to direction inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX angular buttons step 0.05 degrees and recalculate power",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX keyboard and buttons share the same XY state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX continuous input and drag do not cause scroll jumps",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX alignment complete removes angular highlight and points to completion",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX Chapter transition replaces highlight and Replay derives current state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX completed Chapter 2 has synchronized enabled action",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX completed Chapter 3 has synchronized enabled action",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX completed Chapter 4 has synchronized enabled action",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX completed Chapter 5 has synchronized enabled action",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX completed Chapter 6 has synchronized enabled action",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX replay edit after diagnosis recommends restoring precision",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX next lens and next lens highlight advance with actual installation",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX Lens and Receiver fine controls change actual path within bounds",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX factory Locked/Tested calibration buttons reject edits",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX factory Align fine controls write saved calibration and real prototype",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX mobile buttons have touch size, reduced motion and no overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX Optional Lab fine buttons update real state and valid guidance",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX Optional Assembly guides real actions and locked fine controls",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / guided UX offline UX has zero runtime requests and critical page errors",
+      "status": "PASS"
+    }
+  ]
+}

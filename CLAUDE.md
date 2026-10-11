@@ -29,3 +29,14 @@
 23. Lock is an interaction state, not adhesive shrinkage physics. Mechanical fit covers declared axis-aligned Carrier/PIC rectangles, boundary margin and slot only; no 3D collision/aperture/stiffness/thermal claims. Z geometry must never fabricate Gaussian gap propagation.
 24. Prototype calibration seed and independent production seed differ. Compare candidates on identical fixture/component/residual standard-normal samples. Active correction and rework must recalculate actual residual optical inputs. Preserve raw/first/final results and first-pass/final Yield.
 25. Manufacturing cost/time are declared teaching assumptions: include Prototype, parts, Fixture, Alignment, Lock, Test and charged Unlock/rework. Qualification needs Prototype PASS, ≥95/100 Good and actual order budgets. Zero-good cost is unavailable, not zero/infinity in saved JSON.
+
+26. v0.7 default Campaign contains six physics-driven chapters; ten prior missions are optional and retain unchanged solvers. Bare Si succeeds through diagnosis, not an impossible 1 dB goal.
+27. Rotated/curved fields require normalized complex 2D Gaussian overlap. Relay uses the same q/ABCD and affine ray transforms; no silent multiplication of lateral/angular/curvature penalties.
+28. Converter presets are explicitly assumed effective fields, not a validated PDK surrogate. Do not invent tip-width/length performance dependence or claim SiN-assisted product reproduction.
+29. New Campaign storage is Schema 1 / Content 7; preserve legacy keys and unknown/corrupt future bytes. Preview reads/writes no saved keys. Validate typed evidence, project/factory/comparison archives before paste restoration.
+30. Ch5 refreeze transfers exact changed optics to Ch6, archiving prior manufacturing result and requiring a new qualification. Preserve compatible lens placements on Ch4 converter handoff.
+31. v0.7 release manifest uses its own filename. Legacy QA screenshots use v0.7-legacy-*; never overwrite earlier version screenshots/HTML/ZIP. Preserve the delivered first-four checkpoint; final build is generated separately.
+32. v0.7 baseline is unmerged v0.6 PR #6 head 2d52ce7; main remains v0.5 unless verified otherwise. Publish phase commits and RC PR; no main merge, auto-merge, tag or release without explicit approval.
+
+33. v0.7 Final UX was explicitly approved for immediate merge after final regression/CI. v0.6 PR #6 is merged at 2ceb71e94f867f76905eaa57a4a762d684f9983a. Earlier candidate-only instructions are historical.
+34. Guidance is UI-only and derives from the existing campaign/evidence/factory state. Fine controls dispatch existing input/change handlers, respect disabled state/bounds and never own a parallel physics state. Do not add physics or chapters in this final patch.

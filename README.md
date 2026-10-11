@@ -1,3 +1,34 @@
+# Optical Packaging Master v0.7.0
+
+SMF에서 시작해 Glass Waveguide, Bare Silicon의 Mode Mismatch, Spot Size Conversion, Passive Optical Architecture와 제조 Qualification까지 배우는 Offline Engineering Game입니다.
+
+- Final UX: 현재 행동 안내 / 하나의 NEXT 대상 / 화면 밖 Control로 이동 / X·Y ±0.1 µm / θx·θy ±0.05° / Lens·Receiver ±1 µm. Drag·Keyboard·Touch와 같은 상태를 사용합니다.
+- 기존 v0.7 RC HTML/ZIP/Manifest는 `dist/archive/*v0.7-before-ux*`로 보존했습니다.
+- 기본 Campaign: 6개 Chapter, Physically motivated technology sequence.
+- Optional Engineering Lab: 기존 Mission 01–10 / Interface Builder / v0.6 Assembly Challenge 보존.
+- 실행: `dist/optical-packaging-master-v0.7.html`을 브라우저에서 여세요. 설치/네트워크/파일 업로드가 필요 없습니다.
+- 중간 Preview: `dist/optical-packaging-master-v0.7-chapters-1-4-preview.html`, 저장 없는 Chapter 1–4 체크포인트.
+- Source/모델/QA/스크린샷: `dist/optical-packaging-master-v0.7-release.zip`.
+
+정규화된 2D Gaussian, 기존 q/ABCD와 같은 좌표의 Ray 전달, 동일 Normal Cohort / 독립 생산 Seed를 사용합니다. Converter와 공정 숫자는 교육용 가정이며 실제 PDK 또는 공장 인증을 뜻하지 않습니다. `docs/PHYSICS_MODEL.md`, `docs/MODEL_LIMITATIONS.md`, `docs/USER_JOURNEY.md`, `docs/MIGRATION.md`를 참조하세요.
+
+```bash
+npm ci
+npm test
+npm run build
+node scripts/build.mjs --vertical-slice
+npm run test:ui       # Legacy regression; OPM_BROWSERS로 엔진 선택
+npm run test:campaign # 새 6개 Chapter 실제 버튼/Pointer/저장 흐름
+npm run release
+python3 scripts/release.py --verify
+```
+
+main v0.5 / v0.6 PR #6의 `2d52ce7` 기반. v0.7 Branch `feature/v0.7-physics-driven-campaign`. 사용자 승인 없이 Merge/Tag/Release하지 않습니다.
+
+아래는 이전 개발 기록입니다.
+
+---
+
 # Optical Packaging Master
 
 **v0.6.0 Release Candidate — Assemble, Lock & Test**

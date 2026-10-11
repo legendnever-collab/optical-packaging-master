@@ -32,7 +32,7 @@ export const packagingEnvironments={
  angular:{name:'Loose Angular Registration',width:1600,height:900,componentLimit:3,maxCost:65,minWD:100,note:'Connector Tilt σ=0.8°. Expanded Beam의 각도 민감도가 문제가 됩니다.'}
 };
 export function defaultInterface(){return {modelVersion:campaignModel,sourceType:'SMF',sourceMode:mode(5.2),targetType:'SMF',targetMode:mode(5.2),wavelength:1.55,converter:'bare',converterIndex:0,glass:'asymmetric',alignment:{dx:3.5,dy:-2,thetaX:2.4,thetaY:-.8},architecture:'direct',environment:'standard',relay:{sourceRadius:5.2,targetRadius:4.8,wavelength:1.55,f1:260,f2:240,z1:260,z2:760,length:1000,converterLoss:.25,foldAt:null,installed:0},fixture:'economy',qualificationStatus:'draft',nominalCouplingLoss:null,assemblyDistribution:null,yield:null};}
-export function freshCampaign(){return {schemaVersion:1,contentVersion:7,modelVersion:campaignModel,chapter:1,completed:{},drafts:{1:{project:defaultInterface(),evidence:{},factory:null}},frozen:{},baselineHistory:[],legacyHistory:{missions:{},content:{},assemblyDelivered:false}};}
+export function freshCampaign(){return {schemaVersion:1,contentVersion:7,modelVersion:campaignModel,chapter:1,completed:{},drafts:{1:{project:defaultInterface(),evidence:{},factory:null}},frozen:{},baselineHistory:[],archivedProjects:[],legacyHistory:{missions:{},content:{},assemblyDelivered:false}};}
 export function chapterDraft(id,previous){
  const p=structuredClone(previous??defaultInterface());p.qualificationStatus='draft';p.nominalCouplingLoss=null;p.assemblyDistribution=null;p.yield=null;
  if(id===2){p.targetType='Glass WG';p.targetMode={...glassProfiles.asymmetric.mode};p.glass='asymmetric';p.alignment={dx:2,dy:-1,thetaX:0,thetaY:0};}
@@ -62,6 +62,7 @@ export function validateInterfaceProject(p){
  const c=validateRelay(p.relay);
  if(c.sourceRadius!==5.2||c.z1<150||c.z1>380||c.z2!==760||c.length<920||c.length>1080||c.f1!==260||c.f2!==240||!Number.isInteger(c.installed)||c.installed<0||c.installed>2)throw new RangeError('Relay outside supported game geometry.');
  if(['relay','folded'].includes(p.architecture)&&(p.targetType!=='Silicon PIC'||tgt.wx!==tgt.wy||tgt.angle!==0||c.targetRadius!==tgt.wx||c.converterLoss!==converterReferences[p.converter].loss))throw new RangeError('Relay requires the selected circular SSC effective field.');
+ if(!['draft','limitation-diagnosed','nominal-qualified','passive-ready-model','product-qualified-model','experiment-completed'].includes(p.qualificationStatus)||p.nominalCouplingLoss!==null&&(!Number.isFinite(p.nominalCouplingLoss)||p.nominalCouplingLoss<0)||p.yield!==null&&(!Number.isFinite(p.yield)||p.yield<0||p.yield>1))throw new RangeError('Invalid project qualification metadata.');
  return p;
 }
 export function architectureRequirements(p){
@@ -89,12 +90,12 @@ export function evaluateInterfaceCohort(p,cohort=interfaceCohort(),method='passi
  const good=rows.filter(r=>r.pass).length,sorted=rows.map(r=>r.result.totalLoss).sort((a,b)=>a-b),nominal=nominalInterface(p,{dx:0,dy:0,thetaX:0,thetaY:0}),requirements=architectureRequirements(p);
  return {modelVersion:campaignModel,count:cohort.count,seed:cohort.seed,good,reject:cohort.count-good,yield:good/cohort.count,p95:lossQuantile(sorted,.95),interval:wilsonInterval(good,cohort.count),lossLimit:1,nominalLoss:nominal.totalLoss,requirements,rows,qualified:nominal.totalLoss<=1&&good/cohort.count>=.95&&requirements.pass,process:{matingXYsigma:p.fixture==='precision'?.12:1.8,matingTiltSigma:p.environment==='angular'?.8:.08,permanentXYsigma:['relay','folded'].includes(p.architecture)?.08:0,permanentAxialSigma:['relay','folded'].includes(p.architecture)?2:0,method,distribution:'Independent Normal, educational assumption'}};
 }
-export function newCampaignFactory(p){return {stage:'inventory',fixture:p.architecture==='datum'?'precision':p.fixture,method:'passive',rework:false,position:null,calibration:{dx:.5,dy:-.35,thetaX:.12,thetaY:-.08},cost:0,time:0,unlocks:0,seed:null};}
+export function newCampaignFactory(p){return {stage:'inventory',fixture:p.architecture==='datum'?'precision':p.fixture,method:'passive',rework:false,position:null,calibration:{dx:.5,dy:-.35,thetaX:.12,thetaY:-.08},cost:0,time:0,unlocks:0,aligned:false,seed:null};}
 export function campaignPrototype(p,f){return nominalInterface({...p,fixture:f.fixture},{...f.calibration});}
 export function campaignFactoryAction(p,f,action,value){
  if(action==='install'){if(f.stage!=='inventory')throw new RangeError('Unlocked empty inventory required.');f.position={...assemblyPackage.slot};f.cost+=12+fixtures[f.fixture].cost+(architectureRequirements(p).cost-(p.architecture==='datum'?24:12));f.time+=8+fixtures[f.fixture].time;f.stage='align';}
- else if(action==='place'){if(f.stage!=='align'||!value||![value.z,value.x].every(Number.isFinite))throw new RangeError('Unlocked Carrier required.');f.calibration.dx+=value.x-(f.position?.x??0);f.position={z:value.z,x:value.x};}
- else if(action==='align'){if(f.stage!=='align')throw new RangeError('Unlock before Alignment.');for(const a of ['dx','dy','thetaX','thetaY'])f.calibration[a]=0;f.cost+=9;f.time+=8;}
+ else if(action==='place'){if(f.stage!=='align'||!value||![value.z,value.x].every(Number.isFinite))throw new RangeError('Unlocked Carrier required.');const nextDx=f.calibration.dx+value.x-(f.position?.x??0);if(Math.abs(nextDx)>8)throw new RangeError('Carrier offset outside ±8 µm optical model domain.');f.calibration.dx=nextDx;f.position={z:value.z,x:value.x};}
+ else if(action==='align'){if(f.stage!=='align')throw new RangeError('Unlock before Alignment.');for(const a of ['dx','dy','thetaX','thetaY'])f.calibration[a]=0;if(!f.aligned){f.cost+=9;f.time+=8;f.aligned=true;}}
  else if(action==='lock'){if(f.stage!=='align'||!mechanicalFit(f.fixture,f.position).pass)throw new RangeError('Mount Slot / Mechanical Fit required.');f.stage='locked';f.cost+=1;f.time+=1;}
  else if(action==='test'){if(f.stage!=='locked')throw new RangeError('Lock before Optical Test.');f.stage='tested';f.cost+=2;f.time+=2;}
  else if(action==='unlock'){if(!['locked','tested'].includes(f.stage))throw new RangeError('Only locked parts can be reworked.');f.stage='align';f.cost+=9;f.time+=6;f.unlocks++;f.seed=null;}
@@ -105,10 +106,11 @@ export function qualifyCampaignFactory(p,f,seed=20261014){
  if(f.stage!=='tested'||!mechanicalFit(f.fixture,f.position).pass)throw new RangeError('Tested mounted Prototype required.');
  const design={...p,fixture:f.fixture},report=evaluateInterfaceCohort(design,interfaceCohort(seed,100),f.method,f.method==='active'?{dx:0,dy:0,thetaX:0,thetaY:0}:f.calibration),firstGood=report.good;
  let cost=f.cost,time=f.time;const req=architectureRequirements(p);
+ const rawReport=f.method==='active'?evaluateInterfaceCohort(design,interfaceCohort(seed,100),'passive',f.calibration):report;
  const retry=f.rework?evaluateInterfaceCohort(design,interfaceCohort(seed,100),'active'):null;
  const rows=report.rows.map((row,i)=>{const reworked=Boolean(retry&&!row.pass),final=reworked?retry.rows[i]:row;
  const unitCost=12+fixtures[f.fixture].cost+(req.cost-(p.architecture==='datum'?24:12))+3+(f.method==='active'?9:0)+(reworked?21:0),unitTime=11+fixtures[f.fixture].time+(p.architecture==='relay'||p.architecture==='folded'?10:0)+(f.method==='active'?8:0)+(reworked?17:0);
- cost+=unitCost;time+=unitTime;return {...final,before:row,reworked,cost:unitCost,time:unitTime};});
+ cost+=unitCost;time+=unitTime;return {...final,before:rawReport.rows[i],first:row,reworked,cost:unitCost,time:unitTime};});
  const good=rows.filter(r=>r.pass).length,prototypeLoss=campaignPrototype(p,f).totalLoss,nominalLoss=report.nominalLoss;
  return {...report,rows,good,reject:100-good,yield:good/100,interval:wilsonInterval(good,100),p95:lossQuantile(rows.map(r=>r.result.totalLoss).sort((a,b)=>a-b),.95),firstGood,totalCost:cost,totalTime:time,prototypeLoss,nominalLoss,reworked:rows.filter(r=>r.reworked).length,qualified:prototypeLoss<=1&&good>=95&&cost<=6800&&time<=4000&&req.pass};
 }
@@ -130,6 +132,13 @@ export function freezeChapter(progress,id){
  if(report){p.assemblyDistribution={seed:report.seed,count:report.count,process:report.process,lossLimit:report.lossLimit};p.yield=report.yield;}
  p.qualificationStatus=id===3?'limitation-diagnosed':id===4?'nominal-qualified':id===5?'passive-ready-model':id===6?'product-qualified-model':'experiment-completed';
  if(id===6){const q=qualifyCampaignFactory(p,d.factory,d.factory.seed);p.assemblyDistribution={seed:q.seed,count:100,process:q.process,lossLimit:1};p.yield=q.yield;}
+ if(id===4&&progress.drafts[5]&&(progress.drafts[5].project.converter!==p.converter||progress.drafts[5].project.converterIndex!==p.converterIndex)){
+  const next=progress.drafts[5];progress.archivedProjects.push({chapter:5,snapshot:structuredClone(next)});selectConverter(next.project,p.converter,p.converterIndex);next.project.qualificationStatus='draft';next.project.nominalCouplingLoss=null;next.project.assemblyDistribution=null;next.project.yield=null;delete next.evidence.architectureTest;
+ }
+ if(id===5&&progress.drafts[6]&&designSignature(progress.drafts[6].project)!==designSignature(p)){
+  progress.archivedProjects.push({chapter:6,snapshot:structuredClone(progress.drafts[6])});progress.drafts[6]=chapterDraft(6,p);delete progress.completed[6];delete progress.frozen[6];
+ }
+ progress.archivedProjects=progress.archivedProjects.slice(-8);
  progress.frozen[id]={project:p,evidence:structuredClone(d.evidence),factory:structuredClone(d.factory)};progress.completed[id]={achievement:campaignChapters[id-1].achievement,status:p.qualificationStatus};
  progress.baselineHistory=Object.keys(progress.frozen).map(k=>({chapter:Number(k),targetType:progress.frozen[k].project.targetType,loss:progress.frozen[k].project.nominalCouplingLoss}));
  return p;
@@ -144,7 +153,15 @@ function validateCampaignFactory(p,f){
  if(f.stage!=='inventory'&&(!f.position||![f.position.z,f.position.x].every(v=>Number.isFinite(v)&&Math.abs(v)<=10000)))throw new RangeError('Invalid Carrier placement.');
  if(['locked','tested'].includes(f.stage)&&!mechanicalFit(f.fixture,f.position).pass)throw new RangeError('Invalid locked Carrier geometry.');
  if(f.seed!==null&&f.stage!=='tested')throw new RangeError('Untested production save.');
- campaignPrototype(p,f);return {...f,rework:f.rework===true};
+ campaignPrototype(p,f);return {...f,rework:f.rework===true,aligned:f.aligned===true};
+}
+function validatedEvidence(e,project){
+ if(!e||typeof e!=='object'||Array.isArray(e))throw new RangeError('Invalid experiment evidence.');
+ const copy={};for(const k of ['light','endface','mode','direction','asymmetricTest','axes','precision']){if(e[k]!==undefined&&typeof e[k]!=='boolean')throw new RangeError('Invalid evidence boolean.');if(e[k]!==undefined)copy[k]=e[k];}
+ for(const k of ['profileTest','diagnosis','nominalTest','variationTest','architectureTest']){if(e[k]!==undefined&&(typeof e[k]!=='string'||e[k].length>1500))throw new RangeError('Invalid evidence reference.');if(e[k]!==undefined)copy[k]=e[k];}
+ if(e.comparisons!==undefined){if(!Array.isArray(e.comparisons)||e.comparisons.length>6)throw new RangeError('Invalid optical comparison list.');copy.comparisons=e.comparisons.map(c=>{if(!c||typeof c.label!=='string'||c.label.length>90||c.seed!==20261013)throw new RangeError('Invalid comparison cohort.');validateInterfaceProject(c.project);return {label:c.label,project:structuredClone(c.project),seed:c.seed};});}
+ if(e.factoryComparisons!==undefined){if(!Array.isArray(e.factoryComparisons)||e.factoryComparisons.length>4)throw new RangeError('Invalid factory comparison list.');copy.factoryComparisons=e.factoryComparisons.map(c=>{if(!c||typeof c.label!=='string'||c.label.length>90)throw new RangeError('Invalid factory comparison label.');return {label:c.label,factory:validateCampaignFactory(project,c.factory)};});}
+ return copy;
 }
 export function validateCampaign(value){
  if(value?.schemaVersion!==1||value?.contentVersion!==7||value?.modelVersion!==campaignModel)throw new RangeError('Unsupported Campaign schema / model.');
@@ -152,15 +169,16 @@ export function validateCampaign(value){
  for(let id=1;id<=6;id++){
   const d=value.drafts?.[id];if(!d)continue;validateInterfaceProject(d.project);
   if(d.project.targetType!==(id===1?'SMF':id===2?'Glass WG':'Silicon PIC'))throw new RangeError('Invalid chapter platform.');
-  const e=d.evidence;if(!e||typeof e!=='object'||Array.isArray(e))throw new RangeError('Invalid experiment evidence.');
+  const e=validatedEvidence(d.evidence,d.project);
   p.drafts[id]={project:structuredClone(d.project),evidence:structuredClone(e),factory:id===6?validateCampaignFactory(d.project,d.factory):null};
   const saved=value.frozen?.[id];if(saved&&value.completed?.[id]&&(id===1||p.completed[id-1])){
-   validateInterfaceProject(saved.project);const fd={project:structuredClone(saved.project),evidence:structuredClone(saved.evidence),factory:id===6?validateCampaignFactory(saved.project,saved.factory):null};
-   if(canCompleteChapter(id,fd)){p.frozen[id]=fd;p.completed[id]={achievement:campaignChapters[id-1].achievement,status:saved.project.qualificationStatus};}
+   validateInterfaceProject(saved.project);const fd={project:structuredClone(saved.project),evidence:validatedEvidence(saved.evidence,saved.project),factory:id===6?validateCampaignFactory(saved.project,saved.factory):null};
+   if(canCompleteChapter(id,fd)){const current=p.drafts[id],downstream=p.drafts[id+1];p.drafts[id]=fd;delete p.drafts[id+1];freezeChapter(p,id);p.drafts[id]=current;if(downstream)p.drafts[id+1]=downstream;}
   }
  }
  p.chapter=Number.isInteger(value.chapter)&&value.chapter>=1&&value.chapter<=6&&(value.chapter===1||p.completed[value.chapter-1])?value.chapter:1;
  if(!p.drafts[p.chapter])p.drafts[p.chapter]=chapterDraft(p.chapter,p.frozen[p.chapter-1]?.project);
+ if(value.archivedProjects!==undefined){if(!Array.isArray(value.archivedProjects)||value.archivedProjects.length>8)throw new RangeError('Invalid project archive.');p.archivedProjects=value.archivedProjects.map(a=>{if(!a||![5,6].includes(a.chapter)||!a.snapshot)throw new RangeError('Invalid archived handoff.');validateInterfaceProject(a.snapshot.project);return {chapter:a.chapter,snapshot:{project:structuredClone(a.snapshot.project),evidence:validatedEvidence(a.snapshot.evidence,a.snapshot.project),factory:a.chapter===6?validateCampaignFactory(a.snapshot.project,a.snapshot.factory):null}};});}
  p.baselineHistory=Object.keys(p.frozen).map(k=>({chapter:Number(k),targetType:p.frozen[k].project.targetType,loss:p.frozen[k].project.nominalCouplingLoss}));
  if(value.legacyHistory&&typeof value.legacyHistory==='object')p.legacyHistory={missions:structuredClone(value.legacyHistory.missions??{}),content:structuredClone(value.legacyHistory.content??{}),assemblyDelivered:value.legacyHistory.assemblyDelivered===true};
  return p;

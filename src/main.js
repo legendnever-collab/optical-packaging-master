@@ -1,3 +1,4 @@
+import {installFineControls,syncFineControls,highlightAction,revealAction} from './ui/guided-controls.js';
 import {PhysicsCampaign} from './ui/physics-campaign.js';
 import {AssemblyChallenge} from './ui/assembly-challenge.js';
 import {PhysicalScene} from './ui/physical-scene.js';
@@ -133,7 +134,15 @@ function render(){
  $('best-loss').previousElementSibling.textContent=missionId===10&&!practice?'Best Gap Probe Worst Loss':'Best Achieved Loss';$('personal-best-loss').previousElementSibling.textContent=missionId===10&&!practice?'Personal Best Gap Probe Worst':'Personal Best Loss';$('attempts').textContent=session.attempts;$('best-loss').textContent=Number.isFinite(session.bestLoss)?fmt(session.bestLoss)+' dB':'—';$('best-score').textContent=practice?'연습 · Score 없음':progress.content[missionId]?.bestScore??'—';$('personal-best-loss').textContent=practice?'—':progress.content[missionId]?fmt(progress.content[missionId].bestLoss)+' dB':'—';
  const old=progress.missions[missionId];$('legacy-record').textContent=!practice&&old&&!progress.content[missionId]?`이전 완료 기록 보존 · Score ${old.bestScore}, Loss ${fmt(old.bestLoss)} dB. 새 경험의 Achievement는 별도입니다.`:isManufacturing()?'새 콘텐츠 Best Loss는 P95 기준입니다.':'';
  $('sound-toggle').textContent=progress.sound?'Sound ON':'Sound OFF';$('sound-toggle').setAttribute('aria-pressed',String(progress.sound));
- $('architecture-controls').hidden=!isPath();$('mode-details').hidden=blind||isManufacturing()||isPath();$('propagation-details').hidden=!isPath();$('factory-production').hidden=!isManufacturing();updateFactoryDashboard();physicalScene.draw();for(const view of angleViews)view.draw();if(scene)scene.draw();
+ $('architecture-controls').hidden=!isPath();$('mode-details').hidden=blind||isManufacturing()||isPath();$('propagation-details').hidden=!isPath();$('factory-production').hidden=!isManufacturing();updateFactoryDashboard();physicalScene.draw();for(const view of angleViews)view.draw();if(scene)scene.draw();guideLegacy(ready);
+}
+function guideLegacy(ready){
+ syncFineControls(document.querySelector('.lab-layout'));
+ const choices=practice?['x-offset','path-length']:session.completed?['next','reset']:!session.started?['start']:ready?['complete']:missionId===1?['x-offset','y-offset']:missionId===2?(session.caseRestored?['fault-next','complete']:!session.inspections.length?['diagnostic-actions']:!session.diagnosis?['root-cause']:!session.repair?['repair-action']:['apply-repair']):missionId===3?['experiment-interface','commit-interface','interface-cards']:missionId===4?(!session.angularDiscovered?['inspect-direction']:['theta-x','theta-y']):missionId===5?['run-ten','run-statistics']:missionId===6?['design-radius']:missionId===7?['save-design','compare-designs','factory-commit']:['install-lens','path-length','lens-a-z'];
+ const root=document.querySelector('.lab-layout'),target=choices.map(id=>$(id)).find(el=>el&&!el.disabled&&!el.hidden&&!el.closest('[hidden]'));
+ highlightAction(root,target?.id||'');
+ $('legacy-action').textContent=target?(practice?'자유 실험: ':session.completed?'완료: ':'지금 할 일: ')+(target.getAttribute('aria-label')||document.querySelector(`label[for="${target.id}"]`)?.textContent||target.closest('label')?.childNodes[0]?.textContent||target.textContent||'선택한 Control을 조절하세요.').trim():running?'실제 생산 Sample을 검사 중입니다.':'현재 실험 결과와 Engineering Goal을 확인하세요.';
+ $('legacy-reveal').hidden=!target;$('legacy-reveal').onclick=()=>revealAction(target);
 }
 function attempt(){if(session.started&&!session.completed){session.attempts++;render();}}
 function moveTo(x,y){if(!spatialEnabled())return;state.dx=Math.round(Math.max(-6,Math.min(6,x))*100)/100;state.dy=Math.round(Math.max(-6,Math.min(6,y))*100)/100;render();if(!practice&&missionId===1&&result.totalLoss<=1)feedback('빛이 연결되었습니다! 출력 Power를 보고 Achievement를 확정하세요.','success');}
@@ -207,16 +216,17 @@ const physicalScene=new PhysicalScene($('packaging-workbench'),sceneSnapshot,{mo
 // Place mission-critical route decisions in the workbench; optional numeric detail stays collapsed.
 for(const id of ['path-pairs','path-fold-row'])$('architecture-controls').append($(id));
 
+installFineControls(document.querySelector('.lab-layout'),[['x-offset',.1,'µm'],['y-offset',.1,'µm'],['theta-x',.05,'°'],['theta-y',.05,'°'],['path-length',1,'µm'],['lens-a-z',1,'µm'],['lens-b-z',1,'µm'],['path-fold-z',1,'µm']]);
 scene=new AlignmentScene($('alignment-canvas'),()=>({...state,result,enabled:spatialEnabled()&&!isPath(),showTolerance:practice,tolerance:alignmentTolerance(state.w1,state.w2,1,state.fixedLoss)}),moveTo,attempt);
 const angleViews=['x','y'].map(axis=>new AngularScene($('angular-'+axis),axis,()=>({theta:state[axis==='x'?'thetaX':'thetaY']||0,enabled:angleEnabled()}),value=>tilt(axis,value),attempt));
 loadMission(missionId);persist();
 
 const assemblyChallenge=new AssemblyChallenge($('assembly-challenge'),slicePreview?null:storage,loaded.readOnly);
-$('open-assembly').addEventListener('click',()=>{generation++;running=false;factoryPlayback.cancel();document.querySelector('.lab-layout').hidden=true;$('assembly-challenge').hidden=false;assemblyChallenge.render();assemblyChallenge.persist();$('open-assembly').setAttribute('aria-pressed','true');$('ac-feedback').scrollIntoView({block:'start'});});
-$('return-campaign').addEventListener('click',()=>{assemblyChallenge.cancel();$('assembly-challenge').hidden=true;document.querySelector('.lab-layout').hidden=false;$('open-assembly').setAttribute('aria-pressed','false');render();$('open-assembly').focus();});
+$('open-assembly').addEventListener('click',()=>{highlightAction(document.querySelector('.lab-layout'),'');generation++;running=false;factoryPlayback.cancel();document.querySelector('.lab-layout').hidden=true;$('assembly-challenge').hidden=false;assemblyChallenge.render();assemblyChallenge.persist();$('open-assembly').setAttribute('aria-pressed','true');$('ac-feedback').scrollIntoView({block:'start'});});
+$('return-campaign').addEventListener('click',()=>{assemblyChallenge.cancel();highlightAction($('assembly-challenge'),'');$('assembly-challenge').hidden=true;document.querySelector('.lab-layout').hidden=false;$('open-assembly').setAttribute('aria-pressed','false');render();$('open-assembly').focus();});
 
-function openLegacyLab(){legacyActive=true;physicsCampaign.cancel();$('physics-campaign').hidden=true;document.querySelector('.lab-layout').hidden=false;$('assembly-challenge').hidden=true;for(const id of ['open-assembly','sound-toggle','reset-progress','save-status'])$(id).hidden=false;render();persist();}
-function openPhysicsCampaign(){physicsCampaign.cancel();assemblyChallenge.cancel();factoryPlayback.cancel();generation++;running=false;legacyActive=false;$('physics-campaign').hidden=false;document.querySelector('.lab-layout').hidden=true;$('assembly-challenge').hidden=true;for(const id of ['open-assembly','sound-toggle','reset-progress','save-status'])$(id).hidden=true;physicsCampaign.restoreReports();physicsCampaign.render();}
+function openLegacyLab(){highlightAction($('physics-campaign'),'');legacyActive=true;physicsCampaign.cancel();$('physics-campaign').hidden=true;document.querySelector('.lab-layout').hidden=false;$('assembly-challenge').hidden=true;for(const id of ['open-assembly','sound-toggle','reset-progress','save-status'])$(id).hidden=false;render();persist();}
+function openPhysicsCampaign(){physicsCampaign.cancel();assemblyChallenge.cancel();factoryPlayback.cancel();generation++;running=false;legacyActive=false;$('physics-campaign').hidden=false;document.querySelector('.lab-layout').hidden=true;$('assembly-challenge').hidden=true;for(const id of ['open-assembly','sound-toggle','reset-progress','save-status'])$(id).hidden=true;physicsCampaign.restoreReports();physicsCampaign.render();highlightAction(document.querySelector('.lab-layout'),'');highlightAction($('assembly-challenge'),'');}
 const physicsCampaign=new PhysicsCampaign($('physics-campaign'),slicePreview?null:storage,{preview:slicePreview,openLegacy:openLegacyLab});
 $('show-physics-campaign').addEventListener('click',openPhysicsCampaign);$('show-legacy-lab').addEventListener('click',openLegacyLab);
 if(legacyActive)openLegacyLab();else openPhysicsCampaign();
