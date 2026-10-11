@@ -2,11 +2,18 @@
   "engines": [
     "chromium"
   ],
+  "environments": [
+    {
+      "engine": "chromium",
+      "version": "141.0.7390.0",
+      "networkMode": "native offline emulation"
+    }
+  ],
   "pass": 28,
   "fail": 0,
   "results": [
     {
-      "name": "chromium / local file boots while network offline",
+      "name": "chromium / local file boots with network blocked",
       "status": "PASS"
     },
     {

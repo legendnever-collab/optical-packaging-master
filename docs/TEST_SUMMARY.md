@@ -19,7 +19,7 @@ Release verification: `python3 scripts/release.py --verify` checks exact HTML/do
 
 ## CI and platform scope
 
-CI is configured for core checks plus offline Chromium, Firefox and WebKit jobs. Their actual execution results must be reported from GitHub Actions after publication. They are not pre-counted as PASS in the local totals above. No Edge-branded, Safari-branded, Windows, Android, iOS or physical touch-device test was executed locally. Chromium DevTools touch testing verifies touch input handling, not performance on a real phone.
+CI is configured for core checks plus network-blocked Chromium, Firefox and WebKit jobs. Chromium/Firefox use native offline emulation. WebKit uses HTTP(S) interception with abort because native offline emulation produced an internal error navigating a file:// URL in this CI runner. This verifies no runtime network dependency but is not a WebKit native-offline-emulation PASS. Drag tests allow up to two CSS pixels of browser pointer quantization while requiring exact Slider/display/analytical-Loss agreement; fine-keyboard checks require an exact relative 0.01 µm step. Their actual execution results must be reported from GitHub Actions after publication. They are not pre-counted as PASS in the local totals above. No Edge-branded, Safari-branded, Windows, Android, iOS or physical touch-device test was executed locally. Chromium DevTools touch testing verifies touch input handling, not performance on a real phone.
 
 ## Known limitations
 
