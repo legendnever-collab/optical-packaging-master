@@ -1,4 +1,4 @@
-# v0.7.0 Final UX — executed evidence
+# v0.7.0 Play Layout — executed evidence
 
 ## Local execution — 2026-10-11
 
@@ -6,10 +6,10 @@
 | --- | ---: | ---: | --- |
 | Node physics/gameplay/persistence/build | 263 | 0 | Node 24.19.0; no skipped/cancelled tests |
 | Retained Engineering Lab / v0.6 Challenge UI | 123 | 0 | Chromium 141.0.7390.0, Playwright 1.62.1, Linux file:// |
-| Connected six-chapter campaign + Final UX | 81 | 0 | Same engine; all six chapters, first-four preview and 27 UX checks |
-| **Total local assertions** | **467** | **0** | Actual automated execution; no human study |
+| Connected six-chapter campaign + Guided UX + Play Layout | 101 | 0 | Same engine; all six chapters, first-four preview, 27 guidance and 20 layout checks |
+| **Total local assertions** | **487** | **0** | Actual automated execution; no human study |
 
-The final HTML SHA256 is recorded in both QA JSON files. Those hashes match the committed final HTML; reports are not results from an earlier intermediate build. Seventeen v0.7 screenshots include all six new chapters, mobile and the retained Lab. Actual screenshot inspection reviewed physical objects, mode labels, folded envelope, mobile layout and completion presentation.
+The final HTML SHA256 is recorded in both QA JSON files. Those hashes match the committed final HTML; reports are not results from an earlier intermediate build. Nineteen v0.7 screenshots include all six new chapters, mobile and the retained Lab. Actual screenshot inspection reviewed physical objects, mode labels, folded envelope, mobile layout and completion presentation.
 
 ## Physics and model coverage
 
@@ -56,3 +56,19 @@ The PR workflow runs Node 22, deterministic final/vertical HTML comparisons, ZIP
 ## Cross-browser correction
 
 Final-head PR CI run 38131852924 passed Core and Chromium but found two Drag assertions failing in Firefox/WebKit. The SVG handle's initial Focus used default scrolling. Drag-start Focus now explicitly uses `preventScroll: true`, matching redraw/keyboard behavior; the UX test asserts that pointerdown preserves scrollY before checking actual X/Y movement. Optional Lab guidance also advances from Experiment to Commit and from ten-sample observation to Statistics/Inspection using the existing session flags. Models and acceptance thresholds are unchanged. The viewport assertion passes after this correction; the original destination assertions persisted in run 38132365546. Those requested 0.02 µm XY and <1 µm lens accuracy regardless of SVG scale, potentially below one native Pointer pixel. Tests now record actual Pointer Events and assert the saved Engineering State agrees with the actual inverse-SVG coordinate to 1e-8, plus the requested destination stays within one delivered pointer pixel and the slider display respects its declared grid. Actual traces are printed in CI so hit/capture/coordinate failures remain visible. Optical and manufacturing acceptance thresholds are unchanged. Successful remote final-head CI is required before merge.
+
+## Current Play Layout — executed on the revised final HTML
+
+Baseline: merged main 48028884463fded00844a4d44c6fcb0f81cccd76. `git diff 4802888 -- src/game src/physics` is empty. Physics, manufacturing, migration, stored evidence, and mission rules are unchanged. This source comparison is separate from actual rerun regression. The previous merged HTML/ZIP/vertical-preview/manifest bytes are preserved in dist/archive/*v0.7-before-layout*. Earlier releases and the first-four checkpoint remain intact.
+
+Current local execution: Node 24.19.0, Chromium 141.0.7390.0, Playwright 1.62.1, offline file://, 263 Node + 123 retained UI + 101 Campaign/Guidance/Layout = **487 PASS / 0 FAIL**. Both current JSON reports identify the actual revised HTML hash. The earlier 81-check Campaign execution and cross-browser correction sections above describe the original Guided UX work; the new script adds 20 measured layout assertions.
+
+Layout execution checks left/right placement, wheel scroll from the actual control area, persistent correct Power/Total Loss/current action, immediate fine-button recalculation, unchanged scroll during continuous slider edits, all six chapters' actual percent on scroll, real Sample inspection identity and Prototype restoration, overflow/feedback/control visibility at 1280×720, 1024×768, 768×1024, 390×844, 360×640 and 320×568, releasing oversized sticky scenes at 1024×480 with expanded goal, explicit keyboard reveal, a single document scroll, Reduced Motion, zero HTTP requests and zero page errors. Desktop/mobile scrolled viewport screenshots were visually inspected.
+
+`ResizeObserver` only measures HUD/scene dimensions. It never mutates engineering state, writes save data, scrolls the camera, or adjusts any loss/qualification threshold. The persistent meter reads the same totalEfficiency as the optical scene. No extra score is derived, and current production Sample vs Prototype is stated beside the reading. Source CSS, native OS font choice, and the existing offline dependency policy remain in force; local Linux screenshots still lack Korean glyph fonts.
+
+Final-head GitHub CI runs these assertions on Chromium, Firefox, and WebKit. Current cross-engine outcomes must be read from the new layout PR's exact-head CI; the previous PR #7 CI is not validation of this changed layout. Mobile sizes are browser emulation; no real-device or human usability study is claimed.
+
+First layout CI run 38137468255: Core, Chromium, WebKit passed; Firefox passed all 20 new layout checks and failed one existing requested Drag-destination check. Its actual event-derived XY state still matched to 1e-8. Firefox reports viewport Pointer coordinates offset by fractional document scroll (recorded clientY 142.75), so the native pointer test now settles document scroll to an integer before computing destinations. This controls test setup while keeping the existing one-native-pixel destination bound and 1e-8 actual-state checks. Application HTML, physics, and thresholds are unchanged by this test-only refinement. A new exact-head CI run is required.
+
+Rerun 38137773509 retained all 20 Firefox layout passes but integer scroll did not eliminate Firefox's native event rounding (same clientY 142.75). The final pointer test records requested viewport coordinates and each event's SVG translation, verifies the SVG frame and scroll remain stable, and bounds delivered viewport coordinates to two CSS pixels (observed rounding exceeds one pixel). It continues to assert actual DX/DY agrees with the delivered inverse-SVG coordinate to 1e-8. Lens delivery checks and all physical qualification thresholds remain unchanged. This separates browser event delivery accuracy from engineering-state correctness rather than weakening any game criterion.

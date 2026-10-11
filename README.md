@@ -2,6 +2,7 @@
 
 SMF에서 시작해 Glass Waveguide, Bare Silicon의 Mode Mismatch, Spot Size Conversion, Passive Optical Architecture와 제조 Qualification까지 배우는 Offline Engineering Game입니다.
 
+- Layout polish: 좌측 문제·광학 장면 / 우측 조작·결과 패널, Scroll 중 유지되는 실시간 Power·Loss와 현재 행동, 작은 화면의 상하 배치. 표시값은 기존 Physics 결과이며 게임 점수를 새로 계산하지 않습니다.
 - Final UX: 현재 행동 안내 / 하나의 NEXT 대상 / 화면 밖 Control로 이동 / X·Y ±0.1 µm / θx·θy ±0.05° / Lens·Receiver ±1 µm. Drag·Keyboard·Touch와 같은 상태를 사용합니다.
 - 기존 v0.7 RC HTML/ZIP/Manifest는 `dist/archive/*v0.7-before-ux*`로 보존했습니다.
 - 기본 Campaign: 6개 Chapter, Physically motivated technology sequence.
@@ -23,7 +24,7 @@ npm run release
 python3 scripts/release.py --verify
 ```
 
-main v0.5 / v0.6 PR #6의 `2d52ce7` 기반. v0.7 Branch `feature/v0.7-physics-driven-campaign`. 사용자 승인 없이 Merge/Tag/Release하지 않습니다.
+v0.6 PR #6, v0.7 PR #7이 병합된 main `4802888` 기반 Layout Patch입니다. Branch: `feature/v0.7-responsive-game-layout`. 이전 병합본은 `dist/archive/*v0.7-before-layout*`로 보존합니다.
 
 아래는 이전 개발 기록입니다.
 

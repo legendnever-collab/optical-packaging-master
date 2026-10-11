@@ -40,3 +40,5 @@
 
 33. v0.7 Final UX was explicitly approved for immediate merge after final regression/CI. v0.6 PR #6 is merged at 2ceb71e94f867f76905eaa57a4a762d684f9983a. Earlier candidate-only instructions are historical.
 34. Guidance is UI-only and derives from the existing campaign/evidence/factory state. Fine controls dispatch existing input/change handlers, respect disabled state/bounds and never own a parallel physics state. Do not add physics or chapters in this final patch.
+
+35. v0.7 responsive play-layout polish starts from merged main 4802888. Persistent Power is actual totalEfficiency, not a new completion score. Preserve one engineering state and all existing controls; keep the previous merged release bytes in dist/archive/*before-layout*.

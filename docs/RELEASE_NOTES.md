@@ -4,7 +4,7 @@ SMF → Glass WG → Bare Silicon → Mode Converter → Passive Packaging → M
 
 새 기능: 정규화된 회전 Elliptical/Complex Gaussian Overlap, Lens q/Ray/Coordinate 통합, 교육용 Converter Reference, 동일 Cohort의 Passive 설계 비교, 실제 Component 설치, Frozen Project와 제조 연결, 명확한 완료 CTA, Auto Resume와 Paste-first Backup/Restore, 설계 재전달 Archive.
 
-기준선: main v0.5 `80fe758`; 개발 기준 v0.6 `2d52ce7`, 아직 열린 PR #6. 이 PR을 main에 바로 비교하면 v0.6 변경도 포함됩니다. 순서대로 검토하거나 #6 병합 후 rebase할 수 있으며 병합은 사용자 승인 후만 수행합니다.
+기준선: v0.6 PR #6과 v0.7 PR #7을 병합한 main `4802888`. 이번 Layout Patch는 기존 v0.7 게임과 모델을 보존합니다.
 
 핵심 모델 범위: Gaussian Reduced-order 교육 모델. Converter Output Field/Loss, Normal Error, Cost/Time는 명시적 가정입니다. 검증된 PDK/실측 Factory Yield를 주장하지 않습니다. 산업용 특정 제품 재현은 후속 범위입니다.
 
@@ -20,3 +20,11 @@ QA 결과와 실행/미실행 엔진은 TEST_SUMMARY.md와 JSON Evidence를 참�
 - Optional Lab / Assembly에도 같은 Fine Control 패턴과 유효한 Action 강조를 적용합니다.
 - 이번 Patch는 복구한 cd1dae9 대비 `src/game`와 `src/physics`를 변경하지 않았습니다. 별도로 기존 Physics, Campaign, 제조, Persistence/Migration, Offline UI Regression을 실행했습니다.
 - 이전 v0.1–v0.6 산출물과 처음 전달한 Chapter 1–4 Preview를 보존합니다. v0.7 UX 이전 RC도 dist/archive에 보관합니다.
+
+## Play Layout Patch
+
+- 데스크톱: 현재 문제와 Optical Scene은 왼쪽, 조작·실험 결과·완료 버튼은 오른쪽 Panel에 배치합니다. Chapter Navigation은 위로 이동합니다. 이전 설계 비교와 Backup은 펼쳐서 볼 수 있습니다.
+- 실제 Output / Input %·Total Loss·현재 행동을 하나의 Sticky HUD에서 표시합니다. 조작 Panel에서 Scroll해도 계속 보입니다. 기존 계산값을 사용하며 Step 완료 점수와 혼동하지 않습니다. 생산 Sample 검사 시 Sample 번호를, 돌아오면 Prototype를 표시합니다.
+- 화면에 충분히 들어갈 때 왼쪽 문제와 Scene도 유지합니다. HUD/Scene 크기를 측정해 작은 높이 또는 긴 목표 내용에서는 Scene 고정을 풀어 가려진 내용이 생기지 않게 합니다. 강제 Scroll이나 별도 중첩 Scroll을 추가하지 않습니다.
+- Tablet/Mobile은 상하 배치하고 HUD만 유지합니다. 화면 폭 320–1440 px, 높이 480–1024 px의 실제 Browser Emulation에서 입력·표시·경계·키보드·Reduced Motion을 확인합니다.
+- 기존 Alignment 이벤트, Guidance 상태, Physics/Game/Persistence 소스는 그대로입니다. 이전 main의 HTML·ZIP·Preview·Manifest는 dist/archive/*v0.7-before-layout*로 보존합니다.

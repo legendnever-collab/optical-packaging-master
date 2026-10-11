@@ -2,10 +2,10 @@
   "version": "0.7.0",
   "artifact": {
     "path": "optical-packaging-master-v0.7.html",
-    "sha256": "6e5d8523ddcd2b97290caeb4196bc9f04e6c1a9d0c0dae105e8c80798d323d51"
+    "sha256": "760879c730525b2afd176327cf9660dc86880a154ab1d2ca1a9540ae5ea082c6"
   },
   "status": "completed",
-  "pass": 81,
+  "pass": 101,
   "fail": 0,
   "skipped": 0,
   "environments": [
@@ -337,6 +337,86 @@
     },
     {
       "name": "chromium / guided UX offline UX has zero runtime requests and critical page errors",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout desktop problem/scene left and live controls right",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout desktop wheel over controls preserves Power, action and scene",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout visible right-panel fine control changes persistent readout immediately",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout continuous slider edits preserve scroll and update meter",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout Chapter 1 scroll keeps correct optical percentage",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout Chapter 2 scroll keeps correct optical percentage",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout Chapter 3 scroll keeps correct optical percentage",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout Chapter 4 scroll keeps correct optical percentage",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout Chapter 5 scroll keeps correct optical percentage",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout Chapter 6 scroll keeps correct optical percentage",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout sample inspection labels real readout, prototype restores its identity",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout 1280×720 no overflow and persistent feedback above adjustment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout 1024×768 no overflow and persistent feedback above adjustment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout 768×1024 no overflow and persistent feedback above adjustment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout 390×844 no overflow and persistent feedback above adjustment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout 360×640 no overflow and persistent feedback above adjustment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout 320×568 no overflow and persistent feedback above adjustment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout short viewport releases oversized sticky scene with feedback still visible",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout single page scroll and reduced motion remain keyboard accessible",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / play layout layout adds zero HTTP assets or critical page errors",
       "status": "PASS"
     }
   ]
