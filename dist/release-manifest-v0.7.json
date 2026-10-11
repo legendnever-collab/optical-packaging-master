@@ -12,7 +12,7 @@
     "USER_JOURNEY.md": "a5ee23acb6e45778670512bfaba955a25de14ee73be0b86f91ab9ce7daa76d40",
     "MODEL_LIMITATIONS.md": "aa6fc5e3b8ea53a41d6dab3cddde0cf6ce062c5d02f5462f1872f70b912940cd",
     "MIGRATION.md": "8d954d0400978e96a1dee0cc1e0a5cf3ac7e035ee236adae894beb62984ec16c",
-    "TEST_SUMMARY.md": "af1d63b7e8c975c111cf0c6be8cd9e5a027a9286b569848ca941d6a4123751bd",
+    "TEST_SUMMARY.md": "dc9ab9bf0486fd8ba01566c22fc0a4195d397dcfaf612592a1c45be72929a751",
     "GAMEPLAY_AUDIT.md": "73a28e0cedcaddaf646c2aadaaffc3889a21e04856199c08bd69eeb13deebfbc",
     "RELEASE_NOTES.md": "948385757e3a22bc7b9304f8fca9c55e16656ca6cd4af20fac2b23d9d155d3dd",
     "ASSEMBLY_CHALLENGE.md": "1ca15a1c4449b5e2c641cc295fea615eaca64d55c7d5c08571061f9b4fe10896",
@@ -72,7 +72,7 @@
     "source/scripts/browser-qa.mjs": "6d65ccadc7f0c8d14a5033c7a0a2ade1b2456ca4a7ce3bc2c884035d0deed667",
     "source/scripts/build.mjs": "2f8be5ba2e7239497b479bea42e09a297680171fb26e0296c3110c07b52f86ad",
     "source/scripts/campaign-qa.mjs": "cb89630e96be4382e2601b456c13ba30d1079b811fe8eaddbb5019d59760e9e4",
-    "source/scripts/guidance-qa.mjs": "f3b038f519827889f589fe4b5bc0534885a269e92b1624cee36e171da8f9cd20",
+    "source/scripts/guidance-qa.mjs": "b6ce3d7cd34f4aeee54f8d53b8d53ec7c004d2675e9ca51316085c5a32d50a77",
     "source/scripts/layout-qa.mjs": "4e3841297ff322ac4d8560ee1ab45769a7b8cd2b8aeb2116dc3c942a2b2ccbdb",
     "source/scripts/release.py": "1468012c515781d4fe808511fce2042c91aeb5af92d79244baa20c174752cce3",
     "source/.github/workflows/ci.yml": "622be19f363d53412559551fd1fd8b3c41fd790a74c42616bf4f1664ec1b81f9",
@@ -102,6 +102,6 @@
   },
   "zip": {
     "path": "dist/optical-packaging-master-v0.7-release.zip",
-    "sha256": "84ff581d43fad911e57d25a6fc9486e4800ad990308831712952255f1c7be6b3"
+    "sha256": "d06dd680e00a2e41b83d238a18759f9c16228f227a2b70359cb6926ef0d40493"
   }
 }
