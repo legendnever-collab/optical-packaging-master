@@ -1,0 +1,20 @@
+{
+  "version": "0.1.0",
+  "status": "Release Candidate",
+  "baseline": "1a4608d3e9700a6d19f51bdeb7ec1dfa1a2c1716",
+  "files": {
+    "optical-packaging-master-v0.1.html": "47aeb78b19a37107b92c5b381a80c36cc41434c06be6db4aefd906bd64e10f3e",
+    "README.md": "ed1d689a88a0f94eaec61bde3348b355dfc9efed6c40be3028e02db0b1b0b05f",
+    "PHYSICS_MODEL.md": "d4b27ab501ad9656a1d417827e58665b2f1965ef961ca400066b09313731ac14",
+    "RELEASE_NOTES.md": "1c6aab65289bfa82bdff441858c98120b945c3be2243fed1adba3cbc603d4d06",
+    "TEST_SUMMARY.md": "577e004d63cb08116fee0313a8da08d276b6758e0f8f9fb590356de232f475b6"
+  },
+  "html": {
+    "path": "dist/optical-packaging-master-v0.1.html",
+    "sha256": "47aeb78b19a37107b92c5b381a80c36cc41434c06be6db4aefd906bd64e10f3e"
+  },
+  "zip": {
+    "path": "dist/optical-packaging-master-v0.1-release.zip",
+    "sha256": "a8802c66499523b90f61d272ea9123d7ac8dc79e561d6670657517c890898f93"
+  }
+}

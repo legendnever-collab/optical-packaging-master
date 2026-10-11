@@ -1,0 +1,128 @@
+{
+  "engines": [
+    "chromium"
+  ],
+  "environments": [
+    {
+      "engine": "chromium",
+      "version": "141.0.7390.0",
+      "networkMode": "native offline emulation"
+    }
+  ],
+  "pass": 28,
+  "fail": 0,
+  "results": [
+    {
+      "name": "chromium / local file boots with network blocked",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / campaign locks later missions",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / desktop layout fits viewport",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / incorrect Mission 01 cannot pass",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / concept hint appears",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / direct mouse drag updates physical output",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / drag and slider share exact state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / keyboard fine alignment works",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Center restores ideal 100 percent and zero loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Mission 01 completes with four learning sections",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Mission 02 unlocks",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / progress restores after offline refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Mission 02 disables Center shortcut",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Challenge one does not prematurely complete mission",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / different third challenge advances",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / all three Challenges complete Mission 02",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Mission 03 live comparison has all three modes",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / incorrect trade-off answer cannot complete",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Expanded fixed WG leaves centered mismatch",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Mission 03 completes after comparison and correct principles",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Replay preserves Personal Best and resets session",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / practice fixed loss separately adds to total",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / no runtime HTTP asset requests",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / no critical JavaScript errors",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / blocked Local Storage still allows completion",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / mobile layout has no horizontal page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / actual touch drag updates alignment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Reset Progress confirms and relocks campaign",
+      "status": "PASS"
+    }
+  ]
+}
