@@ -1,14 +1,15 @@
-# Roadmap
+# Roadmap — after v0.3
 
-| Version / status | Theme | Required work |
+| Version / status | Theme | Work |
 | --- | --- | --- |
-| v0.1 implemented RC | First Light | Scalar spatial Gaussian overlap; initial three missions |
-| v0.2 implemented RC | Guided Mode Trade-off + Angular Alignment | Redesigned Mission 03; Mission 04; common-plane paraxial phase tilt; two direction components |
-| Next alignment increment — planned | Gap / Diffraction and 6-DOF vocabulary | Longitudinal propagation, curvature/walk-off, explicit mechanical axis conventions; circular-mode roll has no independent effect |
-| v0.3 — planned | Multi-channel FAU | Channel positions, pitch/rotation, uniformity and worst-channel loss |
-| v0.4 — planned | Bonding / Thermal Reliability | Evidence-backed adhesive/thermal displacement assumptions |
-| v0.5 — planned | Monte Carlo Yield / Economics | Seeded distributions, measurable acceptance and sampling uncertainty |
-| v0.6 — planned | Photonic Substrate / Evanescent Coupling | Separate coupled-mode or calibrated field model; do not reuse Gaussian butt-overlap formula |
-| v0.7+ — planned | Advanced Architectures | Explainable design comparison and engineering sandbox |
+| v0.1 implemented | First Light | Scalar circular Gaussian spatial overlap; preserved offline artifact |
+| v0.2 implemented | Angular Alignment | Common-plane paraxial phase tilt, two direction components; preserved engine/tests/artifact |
+| v0.3 implemented RC | Gameplay Redesign + Passive Tolerance | Seven differentiated missions, hidden diagnosis, environment decisions, seeded independent Normal variation, Yield/CI/P95, saved designs and migration |
+| v0.4 planned | Optical Interface Builder | Gaussian propagation, ABCD matrices, waist/mode expansion, lens/collimation, longitudinal gap/defocus, beam turning; define curvature and walk-off separately |
+| v0.5 planned | Mechanical & Manufacturing Engineering | Mechanical datum, active/passive alignment, assembly sequence, component tolerances and cost per good assembly |
+| v0.6 planned | Industrial Reference Lab | Public precision mechanical interfaces, photonic plugs/mode transformation and CPO assembly; label Published / Modeled / Assumed; never infer private designs |
+| Later planned | Multi-channel / Reliability / Sandbox | FAU pitch and uniformity, bonding/thermal displacement, measured correlated process distributions and held-out yield validation |
 
-The original v0.2 proposal included Full 6-DOF. This increment deliberately implements X/Y plus θx/θy and a defined wavelength, with Gap and Roll left for a separately validated extension. Next: user playtest the revised Mission 03/04, then add longitudinal Gap with beam propagation rather than an arbitrary dB penalty.
+This user-directed roadmap supersedes the earlier version-number schedule. Planned features are not implemented. Evanescent coupling requires its own coupled-mode/calibrated-field model; the butt-coupling Gaussian overlap equation is insufficient.
+
+Before adding more controls, observe first-time players in Missions 02–04 and the transition from nominal alignment to Yield. Add usability evidence and independent-seed confirmation after repeated optimization. For v0.4, retain explainable optical assumptions and modular source with offline export rather than turning Chapter 1 into CAD.

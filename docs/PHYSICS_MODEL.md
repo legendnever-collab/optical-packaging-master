@@ -1,4 +1,4 @@
-# Simplified Gaussian Mode Model — v0.2
+# Simplified Gaussian Mode Model — v0.3
 
 ## Spatial overlap (unchanged from v0.1)
 
@@ -46,7 +46,7 @@ Zero tilt retains v0.1 results exactly. Tests check angular symmetry, reference 
 
 Central heatmap shows each mode's relative intensity exp(−2r²/w²), not absolute W/µm². A phase-only tilt does not change that plane's intensity distribution. Direction views illustrate relative axes with 4× angle exaggeration. Power meter/transmission pulses use the computed total fraction. Visual color overlap is illustrative; the complex overlap integral is authoritative.
 
-Assume circular scalar modes, a common plane and homogeneous medium, equal polarization and phase curvature, and small relative direction components. Not computed: full-vector EM, polarization dependence, Fresnel reflection, refraction, longitudinal gap/diffraction, beam walk-off, projected ellipticity, roll, evanescent coupling, propagation loss, thermal deformation, adhesive shrinkage or assembly yield. v0.2 supplies X/Y and two Tilt components; it is **not Full 6-DOF Alignment**. Thresholds/radii are educational settings, not vendor process specifications.
+Assume circular scalar modes, a common plane and homogeneous medium, equal polarization and phase curvature, and small relative direction components. Not computed: full-vector EM, polarization dependence, Fresnel reflection, refraction, longitudinal gap/diffraction, beam walk-off, projected ellipticity, roll, evanescent coupling, propagation loss, thermal deformation, adhesive shrinkage or calibrated real-world assembly yield. v0.3 estimates sample yield under the declared process model below and supplies X/Y and two Tilt components; it is **not Full 6-DOF Alignment**. Thresholds/radii are educational settings, not vendor process specifications.
 
 ## Primary-source context
 
@@ -54,3 +54,37 @@ Assume circular scalar modes, a common plane and homogeneous medium, equal polar
 - B. Chen, T. Findakly and R. Innarella, *Integrated Optics Technology Study*, TRW final report for JPL/NASA (June 18, 1982), [NASA report PDF](https://ntrs.nasa.gov/api/citations/19820022198/downloads/19820022198.pdf), Section 7.2, Equation 8, printed page 7-7 (PDF page 69): small-angle coupling context.
 
 The spatial equation/radius convention came from the authoritative project specification. The angular formula is explicitly derived above and independently verified numerically. Attached textbook, paper and company-document bytes are not redistributed.
+
+
+## Assembly variation and Monte Carlo — v0.3
+
+The existing spatial/angular engine is unchanged. For axis j in {dx,dy,θx,θy}, sample error e_j=b_j+σ_j Z_j, with independent Z_j~N(0,1). Bias and sigma use µm for position and degrees for tilt at the API boundary. Each evaluated sample adds error to the nominal design state; the angular engine converts degrees to radians. Campaign nominal controls are zero and the declared process bias appears only in the assembly cohort. σ=0 produces exact bias without bypassing deterministic RNG consumption.
+
+`generateSamples` uses uint32-seeded Mulberry32 followed by Box–Muller standard normals (u=1−uniform avoids log(0)). Seed 0 is valid. Four normals are consumed per part in a fixed axis order; count 10/100/1000/10000 shares an identical prefix for the same seed and process. Different designs evaluate the exact same cohort object, avoiding unrelated sample noise. Samples/process inputs are not mutated. This is a deterministic learning sampler, not a cryptographic RNG or a calibrated manufacturing process.
+
+Normal errors have unbounded support. A sample whose actual angular component exceeds ±5° rejects the entire evaluation with an explicit model-domain message. No sample is clipped, silently omitted or resampled. No Yield is reported for that cohort. Process overflow/nonfinite or invalid design inputs are rejected. Extreme valid lateral errors retain zero efficiency and analytically infinite Loss rather than claiming improvement.
+
+For each part i, compute actual angularCoupling(design+error_i), pass_i=1{Total Loss_i≤Llimit}, and Yhat=Σpass_i/N. A 1e−9 dB comparison tolerance handles floating-point boundary rounding, not an engineering bonus. N=1–10000 is supported by the core. Campaign Llimit=1 dB. Histogram has 0.2 dB bins for this limit, with the last bin collecting all Loss≥1.8 dB. Every sample contributes once. P95 is the nearest-rank sorted Loss at ceil(0.95N), index ceil(0.95N)−1. Worst is a real sample of maximum Loss. Failed-sample dominant component is the largest actual dB contribution among Mismatch/Lateral/Angular/Fixed; it is an explanatory decomposition, not proof of an exclusive root cause.
+
+Nominal Loss is the design with zero assembly error. Robustness is explicitly a P95 Loss margin: Llimit−P95, in dB. It is a comparison metric, not an extra physical effect. Physical results remain independent from Game Score.
+
+### Binomial uncertainty
+
+For z=1.959963984540054 and p=Yhat, the 95% Wilson score interval has:
+
+D=1+z²/N,
+center=(p+z²/(2N))/D,
+half=z sqrt[p(1−p)/N+z²/(4N²)]/D,
+CI=[max(0,center−half),min(1,center+half)].
+
+Even all-pass/all-fail small runs retain uncertainty. This interval is conditional on an independently sampled, fixed design and the assumed process; it does not cover model error, biased industrial measurements or inference after searching many designs on the same samples. Common samples improve fair comparison but correlate design estimates. The per-design intervals are not a paired significance test. After optimization, use independent seeds/holdout manufacturing measurements before making a yield claim. The game threshold applies to estimated Yield, not the CI lower bound; this is clearly an educational completion criterion.
+
+[NIST/SEMATECH e-Handbook, binomial confidence interval / Wilson method](https://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm) provides the statistical reference; tests independently verify endpoints, symmetry, bounds and count dependence. Seeded moment tests verify Normal mean/sigma and sample independence. Existing spatial/angular reference and complex-field quadrature tests remain unchanged.
+
+### Trade-off validation and scope
+
+For matched modes, Lateral Loss ∝(dx²+dy²)/w² while Angular Loss ∝w²(θx²+θy²). Mission 03 uses two representative states of opposite dominance and produces different winning designs directly from these equations. Mission 06 fixes w2=2.5 µm, so changing w1 also changes the mismatch prefactor. Its optimum is interior for the declared distribution, not an arbitrary gameplay buff. Test cases validate both effects and the factory ranking reversal using common seeded samples.
+
+Campaign process values are specified in GAME_DESIGN.md and displayed in-game. They are **Assumed**, never published industrial process capabilities. The provided Du et al., “Detachable interface toward a low-loss reflow-compatible fiber coupling for co-packaged optics (CPO),” Optics Express 31(2), 1318 (2023), pages 1322–1323, was read only for qualitative lateral/angular tolerance context. Its expanded-beam lenses, gap, measured coupling and large beam sizes are not implemented or used to calibrate these distributions. No attachment bytes or private-company content are included.
+
+This common-plane model factorizes spatial and phase-tilt losses. Monte Carlo propagates that model through assumed errors; it adds no Gap, walk-off, diffraction, refraction, aberration, adhesive, thermal, mechanical datum, cost or reliability physics. Full Optical System Builder and industrial reference architectures remain future work.

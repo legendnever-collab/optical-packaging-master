@@ -1,132 +1,183 @@
-import {gaussianCoupling,alignmentTolerance,compareModes} from './physics/gaussian-coupling.js';
 import {angularCoupling} from './physics/angular-coupling.js';
-import {AngularScene} from './ui/angular-scene.js';
-import {missions,modeRadii,guidedReady,challengeOffsets,canAccess,makeSession,missionPass} from './game/missions.js';
+import {alignmentTolerance,compareModes} from './physics/gaussian-coupling.js';
+import {generateSamples,evaluateDesign} from './physics/assembly.js';
+import {missions,makeSession,canAccess,missionPass} from './game/missions.js';
+import {faultCases,diagnosticNames,repairNames,inspectFault,diagnosticEvidence,restoreFault,interfaceEnvironments,interfaceRadii,interfaceResult,factoryProcesses,optimizationProcess,radiusDesign,manufacturingScore} from './game/scenarios.js';
+import {freshProgress,loadProgress,saveProgress,recordCompletion,storeDesign} from './game/progress.js';
 import {gameScore} from './game/scoring.js';
-import {freshProgress,loadProgress,saveProgress,recordCompletion} from './game/progress.js';
 import {AlignmentScene} from './ui/alignment-scene.js';
-import {bindControls} from './ui/controls.js';
+import {AngularScene} from './ui/angular-scene.js';
+import {LabSound} from './ui/sound.js';
+import {escapeText,drawHistogram,drawSensitivity} from './ui/assembly-view.js';
 import {learningSummary,showLearning} from './ui/learning-panel.js';
-const $=id=>document.getElementById(id);
+const $=id=>document.getElementById(id),fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n):'∞',signed=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(2);
 let storage;try{storage=window.localStorage;}catch{storage=null;}
-const loaded=loadProgress(storage);let progress=loaded.progress,saved=loaded.writable;
-let missionId=canAccess(progress.lastMission,progress)?progress.lastMission:1,practice=false,session=makeSession(missionId),dx=0,dy=0,w1=2.5,w2=2.5,fixedLoss=0,pairType='matched',thetaX=0,thetaY=0,wavelength=1.55,result,initialLoss=0,scene;
-const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n):'∞';
-const signed=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(2);
-function persist(){if(loaded.readOnly){$('save-status').textContent='△ 새 버전의 저장 데이터 보존 · 현재 세션만 진행';return;}saved=saveProgress(storage,progress);$('save-status').textContent=saved?'● Progress 저장됨':'△ 저장 제한 · 이 세션에서 플레이 가능';}
-function feedback(text,tone=''){$('feedback').textContent=text;$('feedback').className='feedback '+tone;}
+const loaded=loadProgress(storage);let progress=loaded.progress;
+let missionId=canAccess(progress.lastMission,progress)?progress.lastMission:1,practice=false,session=makeSession(missionId);
+let state={},result,initialLoss=0,pairType='matched',seed=20261011,cohort=null,generation=0,running=false,scene;
+const sound=new LabSound();sound.enabled=progress.sound;
+function persist(){if(loaded.readOnly){$('save-status').textContent='△ 새 버전 데이터 보존 · 현재 세션만 진행';return;}$('save-status').textContent=saveProgress(storage,progress)?'● Progress 저장됨':'△ 저장 제한 · 현재 세션에서 플레이 가능';}
+function feedback(message,tone=''){$('feedback').textContent=message;$('feedback').className='feedback '+tone;}
+function live(){return session.started&&!session.completed&&!running;}
+function spatialEnabled(){return live()&&(practice||missionId===1);}
+function angleEnabled(){return live()&&(practice||missionId===4&&session.angularDiscovered);}
+function getDesign(){return {w1:state.w1,w2:state.w2,wavelength:state.wavelength,index:1,fixedLoss:state.fixedLoss};}
+function lossTarget(){return practice?1:missionId===3?interfaceEnvironments[session.environment].target:missions[missionId-1].target;}
+function activeProcessIndex(){return session.factoryRound===0?0:session.secondProcess??1;}
+function activeProcess(){return missionId===6?optimizationProcess:missionId===7?factoryProcesses[activeProcessIndex()].process:factoryProcesses[0].process;}
 function renderNav(){
- $('mission-nav').innerHTML=missions.map(m=>`<button class="mission-button ${!practice&&m.id===missionId?'active':''}" data-mission="${m.id}" ${canAccess(m.id,progress)?'':'disabled'} aria-current="${!practice&&m.id===missionId?'step':'false'}"><span class="number">0${m.id}</span><span><strong>${m.title}</strong><small>${canAccess(m.id,progress)?m.subtitle:'이전 Mission 완료 후 Unlock'}</small></span>${progress.missions[m.id]?.complete?'<span class="done" aria-label="완료">✓</span>':''}</button>`).join('');
+ $('mission-nav').innerHTML=missions.map(m=>{const access=canAccess(m.id,progress),legacy=progress.missions[m.id]?.complete,current=progress.content[m.id]?.complete;return `${m.id===1||m.id===5?`<div class="eyebrow">CHAPTER ${m.chapter} · ${m.chapter===1?'FIRST LIGHT':'DESIGN FOR TOLERANCE'}</div>`:''}<button class="mission-button ${!practice&&m.id===missionId?'active':''}" data-mission="${m.id}" ${access?'':'disabled'} aria-current="${!practice&&m.id===missionId?'step':'false'}"><span class="number">0${m.id}</span><span><strong>${m.title}</strong><small>${!access?'이전 Mission 완료 후 Unlock':current?'✓ v0.3 Achievement':legacy?'이전 완료 · 새 경험을 Replay':m.subtitle}</small></span></button>`;}).join('');
  $('practice').classList.toggle('active',practice);
 }
 function loadMission(id,isPractice=false){
  if(!canAccess(id,progress,isPractice))return;
- missionId=id;practice=isPractice;session=makeSession(id);const m=missions[id-1];[dx,dy]=m.initial;w1=m.w1;w2=m.w2;fixedLoss=0;pairType='matched';thetaX=id===4?3:0;thetaY=id===4?-2:0;wavelength=1.55;
- if(practice){dx=2;dy=1;w1=w2=2.5;session.started=true;}
- result=angularCoupling({w1,w2,dx,dy,thetaX,thetaY,wavelength,fixedLoss});initialLoss=result.totalLoss;
+ generation++;running=false;missionId=id;practice=isPractice;session=makeSession(id);session.secondProcess=Number($('factory-variation').value)||1;
+ const m=missions[id-1];state={w1:m.w1,w2:m.w2,dx:m.initial[0],dy:m.initial[1],thetaX:id===4?3:0,thetaY:id===4?-2:0,wavelength:1.55,index:1,fixedLoss:0};
+ pairType=id===6?'fixed':'matched';seed=20261011;cohort=null;
+ if(id===2)state={...state,...faultCases[0].state};
+ if(id===3)state={...state,...interfaceEnvironments[0].state};
+ if(practice){state={w1:2.5,w2:2.5,dx:2,dy:1,thetaX:0,thetaY:0,wavelength:1.55,index:1,fixedLoss:0};pairType='matched';session.started=true;}
+ result=angularCoupling(state);initialLoss=result.totalLoss;
  if(!practice){progress.lastMission=id;persist();}
- $('mission-title').textContent=practice?'Free Practice':m.title;$('objective').textContent=practice?'Mode Radius, X/Y, Tilt, Wavelength와 Fixed Loss를 바꿔 자유롭게 비교하세요. Campaign Progress와 Score에는 영향을 주지 않습니다.':m.objective;
- $('scene-title').textContent=practice?'자유로운 Optical Experiment':m.subtitle;
- $('mode-badge').textContent=practice?'ENGINEERING SANDBOX':`ALIGNMENT STATION / 0${id}`;
- $('target-label').textContent='TOTAL LOSS TARGET';$('target-value').textContent=`≤ ${m.target.toFixed(2)} dB`;
- $('hint-text').textContent=m.hints[0];$('mode-controls').hidden=!practice;$('fixed-controls').hidden=!practice;$('comparison-panel').hidden=!practice;
- $('mode-experiment').hidden=practice||id!==3;$('angular-panel').hidden=!(practice||id===4);$('angle-controls').hidden=!(practice||id===4);$('angular-loss-row').hidden=!(practice||id===4);$('wavelength-control').hidden=!practice;$('zero-tilt').hidden=!practice;
- $('mode-size').value=String(w1);$('pair-type').value=pairType;$('fixed-interface').value='0';$('wavelength').value='1.55';
- $('tutorial').hidden=progress.tutorialSeen||practice||id!==1;$('tutorial-title').textContent='01 / 실험을 시작하세요';$('tutorial-text').textContent='Start를 누른 뒤 Fiber Mode의 중심을 잡고 움직여보세요. 약 20초면 첫 원리를 경험합니다.';
- renderNav();feedback(practice?'자유 실험 중 · 결과는 Physics Model에 따라 실시간 계산됩니다.':'관찰하고, 움직이고, 빛을 연결하세요.');render();
+ $('mission-title').textContent=practice?'Free Practice':m.title;$('scene-title').textContent=practice?'Optical Engineering Sandbox':m.subtitle;
+ $('objective').textContent=practice?'X/Y, Tilt, Mode Radius, Wavelength와 Fixed Loss를 자유롭게 실험하세요.':m.objective;
+ $('chapter-label').textContent=practice?'FREE PRACTICE':`CHAPTER ${m.chapter} · ${m.chapter===1?'FIRST LIGHT':'DESIGN FOR TOLERANCE'}`;$('mode-badge').textContent=practice?'ENGINEERING SANDBOX':m.mechanic;
+ $('hint-text').textContent=m.hints[0];$('hint-text').hidden=true;document.querySelector('.hint-card').hidden=true;
+ $('tutorial').hidden=practice||id!==1||progress.tutorialSeen;$('tutorial-title').textContent='Fiber를 드래그하세요';$('tutorial-text').textContent='청록색 +를 파란 중심으로. 출력광이 밝아지는지 보세요.';
+ $('mode-size').value=String(state.w1);$('pair-type').value=pairType;$('fixed-interface').value='0';$('wavelength').value='1.55';$('design-radius').value=String(state.w1);$('design-pair').value=pairType;$('simulation-seed').value=String(seed);
+ $('root-cause').value='';$('repair-action').value='';$('sample-count').value='100';$('assembly-run').innerHTML='';$('failure-detail').hidden=true;$('design-name').value='';
+ document.querySelector('.workspace').classList.remove('celebrate');
+ renderNav();feedback(practice?'모든 결과는 동일한 Physics Model로 계산됩니다.':'지금 할 일: '+m.objective);render();
 }
-function renderComparison(){
- const matched=compareModes(dx,dy,true),fixed=compareModes(dx,dy,false);
- $('comparison-caption').textContent=`공통 Offset: X ${signed(dx)} / Y ${signed(dy)} µm · 현재 표시: ${pairType==='matched'?'Matched pair':'Fixed Waveguide'}`;
- $('comparison-rows').innerHTML=matched.map((m,i)=>`<tr class="${w1===m.w1?'selected':''}"><td>${m.name} / ${m.w1.toFixed(1)} µm</td><td>${fmt(m.totalLoss)} dB</td><td>${fmt(fixed[i].totalLoss)} dB</td><td>${fmt(m.tolerance)} µm</td></tr>`).join('');
+function renderDiagnosis(){
+ $('fault-title').textContent=`${faultCases[session.caseIndex].name} · ${session.caseIndex+1} / 3`;
+ $('diagnostic-budget').textContent=`남은 검사 ${2-session.inspections.length} / 2 · 같은 검사는 다시 비용을 쓰지 않습니다.`;
+ $('diagnostic-actions').innerHTML=Object.entries(diagnosticNames).map(([key,name])=>`<button data-inspect="${key}" class="secondary" ${!live()||session.caseRestored||session.inspections.includes(key)||session.inspections.length>=2?'disabled':''}>${name}${session.inspections.includes(key)?' ✓':''}</button>`).join('');
+ $('diagnostic-evidence').innerHTML=session.inspections.map(key=>`<div><strong>${diagnosticNames[key]}</strong><p>${diagnosticEvidence(state,key)}</p>${key==='lateral'?`<svg viewBox="0 0 150 65" aria-hidden="true"><path d="M10 32H140 M75 5V60" stroke="#304355"/><circle cx="75" cy="32" r="8" fill="none" stroke="#759ef4"/><circle cx="${75+state.dx*15}" cy="${32-state.dy*15}" r="8" fill="none" stroke="#51d5df"/></svg>`:key==='mismatch'?`<svg viewBox="0 0 150 65" aria-hidden="true"><circle cx="45" cy="32" r="${state.w1*6}" fill="#51d5df33" stroke="#51d5df"/><circle cx="105" cy="32" r="${state.w2*6}" fill="#759ef433" stroke="#759ef4"/></svg>`:`<svg viewBox="0 0 150 65" aria-hidden="true"><path d="M15 32H140" stroke="#759ef4" stroke-width="2"/><path d="M15 ${32+Math.tan(state.thetaX*Math.PI/180*4)*90}L105 32" stroke="#51d5df" stroke-width="2"/><text x="10" y="62" fill="#93a6b8" font-size="9">θx 방향 · 4× 확대</text></svg>`}</div>`).join('')||'<p class="muted">검사 전에는 Total Loss와 출력 Power만 보입니다.</p>';
+ $('root-cause').disabled=!live()||session.caseRestored;$('repair-action').disabled=!live()||session.caseRestored;
+ $('apply-repair').disabled=!live()||session.caseRestored||!session.inspections.length||!session.diagnosis||!session.repair;
+ $('fault-next').hidden=!session.caseRestored||session.caseIndex===2;
 }
-function renderModeExperiment(){
- const stage=session.modeStep,names=['Narrow','Medium','Expanded'];
- $('mode-steps').innerHTML=['같은 Offset','Center 검사','연결 설계'].map((v,i)=>`<li class="${i===stage?'current':i<stage?'finished':''}">${i+1}. ${v}</li>`).join('');
- $('mode-instruction').textContent=['① 카드 3개를 눌러, 같은 Offset의 Loss를 비교하세요','② 카드 3개를 눌러, Center에서도 Loss가 남는지 확인하세요','③ Fixed Waveguide에 맞는 Mode를 골라 연결하세요'][stage];
- $('mode-condition').textContent=stage===0?'조건 고정 · X = +1.50 µm / Y = 0 · 두 Mode Radius를 함께 변경':'조건 고정 · X = Y = 0 · Waveguide Radius = 2.50 µm';
- $('mode-cards').innerHTML=modeRadii.map((w,i)=>{const measurement=stage<2?session.modeSamples[stage][i]:null,selected=session.selectedMode===i;return `<button data-mode-card="${i}" class="mode-card ${selected?'chosen':''}" ${!session.started||session.completed?'disabled':''} aria-pressed="${selected}"><span class="mode-symbol" style="--radius:${w*7}px"></span><strong>${names[i]}</strong><small>Fiber Radius ${w.toFixed(1)} µm</small><b>${measurement?fmt(measurement.totalLoss)+' dB':stage===2&&selected?fmt(result.totalLoss)+' dB':'눌러서 측정'}</b><span>${measurement?'✓ 측정 완료':selected?'선택됨':'Mode 선택'}</span></button>`;}).join('');
- $('mode-insight').textContent=stage===0?'두 Mode를 함께 키우면 같은 횡방향 오차의 Loss가 작아집니다.':stage===1?'중심이 같아도 크기가 다르면 Mismatch Loss가 남습니다.':`연결 목표 ≤ 0.10 dB · 선택한 설계 ${session.selectedMode===null?'—':fmt(result.totalLoss)+' dB'}. 선택 후 아래 ‘이 Mode로 연결’을 누르세요.`;
- $('mode-next').hidden=stage===2;$('mode-next').textContent=stage===0?'다음 → Center 검사':'다음 → 연결 설계';$('mode-next').disabled=!session.started||!guidedReady(session);
+function renderInterface(){
+ const environment=interfaceEnvironments[session.environment];$('environment-title').textContent=environment.name;$('environment-description').textContent=environment.subtitle;
+ const s=environment.state;$('environment-condition').textContent=`同一条件 · X ${signed(s.dx)} / Y ${signed(s.dy)} µm · θx ${signed(s.thetaX)}° / θy ${signed(s.thetaY)}° · Loss要求 ≤${environment.target.toFixed(2)} dB`.replace('同一条件','공통 조건').replace('Loss要求','Loss 요구');
+ $('environment-visual').innerHTML=`<svg viewBox="0 0 150 70" aria-hidden="true"><path d="M10 35H140" stroke="#759ef4" stroke-width="2"/><circle cx="85" cy="35" r="10" fill="none" stroke="#759ef4"/><path d="M10 ${35+Math.tan(s.thetaX*Math.PI/180*4)*75}L85 35" stroke="#51d5df" stroke-width="2"/><circle cx="${85+s.dx*10}" cy="${35-s.dy*10}" r="10" fill="none" stroke="#51d5df"/></svg><span>${session.environment===0?'위치 편차 ↓ / 방향 편차 ↑':'위치 편차 ↑ / 방향 편차 ↓'}<small class="muted"> · 방향 4× 확대 / 배치 개념도</small></span>`;
+ const names=['Small Mode','Medium Mode','Expanded Mode'];$('interface-cards').innerHTML=interfaceRadii.map((w,i)=>`<button data-interface="${i}" class="mode-card ${session.selectedMode===i?'chosen':''}" aria-pressed="${session.selectedMode===i}" ${!live()?'disabled':''}><span class="mode-symbol" style="--radius:${w*7}px"></span><strong>${names[i]}</strong><small>Matched Radius ${w.toFixed(1)} µm</small><span>${session.selectedMode===i?'이 설계가 적합할 것 같아요':'예측 설계 선택'}</span></button>`).join('');
+ $('experiment-interface').disabled=!live()||session.selectedMode===null;$('commit-interface').disabled=!live()||!session.experimented;
+ $('interface-result').textContent=session.experimented?`${names[session.selectedMode]} 실험: ${fmt(result.totalLoss)} dB · ${fmt(result.totalEfficiency*100)}% Power · ${result.totalLoss<=environment.target?'요구 충족 · 연결안 확정 가능':'요구 미달 · 다른 설계를 실험하세요'}`:'원하는 카드를 선택해 먼저 예측하고 ‘이 설계 실험’을 누르세요.';
+ $('interface-comparison').innerHTML='<table><thead><tr><th>Matched Mode</th><th>Total Loss</th><th>Output Power</th><th>요구 충족</th></tr></thead><tbody>'+interfaceRadii.map((w,i)=>{const r=interfaceResult(environment,w);return `<tr><td>${names[i]}</td><td>${fmt(r.totalLoss)} dB</td><td>${fmt(r.efficiency*100)}%</td><td>${r.totalLoss<=environment.target?'PASS':'FAIL'}</td></tr>`;}).join('')+'</tbody></table>';
 }
-$('mode-cards').addEventListener('click',e=>{const card=e.target.closest('[data-mode-card]');if(!card||!session.started||session.completed)return;const i=Number(card.dataset.modeCard);session.selectedMode=i;w1=modeRadii[i];w2=session.modeStep===0?w1:2.5;pairType=session.modeStep===0?'matched':'fixed';dx=session.modeStep===0?1.5:0;dy=0;render();if(session.modeStep<2)session.modeSamples[session.modeStep][i]={...result};attempt();feedback(`${['Narrow','Medium','Expanded'][i]} 측정: ${fmt(result.totalLoss)} dB · ${fmt(result.efficiency*100)}%`);});
-$('mode-next').addEventListener('click',()=>{if(!session.started||!guidedReady(session))return;session.modeStep++;session.selectedMode=null;dx=dy=0;w1=1.5;w2=2.5;pairType='fixed';feedback('조건을 바꿨습니다. Mode 카드를 다시 선택해 측정하세요.');render();});
-function setTilt(axis,value){if(!session.started||session.completed||!practice&&!(missionId===4&&session.positionObserved))return;value=Math.round(Math.max(-4,Math.min(4,value))*100)/100;if(axis==='x')thetaX=value;else thetaY=value;render();}
-for(const axis of ['x','y']){$('theta-'+axis).addEventListener('input',e=>setTilt(axis,Number(e.target.value)));$('theta-'+axis).addEventListener('change',attempt);}
-$('wavelength').addEventListener('change',e=>{wavelength=Number(e.target.value);attempt();});
-$('zero-tilt').addEventListener('click',()=>{if(!practice)return;thetaX=thetaY=0;attempt();});
-$('angular-center').addEventListener('click',()=>$('center').click());
-$('observe-position').addEventListener('click',()=>{if($('observe-position').disabled)return;session.positionObserved=true;dx=dy=0;feedback(`중심을 맞춰도 Angular Loss ${fmt(result.angularLoss)} dB가 남았습니다. 이제 두 방향을 맞춰보세요.`);render();});
+function processLabel(){const p=activeProcess();return `ASSUMED · Independent Normal · X/Y σ ${p.dx.sigma.toFixed(2)} / ${p.dy.sigma.toFixed(2)} µm, Bias ${p.dx.bias.toFixed(2)} / ${p.dy.bias.toFixed(2)} µm · θx/θy σ ${p.thetaX.sigma.toFixed(2)} / ${p.thetaY.sigma.toFixed(2)}°, Bias ${p.thetaX.bias.toFixed(2)} / ${p.thetaY.bias.toFixed(2)}° · PASS ≤1 dB`;}
+function renderAssembly(){
+ $('assembly-instruction').textContent=missionId===5?'10개 조립을 관찰하고 통계로 확인하세요':missionId===6?'같은 공정에서 Fiber Radius만 개선하세요':`${factoryProcesses[activeProcessIndex()].name} · ROUND ${session.factoryRound+1} / 2`;
+ $('process-summary').textContent=processLabel();$('design-radius-output').textContent=state.w1.toFixed(1)+' µm';$('design-radius').value=String(state.w1);$('design-radius').disabled=!live();$('design-pair').disabled=!live();$('design-pair-row').hidden=missionId===6;
+ $('lottery-controls').hidden=missionId!==5;$('sensitivity-panel').hidden=missionId!==6;$('factory-controls').hidden=missionId!==7;
+ for(const id of ['run-ten','run-statistics','simulation-seed','sample-count','save-design','compare-designs'])$(id).disabled=!live();
+ $('factory-variation').disabled=!live()||session.factoryRound>0;
+ if(missionId===6){drawSensitivity($('lateral-map'),getDesign(),'lateral');drawSensitivity($('angular-map'),getDesign(),'angular');}
+ if(missionId===7)renderFactory();
+ const report=session.report;$('assembly-stats').hidden=!report;
+ if(report){$('assembly-yield').textContent=fmt(report.yield*100,1)+'%';$('yield-ci').textContent=`95% Wilson CI ${fmt(report.interval.low*100,1)}–${fmt(report.interval.high*100,1)}%`;$('assembly-counts').textContent=`${report.passCount} / ${report.failCount}`;$('cohort-label').textContent=`N ${report.count.toLocaleString()} · Seed ${report.seed}`;$('nominal-loss').textContent=fmt(report.nominalLoss)+' dB';$('p95-loss').textContent=fmt(report.p95)+' dB';}
+ drawHistogram($('loss-histogram'),report);
+ const failures=report?.rows.filter(r=>!r.pass)||[];$('failure-list').innerHTML=failures.slice(0,8).map(r=>`<button data-failure="${r.index}">FAIL #${r.index+1} · ${fmt(r.result.totalLoss)} dB</button>`).join('')+(failures.length>8?`<small class="muted">+ ${failures.length-8} failed parts · 아래 Worst Case 추가 확인</small>`:'')+(report?`<button data-failure="${report.worst.index}">Worst Case #${report.worst.index+1}</button>`:'');
+}
+function renderFactory(){
+ const rows=progress.designs.map((d,i)=>{const report=session.comparison.find(r=>r.designIndex===i)?.report;return `<tr class="${session.selectedDesign===i?'selected':''}"><td><strong>${escapeText(d.name)}</strong><small>w₁ ${d.w1.toFixed(1)} / w₂ ${d.w2.toFixed(1)} µm</small><button data-delete-design="${i}" ${!live()?'disabled':''}>삭제</button></td><td>${report?fmt(report.yield*100,1)+'%':'미평가'}${report?`<small>CI ${fmt(report.interval.low*100,1)}–${fmt(report.interval.high*100,1)}%</small>`:''}</td><td>${report?fmt(report.nominalLoss):'—'}</td><td>${report?fmt(report.p95):'—'}</td><td>${report?fmt(report.robustness):'—'}</td><td>${report?fmt(report.worst.result.totalLoss)+' dB':'—'}${report?`<small>${report.worst.dominant} 우세 · #${report.worst.index+1}</small>`:''}</td><td><button data-select-design="${i}" ${!live()||!report?'disabled':''}>채택</button></td></tr>`;}).join('');
+ $('saved-designs').innerHTML=rows?`<table class="factory-table"><thead><tr><th>설계</th><th>Yield / 95% CI</th><th>Nominal dB</th><th>P95 dB</th><th>Robustness dB¹</th><th>Worst Case</th><th>결정</th></tr></thead><tbody>${rows}</tbody></table><p class="muted">모든 행: N=1,000 · Seed ${seed} · ${escapeText(factoryProcesses[activeProcessIndex()].name)} · PASS ≤1 dB. ¹Robustness = 1 dB − P95, 가정된 공정의 Loss Margin입니다.</p>`:'<p class="muted">설계를 최소 2개 저장하세요. Nominal보다 Yield를 비교합니다.</p>';
+ $('save-design').disabled=!live()||progress.designs.length>=3;$('compare-designs').disabled=!live()||progress.designs.length<2;
+ $('factory-commit').disabled=!live()||session.selectedDesign===null||session.comparison.length<2;
+}
 function render(){
- result=angularCoupling({w1,w2,dx,dy,thetaX,thetaY,wavelength,fixedLoss});const m=missions[missionId-1],enabled=session.started&&!session.completed;
- if(session.started)session.bestLoss=Math.min(session.bestLoss,result.totalLoss);
- $('total-loss').textContent=fmt(result.totalLoss);$('efficiency').textContent=fmt(result.efficiency*100)+'%';$('alignment-error').textContent=fmt(result.error)+' µm';
- for(const [key,val] of [['mismatch-loss',result.mismatchLoss],['alignment-loss',result.alignmentLoss],['overlap-loss',result.overlapLoss],['fixed-loss',fixedLoss]])$(key).textContent=fmt(val)+' dB';
- $('power-fill').style.width=(result.totalEfficiency*100)+'%';$('power-number').textContent=fmt(result.totalEfficiency*100)+'%';$('loss-fill').style.width=Math.min(100,result.totalLoss/10*100)+'%';$('loss-target-marker').style.left=(m.target/10*100)+'%';
- const within=result.totalLoss<=m.target+1e-9;
- $('loss-status').textContent=within?'PASS · 현재 Loss Target 달성':'TARGET NOT MET · 중심 간격 또는 Mismatch를 확인';
- $('mission-state').textContent=practice?'FREE PRACTICE':session.completed?'COMPLETE':!session.started?'READY':missionId===2?`CHALLENGE ${session.challenge+1} / 3`:missionId===3?`EXPERIMENT ${session.modeStep+1} / 3`:within?'TARGET MET':'ALIGNING';$('mission-state').classList.toggle('pass',session.completed||within&&session.started);
- $('x-offset').value=dx.toFixed(2);$('y-offset').value=dy.toFixed(2);$('x-output').textContent=signed(dx)+' µm';$('y-output').textContent=signed(dy)+' µm';$('scene-coordinates').textContent=`X ${signed(dx)} / Y ${signed(dy)} µm`;
- $('radii-label').textContent=`w₁ ${w1.toFixed(1)} µm / w₂ ${w2.toFixed(1)} µm`;$('fixed-output').textContent=fixedLoss.toFixed(1)+' dB';
- $('attempts').textContent=session.attempts;$('best-loss').textContent=Number.isFinite(session.bestLoss)?fmt(session.bestLoss)+' dB':'—';$('best-score').textContent=practice?'연습 · Score 없음':progress.missions[missionId]?.bestScore??'—';$('personal-best-loss').textContent=!practice&&progress.missions[missionId]?fmt(progress.missions[missionId].bestLoss)+' dB':'—';
- for(const id of ['x-offset','y-offset','mode-size','pair-type','fixed-interface'])$(id).disabled=!enabled;
- $('center').disabled=!enabled||!practice&&missionId===2;$('start').disabled=session.started;$('start').hidden=practice;$('scene-lock').hidden=enabled;
- $('scene-lock').textContent=session.completed?'Mission Complete · Retry로 다시 실험':'Start를 눌러 Alignment를 시작하세요';
- $('complete').disabled=practice||!session.started||session.completed;$('complete').textContent=missionId===2&&!session.completed?`Challenge ${session.challenge+1} 완료`:'Complete Mission';
- $('next').disabled=practice||missionId===4||!progress.missions[missionId]?.complete;$('hint').disabled=!session.started||session.completed;
- const xyEnabled=enabled&&(practice||missionId!==3&&!(missionId===4&&session.positionObserved));
- for(const id of ['x-offset','y-offset'])$(id).disabled=!xyEnabled;
- $('center').disabled=!xyEnabled||!practice&&missionId===2;
- $('scene-lock').hidden=xyEnabled;$('scene-lock').textContent=!enabled?(session.completed?'Complete · Retry로 다시 실험':'Start를 눌러 실험을 시작하세요'):missionId===3?'조건 고정 · 아래 Mode 카드를 선택하세요':'중심 고정 · 아래 방향 핸들을 조정하세요';
- $('complete').disabled=practice||!enabled||missionId===3&&(session.modeStep!==2||session.selectedMode===null)||missionId===4&&!session.positionObserved;
- if(missionId===3&&!practice)$('complete').textContent='이 Mode로 연결';
- const angleEnabled=enabled&&(practice||missionId===4&&session.positionObserved);
- for(const [axis,val] of [['x',thetaX],['y',thetaY]]){$('theta-'+axis).value=val.toFixed(2);$('theta-'+axis).disabled=!angleEnabled;$('theta-'+axis+'-output').textContent=signed(val)+'°';}
- $('angular-readout').textContent=`Total Loss ${fmt(result.totalLoss)} dB · Angular ${fmt(result.angularLoss)} dB · Power ${fmt(result.totalEfficiency*100)}%${practice?'':` · Target ≤ ${missions[3].target.toFixed(2)} dB`}`;
- $('theta-error').textContent=fmt(result.thetaError)+'°';$('angular-loss').textContent=fmt(result.angularLoss)+' dB';$('lambda-label').textContent=wavelength.toFixed(2);
- $('angular-center').hidden=practice||session.positionObserved;$('angular-center').disabled=!enabled;
- $('observe-position').hidden=practice||session.positionObserved;$('observe-position').disabled=!enabled||result.error>.1||result.angularLoss<=missions[3].target;
- $('angular-instruction').textContent=practice?'중심과 방향을 독립적으로 실험하세요':session.positionObserved?'② 청록색 방향을 파란 축과 나란히 맞추세요':'① 먼저 Center Alignment로 두 중심을 맞추세요';
- $('angular-note').textContent=practice?'X/Y와 θx / θy는 같은 Physics State를 공유합니다.':'중심이 겹쳐도 방향이 다르면 Loss가 남습니다. 중심 확인 후 두 방향 핸들이 활성화됩니다.';
- $('angular-comparison').innerHTML=modeRadii.map((w,i)=>`<div><span>${['Narrow','Medium','Expanded'][i]} / ${w} µm</span><strong>${fmt(angularCoupling({w1:w,w2:w,thetaX,thetaY,wavelength}).angularLoss)} dB</strong><small>Angular Loss</small></div>`).join('');
- if(practice)renderComparison();if(missionId===3&&!practice)renderModeExperiment();
- for(const view of angleViews)view.draw();
- if(scene)scene.draw();
-}
-function moveTo(x,y){if(!session.started||session.completed||!practice&&(missionId===3||missionId===4&&session.positionObserved))return;dx=Math.round(Math.max(-6,Math.min(6,x))*100)/100;dy=Math.round(Math.max(-6,Math.min(6,y))*100)/100;
- if(!progress.tutorialSeen&&!practice&&missionId===1){$('tutorial-title').textContent='03 / Loss 변화를 관찰하세요';$('tutorial-text').textContent='중심이 가까워질수록 Error와 Loss가 함께 줄어듭니다. Target 이하라면 Complete Mission을 누르세요.';}
- render();
+ result=angularCoupling(state);if(session.started)session.bestLoss=Math.min(session.bestLoss,missionId>=5&&!practice?(session.report?.p95??Infinity):result.totalLoss);
+ const m=missions[missionId-1],target=lossTarget(),blind=missionId===2&&!practice,unexperimented=missionId===3&&!practice&&!session.experimented;
+ $('target-label').textContent=practice?'PRACTICE REFERENCE':missionId===5?'EXPERIMENT GOAL':missionId>=6?'ASSEMBLY YIELD TARGET':'TOTAL LOSS TARGET';
+ $('target-value').textContent=missionId===5&&!practice?'관찰 + 통계':missionId>=6&&!practice?'≥95% Yield':`≤ ${target.toFixed(2)} dB`;
+ $('total-loss').textContent=unexperimented?'—':fmt(result.totalLoss);$('efficiency').textContent=unexperimented?'—':fmt(result.efficiency*100)+'%';$('alignment-error').textContent=fmt(result.error)+' µm';
+ $('live-metrics').hidden=blind;$('loss-breakdown').hidden=blind||missionId===4&&!practice&&!session.angularDiscovered;
+ for(const [key,value] of [['mismatch-loss',result.mismatchLoss],['alignment-loss',result.alignmentLoss],['angular-loss',result.angularLoss],['overlap-loss',result.overlapLoss],['fixed-loss',state.fixedLoss]])$(key).textContent=fmt(value)+' dB';
+ $('angular-loss-row').hidden=missionId===1&&!practice;
+ document.querySelector('.power-hero>small').textContent=missionId>=5&&!practice?`${Math.hypot(state.dx,state.dy,state.thetaX,state.thetaY)>0?'개별 Assembly Sample':'Nominal · Error = 0'} · Power와 Yield는 다른 지표입니다.`:'Physics Result / Power Indicator · Input을 100%로 정규화';
+ const power=result.totalEfficiency;$('hero-power').textContent=unexperimented?'실험 전':fmt(power*100)+'%';$('hero-fill').style.width=(unexperimented?0:power*100)+'%';$('output-ray').style.opacity=unexperimented?'0':String(power);$('output-ray').setAttribute('stroke-width',String(1+7*power));$('output-glow').style.opacity=unexperimented?'0':String(power);
+ $('power-fill').style.width=power*100+'%';$('power-number').textContent=fmt(power*100)+'%';$('loss-fill').style.width=Math.min(100,result.totalLoss/10*100)+'%';$('loss-target-marker').style.left=target/10*100+'%';
+ $('loss-status').textContent=practice?'FREE PRACTICE · 조건을 바꿔 실험하세요':unexperimented?'설계를 예측하고 실험하세요':missionId>=5?'개별 Optical State · Yield/P95는 중앙 통계 결과를 확인':blind?(session.caseRestored||session.completed?'OPTICAL POWER RESTORED':'출력 저하 · 원인은 검사로 확인'):result.totalLoss<=target?'PHYSICS TARGET MET':'TARGET NOT MET · Error / Mode / Direction 확인';
+ const ready=missionPass(missionId,result,session);$('mission-state').textContent=practice?'FREE PRACTICE':session.completed?'ACHIEVED':running?'ASSEMBLING':!session.started?'READY':ready?'READY TO COMPLETE':missionId===2?`DEVICE ${session.caseIndex+1} / 3`:missionId===3?`ENV ${session.environment+1} / 2`:missionId===7?`ROUND ${session.factoryRound+1} / 2`:'EXPERIMENTING';$('mission-state').classList.toggle('pass',session.completed||ready);
+ $('alignment-controls').hidden=!(practice||missionId===1||missionId===4);
+ $('optical-instrument').hidden=blind||missionId>=5&&!practice;
+ $('scene-lock').hidden=spatialEnabled();$('scene-lock').textContent=missionId===3&&session.started?'선택한 Interface의 Mode Overlap · 읽기 전용':missionId===4?'X/Y Center 일치 · Direction을 확인하세요':session.completed?'Achievement 완료 · Retry로 다시 실험':'Start를 눌러 Fiber를 움직이세요';
+ for(const axis of ['x','y']){const v=state[axis==='x'?'dx':'dy'];$(axis+'-offset').value=v.toFixed(2);$(axis+'-output').textContent=signed(v)+' µm';$(axis+'-offset').disabled=!spatialEnabled();}
+ $('scene-coordinates').textContent=`X ${signed(state.dx)} / Y ${signed(state.dy)} µm`;$('radii-label').textContent=`w₁ ${state.w1.toFixed(1)} / w₂ ${state.w2.toFixed(1)} µm`;$('fixed-output').textContent=state.fixedLoss.toFixed(1)+' dB';
+ $('center').disabled=!spatialEnabled();$('mode-controls').hidden=!practice;$('fixed-controls').hidden=!practice;$('comparison-panel').hidden=!practice;
+ for(const id of ['mode-size','pair-type','fixed-interface','wavelength','zero-tilt'])$(id).disabled=!live();
+ const angles=practice||missionId===4&&session.angularDiscovered;$('angle-controls').hidden=!angles;$('angular-panel').hidden=!angles;$('angular-discovery').hidden=practice||missionId!==4||session.angularDiscovered;
+ for(const axis of ['x','y']){const value=state[axis==='x'?'thetaX':'thetaY'];$('theta-'+axis).value=value.toFixed(2);$('theta-'+axis).disabled=!angleEnabled();$('theta-'+axis+'-output').textContent=signed(value)+'°';}
+ $('theta-error').textContent=fmt(result.thetaError)+'°';$('lambda-label').textContent=state.wavelength.toFixed(2);$('wavelength-control').hidden=!practice;$('zero-tilt').hidden=!practice;
+ $('angular-instruction').textContent='청록색 Beam Direction을 파란 축과 나란히 맞추세요';$('angular-note').textContent='Intensity 중심은 그대로입니다. Relative Phase Tilt를 줄이면 Angular Loss가 감소합니다.';$('angular-readout').textContent=`Angular Loss ${fmt(result.angularLoss)} dB · Total ${fmt(result.totalLoss)} dB · Relative Tilt ${fmt(result.thetaError)}°`;
+ $('angular-comparison').innerHTML=interfaceRadii.map(w=>`<div><span>Matched Radius ${w.toFixed(1)} µm</span><strong>${fmt(angularCoupling({w1:w,w2:w,thetaX:state.thetaX,thetaY:state.thetaY,wavelength:state.wavelength}).angularLoss)} dB</strong><small>Angular Loss</small></div>`).join('');
+ $('check-center').disabled=!live();$('inspect-direction').disabled=!live();
+ $('diagnosis-panel').hidden=practice||missionId!==2;$('interface-panel').hidden=practice||missionId!==3;$('assembly-panel').hidden=practice||missionId<5;
+ if(!practice&&missionId===2)renderDiagnosis();if(!practice&&missionId===3)renderInterface();if(!practice&&missionId>=5)renderAssembly();
+ if(practice){const matched=compareModes(state.dx,state.dy,true),fixed=compareModes(state.dx,state.dy,false);$('comparison-caption').textContent='같은 X/Y Offset · Tilt/Fixed Loss 제외';$('comparison-rows').innerHTML=matched.map((r,i)=>`<tr><td>${r.name} / ${r.w1} µm</td><td>${fmt(r.totalLoss)} dB</td><td>${fmt(fixed[i].totalLoss)} dB</td><td>${fmt(r.tolerance)} µm</td></tr>`).join('');}
+ $('start').disabled=session.started;$('start').hidden=practice;$('reset').disabled=false;$('hint').disabled=!live();$('complete').disabled=practice||!live()||missionId!==1&&missionId!==4&&!ready;$('complete').textContent=session.completed?'Achievement 획득':'Engineering Achievement 확정';$('next').disabled=practice||missionId===7||!progress.missions[missionId]?.complete;
+ $('attempts').textContent=session.attempts;$('best-loss').textContent=Number.isFinite(session.bestLoss)?fmt(session.bestLoss)+' dB':'—';$('best-score').textContent=practice?'연습 · Score 없음':progress.content[missionId]?.bestScore??'—';$('personal-best-loss').textContent=practice?'—':progress.content[missionId]?fmt(progress.content[missionId].bestLoss)+' dB':'—';
+ const old=progress.missions[missionId];$('legacy-record').textContent=!practice&&old&&!progress.content[missionId]?`이전 완료 기록 보존 · Score ${old.bestScore}, Loss ${fmt(old.bestLoss)} dB. 새 경험의 Achievement는 별도입니다.`:missionId>=5?'새 콘텐츠 Best Loss는 P95 기준입니다.':'';
+ $('sound-toggle').textContent=progress.sound?'Sound ON':'Sound OFF';$('sound-toggle').setAttribute('aria-pressed',String(progress.sound));
+ for(const view of angleViews)view.draw();if(scene)scene.draw();
 }
 function attempt(){if(session.started&&!session.completed){session.attempts++;render();}}
-function complete(){
- if(practice)return;
- if(!missionPass(missionId,result,session)){feedback(missionId===3?'연결 실패 · Fixed Waveguide는 2.5 µm입니다. Center에서도 Mode Radius가 다르면 Mismatch Loss가 남습니다.':`TARGET NOT MET · Total Loss를 ${missions[missionId-1].target.toFixed(2)} dB 이하로 조정하세요.`,'warning');return;}
- if(missionId===2){
-  session.challengeResults.push({loss:result.totalLoss,score:gameScore(result.totalLoss,.4,session.attempts,session.hints),attempts:session.attempts});
-  if(session.challenge<2){session.challenge++;[dx,dy]=challengeOffsets[session.challenge];session.attempts=0;session.hints=0;session.bestLoss=Infinity;feedback(`Challenge ${session.challenge} PASS · 다음 위치에서도 정렬해보세요.`,'success');render();return;}
- }
- let score=gameScore(result.totalLoss,missions[missionId-1].target,session.attempts,session.hints);
- let loss=result.totalLoss;
- if(missionId===2){score=Math.round(session.challengeResults.reduce((n,r)=>n+r.score,0)/3);loss=Math.max(...session.challengeResults.map(r=>r.loss));}
- session.completed=true;recordCompletion(progress,missionId,score,loss);progress.tutorialSeen=true;persist();renderNav();render();feedback('MISSION COMPLETE · Learning Summary에서 결과의 이유를 확인하세요.','success');
- const learn=learningSummary(missionId,initialLoss,loss);
- if(missionId===2)learn.happened+=` Challenge Loss: ${session.challengeResults.map(r=>r.loss.toFixed(2)+' dB').join(' / ')}.`;
- showLearning($('summary-dialog'),learn,score,loss,missionId===2?' / WORST OF 3':missionId===3?' / SELECTED DESIGN':'');
+function moveTo(x,y){if(!spatialEnabled())return;state.dx=Math.round(Math.max(-6,Math.min(6,x))*100)/100;state.dy=Math.round(Math.max(-6,Math.min(6,y))*100)/100;render();if(!practice&&missionId===1&&result.totalLoss<=1)feedback('빛이 연결되었습니다! 출력 Power를 보고 Achievement를 확정하세요.','success');}
+function tilt(axis,value){if(!angleEnabled())return;state[axis==='x'?'thetaX':'thetaY']=Math.round(Math.max(-4,Math.min(4,value))*100)/100;render();}
+function setRadius(value){if(!live())return;if(missionId===7)session.selectedDesign=null;state.w1=value;state.w2=missionId===6?2.5:pairType==='matched'?value:2.5;state.dx=state.dy=state.thetaX=state.thetaY=0;session.report=null;session.reportDesign=null;session.inspectedFailure=false;$('failure-detail').hidden=true;if(missionId===6)evaluateCurrent(1000);else render();}
+function evaluateCurrent(count){
+ try{cohort=generateSamples({count,seed,process:activeProcess()});session.report=evaluateDesign(getDesign(),cohort,1);session.reportDesign=getDesign();render();return session.report;}catch(error){session.report=null;session.reportDesign=null;render();feedback('통계 결과 없음: '+error.message,'warning');return null;}
 }
-bindControls({move:(axis,v)=>moveTo(axis==='x'?v:dx,axis==='y'?v:dy),attempt,
- selectMode:v=>{w1=v;w2=pairType==='matched'?v:2.5;attempt();render();},selectPair:v=>{pairType=v;w2=v==='matched'?w1:2.5;attempt();render();},selectFixed:v=>{fixedLoss=v;render();}});
-$('mission-nav').addEventListener('click',e=>{const b=e.target.closest('[data-mission]');if(b)loadMission(Number(b.dataset.mission));});
-$('practice').addEventListener('click',()=>loadMission(3,true));
-$('start').addEventListener('click',()=>{session.started=true;session.bestLoss=result.totalLoss;feedback('Fiber Mode의 중심을 드래그해보세요.');
- $('tutorial-title').textContent='02 / Fiber를 잡고 움직이세요';$('tutorial-text').textContent='청록색 + 표시를 파란색 + 표시 쪽으로 옮기세요. Slider와 방향키도 같은 위치를 조정합니다.';render();});
-$('reset').addEventListener('click',()=>{const wasStarted=session.started;loadMission(missionId,practice);session.started=wasStarted||practice;render();feedback('실험을 초기 위치로 되돌렸습니다. Progress와 Personal Best는 유지됩니다.');});
-$('center').addEventListener('click',()=>{if($('center').disabled)return;moveTo(0,0);attempt();feedback(result.angularLoss>0?'Center Alignment 완료 · 중심은 같아도 Angular Loss가 남습니다. 아래 중심 확인 버튼을 눌러 방향 조정을 시작하세요.':result.mismatchLoss>0?'Center Alignment 완료 · Mode 크기가 다르면 Mismatch Loss는 남습니다.':'Center Alignment 완료 · 이상적인 Matched Mode에서 0 dB를 확인하세요.');});
-$('hint').addEventListener('click',()=>{const m=missions[missionId-1];$('hint-text').textContent=m.hints[Math.min(session.hints,m.hints.length-1)];session.hints++;feedback(`Hint ${Math.min(session.hints,3)} · Engineering Note를 확인하세요.`);render();});
-$('complete').addEventListener('click',complete);$('next').addEventListener('click',()=>loadMission(Math.min(4,missionId+1)));
+async function runTen(){
+ if(!live())return;const raw=Number($('simulation-seed').value);if(!Number.isInteger(raw)||raw<0||raw>0xffffffff){feedback('Seed는 0–4294967295 정수여야 합니다.','warning');return;}
+ if(raw!==seed){session.lotteryObserved=false;session.inspectedFailure=false;}seed=raw;
+ const tag=generation,design=getDesign();let report;try{report=evaluateDesign(design,generateSamples({count:10,seed,process:activeProcess()}),1);}catch(error){feedback('조립 결과 없음: '+error.message,'warning');return;}running=true;session.report=null;session.reportDesign=null;render();$('assembly-run').innerHTML=Array.from({length:10},(_,i)=>`<div class="assembly-part" data-part="${i}">#${i+1} · WAIT</div>`).join('');
+ for(const row of report.rows){if(tag!==generation)return;state={...state,...row.state};render();const part=document.querySelector(`[data-part="${row.index}"]`);part.textContent=`#${row.index+1} ${row.pass?'PASS':'FAIL'} · ${fmt(row.result.totalLoss)} dB`;part.className='assembly-part '+(row.pass?'pass':'fail');await new Promise(resolve=>setTimeout(resolve,matchMedia('(prefers-reduced-motion: reduce)').matches?0:160));}
+ if(tag!==generation)return;running=false;session.lotteryObserved=true;session.report=report;session.reportDesign=design;state={...state,...design,dx:0,dy:0,thetaX:0,thetaY:0};session.attempts++;render();feedback(`조립 결과 ${report.passCount} PASS / ${report.failCount} FAIL. Nominal ${fmt(report.nominalLoss)} dB여도 결과는 달라집니다.`);
+}
+function complete(){
+ if(practice||!missionPass(missionId,result,session)){feedback('아직 목표를 만족하지 못했습니다. 현재 Mission의 다음 행동과 Physics Result를 확인하세요.','warning');return;}
+ let loss=result.totalLoss,score=gameScore(loss,lossTarget(),session.attempts,session.hints);
+ if(missionId===2){loss=Math.max(...session.caseResults.map(r=>r.loss));score=gameScore(loss,.5,session.attempts,session.hints);}
+ if(missionId===3){loss=Math.max(...session.environmentResults.map(r=>r.loss));score=Math.round(session.environmentResults.reduce((sum,r)=>sum+gameScore(r.loss,r.target,session.attempts,session.hints),0)/2);}
+ if(missionId===5){loss=session.report.p95;score=Math.max(0,Math.min(1000,Math.round(800+50*Math.log10(session.report.count)-20*session.hints)));}
+ if(missionId===6){loss=session.report.p95;score=manufacturingScore(session.report,session.hints);}
+ if(missionId===7){loss=Math.max(...session.factoryResults.map(r=>r.p95));score=Math.round(session.factoryResults.reduce((sum,r)=>sum+manufacturingScore(r,session.hints),0)/2);}
+ session.completed=true;recordCompletion(progress,missionId,score,loss);progress.tutorialSeen=true;persist();renderNav();render();document.querySelector('.workspace').classList.add('celebrate');sound.success();feedback(missions[missionId-1].achievement+' · 물리 결과에 기반한 Engineering Achievement','success');
+ showLearning($('summary-dialog'),learningSummary(missionId,initialLoss,loss,{session}),score,loss,missionId>=5?' / P95 ASSEMBLY LOSS':missionId===3?' / WORST ENVIRONMENT':'');
+}
+$('mission-nav').addEventListener('click',e=>{const button=e.target.closest('[data-mission]');if(button)loadMission(Number(button.dataset.mission));});$('practice').addEventListener('click',()=>loadMission(1,true));
+$('start').addEventListener('click',()=>{session.started=true;sound.unlock(progress.sound);if(missionId===6)evaluateCurrent(1000);else render();feedback('지금 할 일: '+missions[missionId-1].objective);});
+$('reset').addEventListener('click',()=>{const started=session.started;loadMission(missionId,practice);session.started=started||practice;if(missionId===6&&session.started)evaluateCurrent(1000);else render();feedback('실험을 다시 시작합니다. 완료 기록과 저장 설계는 유지됩니다.');});
+$('hint').addEventListener('click',()=>{document.querySelector('.hint-card').hidden=false;$('hint-text').hidden=false;$('hint-text').textContent=missions[missionId-1].hints[Math.min(session.hints,2)];session.hints++;render();feedback('Engineering Note에서 다음 힌트를 확인하세요.');});$('complete').addEventListener('click',complete);$('next').addEventListener('click',()=>loadMission(Math.min(7,missionId+1)));
 $('skip-tutorial').addEventListener('click',()=>{progress.tutorialSeen=true;$('tutorial').hidden=true;persist();});
-const closeDialog=()=>$('summary-dialog').close();$('close-dialog').addEventListener('click',closeDialog);$('dialog-continue').addEventListener('click',closeDialog);
-$('assumptions').addEventListener('click',()=>{$('dialog-content').innerHTML='<h2>Engineering Assumptions</h2><h3>Simplified Gaussian Mode Model</h3><p>같은 평면의 이상적인 원형 Gaussian Mode, 횡방향 X/Y 및 같은 평면에서의 Paraxial Phase Tilt를 계산합니다. Mode Radius는 Field Amplitude 1/e 반경이며, 모든 길이는 µm입니다.</p><h3>Physics Result와 Game Score</h3><p>η = [2w₁w₂/(w₁²+w₂²)]² × exp[−2(dx²+dy²)/(w₁²+w₂²)]. Loss = −10 log₁₀(η). Fixed Interface Loss는 별도 dB 항목입니다. Game Score가 Physics Result를 바꾸지 않습니다.</p><h3>Angular Model</h3><p>Angular Factor = exp[−w₁²w₂²(qx²+qy²)/(2(w₁²+w₂²))], q = (2πn/λ₀)θ (radians). λ₀는 진공 파장, n = 1은 공통 매질 Air입니다. UI Tilt 성분 ±4°, 모델 범위 ±5°. Angular Loss는 별도 표시합니다. 큰 Mode는 횡방향 오차에 관대하지만 각도 오차에 민감합니다.</p><h3>Visual Interpretation</h3><p>Heatmap은 상대 Intensity, 중앙 장면은 Transverse Plane입니다. 하단 Transmission Pulse와 Power Meter는 실제 Total Efficiency에 연동된 지표입니다. 색상의 겹침 자체가 Overlap Integral은 아닙니다.</p><h3>현재 계산하지 않는 항목</h3><p>Full-vector EM, Fresnel Reflection, Polarization, Gap, Beam Walk-off, Refraction, Roll, Evanescent Coupling, Propagation, Thermal, Adhesive, Yield. 실제 공정 가능성은 후속 버전에서 별도 모델로 다룹니다.</p><h3>Progress 저장</h3><p>Local Storage를 사용하며 Browser·Profile·파일 경로에 따라 저장 영역이 달라질 수 있습니다. 같은 HTML 경로와 같은 Browser Profile에서 이어서 실행하세요. 저장이 제한되면 이 세션에서는 계속 플레이할 수 있습니다.</p>';$('summary-dialog').showModal();});
-$('reset-progress').addEventListener('click',()=>{if(!confirm('저장된 Mission 완료 상태와 Personal Best를 모두 초기화할까요?'))return;progress=freshProgress();persist();loadMission(1);});
-scene=new AlignmentScene($('alignment-canvas'),()=>({dx,dy,w1,w2,result,enabled:session.started&&!session.completed&&(practice||missionId!==3&&!(missionId===4&&session.positionObserved)),showTolerance:missionId===3||practice,tolerance:alignmentTolerance(w1,w2,1,fixedLoss)}),moveTo,attempt);
-const angleViews=['x','y'].map(axis=>new AngularScene($('angular-'+axis),axis,()=>({theta:axis==='x'?thetaX:thetaY,enabled:session.started&&!session.completed&&(practice||missionId===4&&session.positionObserved)}),(value)=>setTilt(axis,value),attempt));
+$('sound-toggle').addEventListener('click',async()=>{progress.sound=!progress.sound;persist();render();const ready=await sound.unlock(progress.sound);if(progress.sound&&!ready)feedback('이 환경에서는 Sound를 재생할 수 없습니다. 선택은 저장되며 플레이는 계속됩니다.');});
+for(const axis of ['x','y']){$(axis+'-offset').addEventListener('input',e=>moveTo(axis==='x'?Number(e.target.value):state.dx,axis==='y'?Number(e.target.value):state.dy));$(axis+'-offset').addEventListener('change',attempt);$('theta-'+axis).addEventListener('input',e=>tilt(axis,Number(e.target.value)));$('theta-'+axis).addEventListener('change',attempt);}
+$('center').addEventListener('click',()=>{if(!spatialEnabled())return;moveTo(0,0);attempt();feedback('두 중심을 맞췄습니다. 실제 출력 Power를 확인하세요.');});
+$('mode-size').addEventListener('change',e=>{if(!practice)return;state.w1=Number(e.target.value);state.w2=pairType==='matched'?state.w1:2.5;attempt();});$('pair-type').addEventListener('change',e=>{if(!practice)return;pairType=e.target.value;state.w2=pairType==='matched'?state.w1:2.5;attempt();});$('fixed-interface').addEventListener('input',e=>{if(!practice)return;state.fixedLoss=Number(e.target.value);render();});$('fixed-interface').addEventListener('change',attempt);$('wavelength').addEventListener('change',e=>{if(!practice)return;state.wavelength=Number(e.target.value);attempt();});$('zero-tilt').addEventListener('click',()=>{if(!practice)return;state.thetaX=state.thetaY=0;attempt();});
+$('diagnostic-actions').addEventListener('click',e=>{const button=e.target.closest('[data-inspect]');if(!button||!live()||session.caseRestored)return;if(inspectFault(session,button.dataset.inspect)){attempt();feedback('검사 정보를 얻었습니다. 증거로 Root Cause와 복구 방법을 판단하세요.');}});
+$('root-cause').addEventListener('change',e=>{session.diagnosis=e.target.value;render();});$('repair-action').addEventListener('change',e=>{session.repair=e.target.value;render();});
+$('apply-repair').addEventListener('click',()=>{if($('apply-repair').disabled)return;const before=result.totalLoss,restored=restoreFault(session,state,session.diagnosis,session.repair);state=restored.state;session.caseRestored=restored.correct;attempt();feedback(restored.correct?`Root Cause Identified · ${fmt(before)} → ${fmt(result.totalLoss)} dB. 다음 장치를 조사하세요.`:`진단/복구 미완료 · 실제 Loss ${fmt(result.totalLoss)} dB. 이 조치는 해당 입력 Parameter만 바꿉니다.`,restored.correct?'success':'warning');});
+$('fault-next').addEventListener('click',()=>{if(!session.caseRestored||session.caseIndex>=2)return;session.caseIndex++;session.inspections=[];session.diagnosis=session.repair=null;session.caseRestored=false;state={...state,...faultCases[session.caseIndex].state};$('root-cause').value=$('repair-action').value='';render();feedback('새 장치의 출력이 낮습니다. 새 증거를 얻어 원인을 찾으세요.');});
+$('interface-cards').addEventListener('click',e=>{const button=e.target.closest('[data-interface]');if(!button||!live())return;session.selectedMode=Number(button.dataset.interface);session.prediction=session.selectedMode;session.experimented=false;render();document.querySelector(`[data-interface="${session.selectedMode}"]`)?.focus({preventScroll:true});});
+$('experiment-interface').addEventListener('click',()=>{if($('experiment-interface').disabled)return;const radius=interfaceRadii[session.selectedMode];state={...state,w1:radius,w2:radius,...interfaceEnvironments[session.environment].state};session.experimented=true;attempt();feedback(`실험 결과: ${fmt(result.totalLoss)} dB. 요구 Loss와 비교하세요.`);});
+$('commit-interface').addEventListener('click',()=>{if(!session.experimented||!live())return;const environment=interfaceEnvironments[session.environment];if(result.totalLoss>environment.target){feedback('요구 미달 · 이 환경에서는 다른 Mode를 선택해야 합니다.','warning');return;}session.environmentResults.push({radius:state.w1,loss:result.totalLoss,target:environment.target});if(session.environment===0){session.environment=1;session.selectedMode=null;session.prediction=null;session.experimented=false;state={...state,w1:2.5,w2:2.5,...interfaceEnvironments[1].state};render();feedback('첫 설계를 확정했습니다. 조립 환경이 바뀌었습니다. 같은 설계가 여전히 좋을까요?','success');}else{render();complete();}});
+$('check-center').addEventListener('click',()=>{if(!live())return;attempt();feedback('X/Y Error는 이미 0 µm입니다. Center 재정렬로 출력은 변하지 않았습니다. Beam Direction을 검사하세요.','warning');});
+$('inspect-direction').addEventListener('click',()=>{if(!live())return;session.angularDiscovered=true;attempt();feedback(`숨은 Angular Error 발견 · θx ${signed(state.thetaX)}°, θy ${signed(state.thetaY)}°. 이제 방향 핸들을 교정하세요.`,'success');});
+$('design-radius').addEventListener('input',e=>setRadius(Number(e.target.value)));$('design-radius').addEventListener('change',attempt);$('design-pair').addEventListener('change',e=>{if(!live())return;pairType=e.target.value;setRadius(state.w1);attempt();});
+$('run-ten').addEventListener('click',runTen);
+$('run-statistics').addEventListener('click',()=>{if(!live())return;const value=Number($('simulation-seed').value);if(!Number.isInteger(value)||value<0||value>0xffffffff){feedback('유효한 uint32 Seed를 입력하세요.','warning');return;}if(seed!==value){session.lotteryObserved=false;session.inspectedFailure=false;}seed=value;state.dx=state.dy=state.thetaX=state.thetaY=0;if(!evaluateCurrent(Number($('sample-count').value)))return;attempt();feedback('통계 평가 완료 · Yield와 95% CI, P95를 확인하세요.');});
+$('failure-list').addEventListener('click',e=>{const button=e.target.closest('[data-failure]');if(!button||!session.report)return;const row=session.report.rows[Number(button.dataset.failure)];if(!row)return;state={...state,...row.state};$('failure-detail').hidden=false;$('failure-detail').textContent=`Sample #${row.index+1} · ${row.pass?'PASS':'FAIL'} · X ${signed(state.dx)}, Y ${signed(state.dy)} µm / θx ${signed(state.thetaX)}, θy ${signed(state.thetaY)}° · Loss ${fmt(row.result.totalLoss)} dB · ${row.dominant} 우세 (Lateral ${fmt(row.result.alignmentLoss)}, Angular ${fmt(row.result.angularLoss)}, Mismatch ${fmt(row.result.mismatchLoss)} dB)`;if(!row.pass)session.inspectedFailure=true;render();feedback('실제 Sample 입력과 Loss를 조사했습니다. 새로 설계하면 Nominal/통계 조건으로 돌아갑니다.');});
+$('save-design').addEventListener('click',()=>{if($('save-design').disabled)return;const name=$('design-name').value.trim()||`Radius ${state.w1.toFixed(1)} ${pairType}`;storeDesign(progress,{name,w1:state.w1,w2:state.w2,pairType});session.comparison=[];session.selectedDesign=null;persist();render();feedback('설계를 저장했습니다. 같은 Error Samples로 비교하세요.');});
+$('factory-variation').addEventListener('change',e=>{if(session.factoryRound===0){session.secondProcess=Number(e.target.value);render();}});
+$('compare-designs').addEventListener('click',()=>{if($('compare-designs').disabled)return;try{cohort=generateSamples({count:1000,seed,process:activeProcess()});session.comparison=progress.designs.map((design,designIndex)=>({designIndex,report:evaluateDesign({w1:design.w1,w2:design.w2,wavelength:1.55,index:1,fixedLoss:0},cohort)}));}catch(error){session.comparison=[];session.selectedDesign=null;session.report=null;render();feedback('공정 비교 결과 없음: '+error.message,'warning');return;}session.selectedDesign=null;for(const row of session.comparison){const report=row.report;progress.designs[row.designIndex].evaluations.push({seed,count:1000,processIndex:activeProcessIndex(),process:report.process,modelVersion:'gaussian-phase-v2',lossLimit:1,yield:report.yield,p95:report.p95,nominalLoss:report.nominalLoss});progress.designs[row.designIndex].evaluations=progress.designs[row.designIndex].evaluations.slice(-3);}persist();attempt();feedback('모든 설계를 동일 Seed·공정·1,000 Sample로 평가했습니다.');});
+$('saved-designs').addEventListener('click',e=>{if(!live())return;const remove=e.target.closest('[data-delete-design]'),select=e.target.closest('[data-select-design]');if(remove){progress.designs.splice(Number(remove.dataset.deleteDesign),1);session.comparison=[];session.selectedDesign=null;session.report=null;persist();render();}if(select){const index=Number(select.dataset.selectDesign),row=session.comparison.find(r=>r.designIndex===index);if(!row)return;session.selectedDesign=index;session.report=row.report;session.reportDesign={w1:progress.designs[index].w1,w2:progress.designs[index].w2,wavelength:1.55,index:1,fixedLoss:0};state={...state,...session.reportDesign,dx:0,dy:0,thetaX:0,thetaY:0};pairType=progress.designs[index].pairType;$('design-pair').value=pairType;render();feedback('채택 후보의 실제 Yield, P95와 Worst Sample을 확인하세요.');}});
+$('factory-commit').addEventListener('click',()=>{if($('factory-commit').disabled)return;const report=session.report;if(!report||report.yield<.95||report.p95>1){feedback('공정 승인 실패 · Yield ≥95%와 P95 ≤1 dB가 필요합니다.','warning');return;}session.factoryResults.push({yield:report.yield,p95:report.p95,seed,processIndex:activeProcessIndex(),design:{...progress.designs[session.selectedDesign]}});if(session.factoryRound===0){session.factoryRound=1;session.comparison=[];session.selectedDesign=null;session.report=null;state.dx=state.dy=state.thetaX=state.thetaY=0;render();feedback('공정 A 승인 완료. 공정 조건이 바뀌었습니다! 같은 설계가 여전히 승리할까요?','success');}else{render();complete();}});
+$('close-dialog').addEventListener('click',()=>$('summary-dialog').close());$('dialog-continue').addEventListener('click',()=>$('summary-dialog').close());
+$('assumptions').addEventListener('click',()=>{$('dialog-content').innerHTML='<h2>Engineering Assumptions</h2><h3>Simplified Gaussian Mode Model</h3><p>원형 Scalar Gaussian, Field Amplitude 1/e Radius, 길이 µm. ηspatial = [2w₁w₂/(w₁²+w₂²)]² exp[−2(dx²+dy²)/(w₁²+w₂²)].</p><h3>Angular Phase Tilt</h3><p>ηangular = exp[−w₁²w₂²(qx²+qy²)/(2(w₁²+w₂²))], q=(2πn/λ₀)θ. θ는 radians로 계산하며 UI는 degrees, λ₀=진공 파장, n=1 Air입니다. 같은 평면의 작은 Phase Tilt만 계산합니다.</p><h3>Passive Assembly / Assumed</h3><p>독립 Normal X/Y와 Tilt Error = Bias + Sigma × Z. Seeded Box–Muller로 생성한 동일 Sample을 설계끼리 공유합니다. Yield = Pass/N, PASS ≤1 dB. P95는 Nearest-rank, 표본 불확실성은 95% Wilson CI입니다. ±5° 밖의 Sample은 모델 밖이므로 잘라내거나 거짓 Yield를 계산하지 않습니다.</p><h3>Physics / Score / Limits</h3><p>Mismatch, Lateral, Angular, Fixed Loss를 더해 Total Loss를 구합니다. Game Score는 Physics Result를 바꾸지 않습니다. Gap, Walk-off, Refraction, Lens, Fresnel, Full-vector, Polarization, Thermal, Adhesive와 실제 공장 Yield는 미계산입니다. 공정 숫자는 학습용 가정, 실제 제조 측정값이 아닙니다.</p><h3>저장과 소리</h3><p>Schema 1/2 기록은 보존하며 새 콘텐츠 Achievement를 별도로 저장합니다. Browser/Profile/file 경로에 따라 저장 영역이 다를 수 있습니다. 제한된 저장 환경도 세션 플레이가 가능합니다. Sound는 사용자가 켤 때만 Web Audio로 합성하며 외부 Asset을 쓰지 않습니다.</p>';$('summary-dialog').showModal();});
+$('reset-progress').addEventListener('click',()=>{if(!confirm('완료 기록과 저장 설계, Best Performance를 초기화할까요?'))return;progress=freshProgress();sound.enabled=false;persist();loadMission(1);});
+scene=new AlignmentScene($('alignment-canvas'),()=>({...state,result,enabled:spatialEnabled(),showTolerance:practice,tolerance:alignmentTolerance(state.w1,state.w2,1,state.fixedLoss)}),moveTo,attempt);
+const angleViews=['x','y'].map(axis=>new AngularScene($('angular-'+axis),axis,()=>({theta:state[axis==='x'?'thetaX':'thetaY']||0,enabled:angleEnabled()}),value=>tilt(axis,value),attempt));
 loadMission(missionId);persist();
