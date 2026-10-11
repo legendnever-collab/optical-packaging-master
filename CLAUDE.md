@@ -11,4 +11,7 @@
 9. `npm test` and `npm run build` are minimum checks. Run `npm run test:ui` on the built file offline. Record actual engines, versions, counts and skipped work truthfully. Never count unexecuted browser tests as PASS.
 10. Rebuild dist after changing source; do not hand-edit it. Run `npm run release` after updating evidence. Hashes live in `dist/release-manifest.json` and ZIP integrity is tested.
 11. No user attachments, internal/company material or credentials in public Git. Use git phase commits. Feature branch + PR only; no merge, auto-merge or tag without explicit approval.
-12. Keep Mission 03 controlled experiments and Mission 04 Position-before-Direction gates explicit; Keep the experience a game; avoid introducing CAD/workbench complexity into Chapter 1.
+12. Keep Mission-specific gameplay: 02 hidden evidence and bounded inspection, 03 predict/experiment/decide without forced card sampling, 04 hidden direction at already aligned centers, 05 sample observation, 06 continuous fixed-process optimization, 07 common-cohort design decisions. Avoid CAD complexity in Chapter 1.
+
+13. Independent Normal process errors and fixed uint32 seeds are explicit assumptions. Compare designs on identical samples. Reject angular samples outside the phase-tilt domain; never clip, omit or resample silently. Report Yield with counts, P95 and Wilson uncertainty.
+14. Schema 3 preserves legacy achievements separately from redesigned content badges. Keep complete evaluation snapshots with Seed, Count, Process Bias/Sigma, Model Version and Loss Limit. Never claim adaptive same-cohort optimization is independent yield validation.

@@ -1,20 +1,22 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "Release Candidate",
-  "baseline": "49b9337f08883e6ea7dfca81b64ee21b906b8621",
+  "baseline": "0cb4c3a4feb69bde4c7cc59b526376116ff40e35",
   "files": {
-    "optical-packaging-master-v0.2.html": "e93a3bb7ab76f517a8b3e6f0bc79893f8b400e76e47fd347abe22b900cebf6ac",
-    "README.md": "02dcdd14c88b847a103f4c1854624e506a4d7b84da86027eb7b177fb752c34d0",
-    "PHYSICS_MODEL.md": "50e1dc968f3e6363d92f120e735b05443cb06353e78e3ec95655d72f2ba99558",
-    "RELEASE_NOTES.md": "206dcf32c91054c2b7a9c11af728535fd10c4dc7484c8eb54309e4ad270b63e5",
-    "TEST_SUMMARY.md": "e38f07d5ef9cb8293e014b8a4377342bf3c467457734f3bfb17c8b2fa2d449f0"
+    "optical-packaging-master-v0.3.html": "60ea096ff85d6d27814dd24b5c53e78480def8f10d4f9a3850041611df85c623",
+    "README.md": "b6f8211e3f214192d4a614184a4be16ebb63e173c3ae792f660e7a7c702eb911",
+    "PHYSICS_MODEL.md": "da720475be2b3d8dccf943876eff843d024396366e8122293c07a372c2ce718d",
+    "RELEASE_NOTES.md": "418689c9ae339f11cd3a2ec3ee12acbaed414094249dbc0f862fcf797cda545a",
+    "TEST_SUMMARY.md": "4d2029e3fbcecb55b636a341bf9851f7b4e99774372668d5acfd01078adedadb",
+    "GAME_DESIGN.md": "fb0686f321db80b6f783cdb7878884f1d4452c62ed719e77050520b0baa28999",
+    "GAMEPLAY_AUDIT.md": "a5da67b014067c1cee12370aa03c5b4a15c45674faf42a420e9748df3f8f8347"
   },
   "html": {
-    "path": "dist/optical-packaging-master-v0.2.html",
-    "sha256": "e93a3bb7ab76f517a8b3e6f0bc79893f8b400e76e47fd347abe22b900cebf6ac"
+    "path": "dist/optical-packaging-master-v0.3.html",
+    "sha256": "60ea096ff85d6d27814dd24b5c53e78480def8f10d4f9a3850041611df85c623"
   },
   "zip": {
-    "path": "dist/optical-packaging-master-v0.2-release.zip",
-    "sha256": "5f2ebbbcc067394729384dd1c5d43ff5cf1824fbecf7ba0f8b99d3432b7a5d9d"
+    "path": "dist/optical-packaging-master-v0.3-release.zip",
+    "sha256": "977d90e42b130c1706e510f94a55f63c0df6c90aafd6090724aad34337f6d2d0"
   }
 }

@@ -24,4 +24,4 @@ Objective and immediate next action appear at the top. Diagnostic evidence is in
 
 ## Scope / evidence boundary
 
-7 missions are targeted, retaining Free Practice, replay, legacy progress, offline build and physical regression. Independent normal process errors, bias, sample uncertainty and model-domain rejection are explicit engineering assumptions. No gap, lens propagation, walk-off, refraction or industry yield calibration is added. Automated checks and visual inspection verify operation; first-time usability and learning efficacy remain hypotheses until observed with people.
+7 missions are implemented, retaining Free Practice, replay, legacy progress, offline build and physical regression. Independent normal process errors, bias, sample uncertainty and model-domain rejection are explicit engineering assumptions. No gap, lens propagation, walk-off, refraction or industry yield calibration is added. Automated checks and visual inspection verify operation; first-time usability and learning efficacy remain hypotheses until observed with people.
