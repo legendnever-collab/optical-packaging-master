@@ -8,11 +8,11 @@
 | Angular Physics | 19 | 0 | Existing phase-tilt reference, zero-tilt regression and complex-field quadrature; unchanged tests/engine |
 | Assembly statistics | 28 | 0 | Seed/prefix/zero seed, Normal moments, Bias/zero Sigma, counts/Histogram/P95, Wilson CI, unchanged-engine row regression, extreme/domain validation and design ranking reversal |
 | Gameplay / scoring | 18 | 0 | Seven unique policies, diagnosis/repairs, environment decisions, discovery, Yield/P95 goals, progression/retry/hints and score separation |
-| Persistence | 24 | 0 | Schema 1/2→3, separate new achievements, saved evaluation snapshots, corrupt values, quotas/blocked storage and future schema protection |
+| Persistence | 25 | 0 | Schema 1/2→3, separate new achievements, saved evaluation snapshots, corrupt values, quotas/blocked storage and future schema protection |
 | Build | 7 | 0 | Deterministic Single HTML, no external runtime assets, classic script parse and accessible controls |
-| **Node total** | **125** | **0** | Node 24.19.0 |
-| Chromium offline UI | 52 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1, Linux headless, actual file:// artifact |
-| **Local total** | **177** | **0** | All checks executed; no skipped tests counted |
+| **Node total** | **126** | **0** | Node 24.19.0 |
+| Chromium offline UI | 53 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1, Linux headless, actual file:// artifact |
+| **Local total** | **179** | **0** | All checks executed; no skipped tests counted |
 
 Baseline main v0.2 had 94 PASS / 0 FAIL before editing. The 48 existing Physics checks and engines are preserved. Old gameplay-policy tests were replaced to match the authorized redesign; the baseline's forced card sampling / repeated positioning requirements are intentionally superseded, not claimed unchanged.
 
@@ -24,7 +24,7 @@ Chromium uses native network-offline emulation. Observed runtime HTTP(S) request
 
 Final screenshots for First Light, diagnosis, Interface decision, lottery, optimization, factory and mobile were visually inspected. Objective/next-action text precedes controls, diagnosis remains concealed, sensitivity and histogram labels correspond to actual physics, and narrow panels fit vertically. Screenshots are internal QA evidence under ignored `tmp/qa`; Korean font was installed on the QA host only. Structured local evidence is `browser-qa-results.json`.
 
-During development, a copy/test mismatch and a mobile selector typo failed checks; these were corrected and the final whole Chromium run passed 52/52. No earlier failure is counted as a final PASS without rerunning.
+During development, a copy/test mismatch, mobile selector typo and Firefox headless audio initialization failed checks; these were corrected, including immediate saved Sound preference and a bounded optional AudioContext initialization fallback, and the final whole Chromium run passed 53/53. No earlier failure is counted as a final PASS without rerunning.
 
 ## CI scope and independent release verification
 

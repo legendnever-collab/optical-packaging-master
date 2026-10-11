@@ -38,3 +38,5 @@ test('corrupt evaluation conditions cannot masquerade as a valid stored comparis
  p.designs[0].evaluations=[{seed:1,count:1000,processIndex:0,yield:.99,p95:.2,nominalLoss:0,modelVersion:'gaussian-phase-v2',lossLimit:1,process:{}}];
  assert.deepEqual(validateProgress(p).designs[0].evaluations,[]);
 });
+
+test('null saved designs are filtered without losing valid achievements',()=>{const p=freshProgress();recordCompletion(p,1,900,.2);p.designs=[null,{name:'Kept',w1:2,w2:2,pairType:'matched'}];const clean=validateProgress(p);assert.equal(clean.missions[1].bestScore,900);assert.equal(clean.designs.length,1);});

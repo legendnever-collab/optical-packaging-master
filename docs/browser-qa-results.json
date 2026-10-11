@@ -9,7 +9,7 @@
       "networkMode": "native offline emulation"
     }
   ],
-  "pass": 52,
+  "pass": 53,
   "fail": 0,
   "results": [
     {
@@ -178,6 +178,10 @@
     },
     {
       "name": "chromium / no runtime HTTP assets and no critical page errors",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / unavailable audio keeps the choice and does not block gameplay",
       "status": "PASS"
     },
     {
