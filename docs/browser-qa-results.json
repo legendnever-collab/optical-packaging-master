@@ -9,15 +9,15 @@
       "networkMode": "native offline emulation"
     }
   ],
-  "pass": 41,
+  "pass": 52,
   "fail": 0,
   "results": [
     {
-      "name": "chromium / local file boots with network blocked",
+      "name": "chromium / offline single HTML boots and objective is visible",
       "status": "PASS"
     },
     {
-      "name": "chromium / campaign locks later missions",
+      "name": "chromium / later campaign missions lock and sound defaults off",
       "status": "PASS"
     },
     {
@@ -25,155 +25,199 @@
       "status": "PASS"
     },
     {
-      "name": "chromium / incorrect Mission 01 cannot pass",
+      "name": "chromium / incorrect First Light does not pass",
       "status": "PASS"
     },
     {
-      "name": "chromium / concept hint appears",
+      "name": "chromium / progressive conceptual hint appears on request",
       "status": "PASS"
     },
     {
-      "name": "chromium / direct mouse drag updates physical output",
+      "name": "chromium / mouse drag shares exact slider state and physical loss",
       "status": "PASS"
     },
     {
-      "name": "chromium / drag and slider share exact state",
+      "name": "chromium / fine keyboard preserves alignment interaction",
       "status": "PASS"
     },
     {
-      "name": "chromium / keyboard fine alignment works",
+      "name": "chromium / First Light gives achievement and four learning sections",
       "status": "PASS"
     },
     {
-      "name": "chromium / Center restores ideal 100 percent and zero loss",
+      "name": "chromium / optional synthesized sound preference restores offline",
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 01 completes with four learning sections",
+      "name": "chromium / offline restore preserves achievement and unlock",
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 02 unlocks",
+      "name": "chromium / diagnostic fault state is hidden before inspection",
       "status": "PASS"
     },
     {
-      "name": "chromium / progress restores after offline refresh",
+      "name": "chromium / two inspections reveal actual evidence and exhaust budget",
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 02 disables Center shortcut",
+      "name": "chromium / wrong diagnosis/repair leaves actual fault and cannot advance",
       "status": "PASS"
     },
     {
-      "name": "chromium / Challenge one does not prematurely complete mission",
+      "name": "chromium / correct position repair restores actual power",
       "status": "PASS"
     },
     {
-      "name": "chromium / different third challenge advances",
+      "name": "chromium / three distinct fault cases complete with diagnosis learning",
       "status": "PASS"
     },
     {
-      "name": "chromium / all three Challenges complete Mission 02",
+      "name": "chromium / interface prediction does not require procedural measurements",
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 03 explains the current action and fixed condition",
+      "name": "chromium / expanded mode fails precision-position angular environment",
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 03 cannot skip the third measurement",
+      "name": "chromium / small mode passes A and environment B changes the decision",
       "status": "PASS"
     },
     {
-      "name": "chromium / Expanded improves lateral tolerance at the same offset",
+      "name": "chromium / same small mode fails relaxed positioning environment",
       "status": "PASS"
     },
     {
-      "name": "chromium / Centered Expanded exposes mode mismatch",
+      "name": "chromium / different physical design passes B and completes decision mission",
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 03 wrong physical design cannot connect",
+      "name": "chromium / Angular Mission starts centered with hidden direction error",
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 03 connects matching design and unlocks Angular",
+      "name": "chromium / Center recheck cannot repair hidden angular fault",
       "status": "PASS"
     },
     {
-      "name": "chromium / Replay keeps Personal Best and resets guided observations",
+      "name": "chromium / direction inspection reveals relative angles and enables correction",
       "status": "PASS"
     },
     {
-      "name": "chromium / Angular Mission starts with Position before Direction",
+      "name": "chromium / angle handle drag synchronizes exact slider and direction state",
       "status": "PASS"
     },
     {
-      "name": "chromium / Center keeps physical angular loss and direction",
+      "name": "chromium / angle keyboard fine step works",
       "status": "PASS"
     },
     {
-      "name": "chromium / Observing residual loss enables angle handles and locks Position",
+      "name": "chromium / angular repair completes and introduces factory question",
       "status": "PASS"
     },
     {
-      "name": "chromium / Angular slider values agree with the independent loss reference",
+      "name": "chromium / ten actual assembly samples have distinct loss and pass/fail text",
       "status": "PASS"
     },
     {
-      "name": "chromium / Angle handle drag synchronizes slider and physical loss",
+      "name": "chromium / lottery stats reconcile with count and failed-sample physics",
       "status": "PASS"
     },
     {
-      "name": "chromium / Angle handle supports keyboard fine adjustment",
+      "name": "chromium / same seed reproduces identical yield",
       "status": "PASS"
     },
     {
-      "name": "chromium / Angular Mission completes with physical zero-loss result",
+      "name": "chromium / 10000 samples execute and reconcile without animation busywork",
       "status": "PASS"
     },
     {
-      "name": "chromium / Angular Mission progress restores offline",
+      "name": "chromium / continuous optimization starts with poor yield and fixed process",
       "status": "PASS"
     },
     {
-      "name": "chromium / practice fixed loss separately adds to total",
+      "name": "chromium / radius changes maps and yield using same 1000 samples",
       "status": "PASS"
     },
     {
-      "name": "chromium / no runtime HTTP asset requests",
+      "name": "chromium / too large radius fails fixed-waveguide tolerance goal",
       "status": "PASS"
     },
     {
-      "name": "chromium / no critical JavaScript errors",
+      "name": "chromium / factory compares saved designs under identical cohort and nominal tie",
       "status": "PASS"
     },
     {
-      "name": "chromium / blocked Local Storage still allows completion",
+      "name": "chromium / best nominal alone cannot approve poor-yield factory design",
       "status": "PASS"
     },
     {
-      "name": "chromium / mobile layout has no horizontal page overflow",
+      "name": "chromium / lateral-tolerant winner advances to changed angular process",
       "status": "PASS"
     },
     {
-      "name": "chromium / actual touch drag updates alignment",
+      "name": "chromium / expanded winner fails after angular process shift",
       "status": "PASS"
     },
     {
-      "name": "chromium / actual touch angle drag updates Tilt",
+      "name": "chromium / adapted design beats second factory and completes Chapter 2",
       "status": "PASS"
     },
     {
-      "name": "chromium / real local-file schema 1 upgrade preserves completion and best scores",
+      "name": "chromium / saved optical designs and evaluation conditions restore",
       "status": "PASS"
     },
     {
-      "name": "chromium / future schema survives boot and play without overwrite",
+      "name": "chromium / Replay resets active challenge while keeping designs and achievements",
       "status": "PASS"
     },
     {
-      "name": "chromium / Reset Progress confirms and relocks campaign",
+      "name": "chromium / Free Practice preserves full controls and separates fixed loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / no runtime HTTP assets and no critical page errors",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / blocked storage permits first-light completion",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / mobile layout avoids horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / actual Touch drag changes XY state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / actual Touch drag changes angular state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / mobile mission 2 objective, controls and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / mobile mission 6 objective, controls and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / mobile mission 7 objective, controls and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / real v0.2 file upgrade keeps scores, unlocks Chapter 2 and distinguishes new content",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / unknown future schema is preserved during play",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / explicit Reset relocks local campaign state",
       "status": "PASS"
     }
   ]
