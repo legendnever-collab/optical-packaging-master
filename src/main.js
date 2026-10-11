@@ -1,3 +1,4 @@
+import {PhysicsCampaign} from './ui/physics-campaign.js';
 import {AssemblyChallenge} from './ui/assembly-challenge.js';
 import {PhysicalScene} from './ui/physical-scene.js';
 import {FactoryPlayback} from './ui/factory-playback.js';
@@ -16,13 +17,14 @@ import {LabSound} from './ui/sound.js';
 import {escapeText,drawHistogram,drawSensitivity} from './ui/assembly-view.js';
 import {learningSummary,showLearning} from './ui/learning-panel.js';
 const $=id=>document.getElementById(id),fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n):'∞',signed=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(2);
+let legacyActive=Boolean(window.OPM_LEGACY_LAB||new URL(location.href).searchParams.has('legacy'));
 let storage;try{storage=window.localStorage;}catch{storage=null;}
 const slicePreview=Boolean(window.OPM_VERTICAL_SLICE);
 const loaded=slicePreview?{progress:freshProgress(),readOnly:true,status:'preview'}:loadProgress(storage);let progress=loaded.progress;
 let missionId=canAccess(progress.lastMission,progress)?progress.lastMission:1,practice=false,session=makeSession(missionId);
 let state={},result,initialLoss=0,pairType='matched',seed=20261011,cohort=null,generation=0,running=false,scene;
 const sound=new LabSound();sound.enabled=progress.sound;
-function persist(){if(loaded.readOnly){$('save-status').textContent=slicePreview?'Vertical Slice · 저장 없이 세션 플레이':'△ 새 버전 데이터 보존 · 현재 세션만 진행';return;}$('save-status').textContent=saveProgress(storage,progress)?'● Progress 저장됨':'△ 저장 제한 · 현재 세션에서 플레이 가능';}
+function persist(){if(!legacyActive)return;if(loaded.readOnly){$('save-status').textContent=slicePreview?'Vertical Slice · 저장 없이 세션 플레이':'△ 새 버전 데이터 보존 · 현재 세션만 진행';return;}$('save-status').textContent=saveProgress(storage,progress)?'● Progress 저장됨':'△ 저장 제한 · 현재 세션에서 플레이 가능';}
 function feedback(message,tone=''){$('feedback').textContent=message;$('feedback').className='feedback '+tone;}
 function live(){return session.started&&!session.completed&&!running;}
 function spatialEnabled(){return !isPath()&&live()&&(practice||missionId===1);}
@@ -212,3 +214,9 @@ loadMission(missionId);persist();
 const assemblyChallenge=new AssemblyChallenge($('assembly-challenge'),slicePreview?null:storage,loaded.readOnly);
 $('open-assembly').addEventListener('click',()=>{generation++;running=false;factoryPlayback.cancel();document.querySelector('.lab-layout').hidden=true;$('assembly-challenge').hidden=false;assemblyChallenge.render();assemblyChallenge.persist();$('open-assembly').setAttribute('aria-pressed','true');$('ac-feedback').scrollIntoView({block:'start'});});
 $('return-campaign').addEventListener('click',()=>{assemblyChallenge.cancel();$('assembly-challenge').hidden=true;document.querySelector('.lab-layout').hidden=false;$('open-assembly').setAttribute('aria-pressed','false');render();$('open-assembly').focus();});
+
+function openLegacyLab(){legacyActive=true;physicsCampaign.cancel();$('physics-campaign').hidden=true;document.querySelector('.lab-layout').hidden=false;$('assembly-challenge').hidden=true;for(const id of ['open-assembly','sound-toggle','reset-progress','save-status'])$(id).hidden=false;render();persist();}
+function openPhysicsCampaign(){physicsCampaign.cancel();assemblyChallenge.cancel();factoryPlayback.cancel();generation++;running=false;legacyActive=false;$('physics-campaign').hidden=false;document.querySelector('.lab-layout').hidden=true;$('assembly-challenge').hidden=true;for(const id of ['open-assembly','sound-toggle','reset-progress','save-status'])$(id).hidden=true;physicsCampaign.restoreReports();physicsCampaign.render();}
+const physicsCampaign=new PhysicsCampaign($('physics-campaign'),slicePreview?null:storage,{preview:slicePreview,openLegacy:openLegacyLab});
+$('show-physics-campaign').addEventListener('click',openPhysicsCampaign);$('show-legacy-lab').addEventListener('click',openLegacyLab);
+if(legacyActive)openLegacyLab();else openPhysicsCampaign();
