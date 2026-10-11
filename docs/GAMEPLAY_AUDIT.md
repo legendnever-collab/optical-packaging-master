@@ -1,4 +1,4 @@
-# v0.3–v0.4 Gameplay Audit
+# v0.3–v0.5 Gameplay Audit
 
 Baseline directly fetched from main: `0cb4c3a4feb69bde4c7cc59b526376116ff40e35` (v0.2.0). Baseline regression: 94 PASS / 0 FAIL. Existing Gaussian spatial / angular physics and pointer/keyboard scenes are retained. No user test or learning-effect measurement was conducted.
 
@@ -37,3 +37,9 @@ Approved v0.3 PR #3 merged at `e66573f81fbda98352f30f121c0ddef549ec2544`; latest
 | 10 Fit the Package | Choose relay, position lens/fold, inspect package checks | Expansion plus curvature and physical routing constraints | Optical success without fit; nominal success without probe acceptance | Two lenses + fold; three loss/footprint checks pass | Optical Interface Designed |
 
 M08 changes the observation plane, M09 changes an optical component, M10 makes a system choice under optical and space constraints. None asks for the previous X/Y centering behavior. The optional Builder exposes parameters without forced measurements or required campaign steps. Finite probes and centerline footprints are labeled; no player study or industrial packaging validation was performed.
+
+## v0.5 audit: optical modes → physical tasks
+
+Mode-first instruments made manipulation and manufacturing feel similar despite different equations. v0.5 places an assembly bench first and moves optional technical displays behind Advanced. P0 examples are direct Fiber-to-PIC alignment, real-sample production/sorting/inspection and Inventory Lens Drop/refocus. The same components then appear in all ten retained policies. See GAMEPLAY_CHANGES.md for the action/consequence matrix. Hardware bodies remain a declared illustrative projection; no new mechanical accuracy is claimed.
+
+Functional review criteria are automated: objective visible, real component drag changes state, same optical outputs across views, failed sample is actual seeded row, successful package is stamped/lit, and different mission policies reject their wrong choices. Counts and executed engine evidence are in TEST_SUMMARY.md. Human fun/learning claims remain unverified.

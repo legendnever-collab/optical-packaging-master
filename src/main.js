@@ -154,7 +154,7 @@ function complete(){
  if(missionId===5){loss=session.report.p95;score=Math.max(0,Math.min(1000,Math.round(800+50*Math.log10(session.report.count)-20*session.hints)));}
  if(missionId===6){loss=session.report.p95;score=manufacturingScore(session.report,session.hints);}
  if(missionId===7){loss=Math.max(...session.factoryResults.map(r=>r.p95));score=Math.round(session.factoryResults.reduce((sum,r)=>sum+manufacturingScore(r,session.hints),0)/2);}
- session.completed=true;recordCompletion(progress,missionId,score,loss);progress.tutorialSeen=true;persist();renderNav();render();document.querySelector('.workspace').classList.add('celebrate');sound.success();feedback(missions[missionId-1].achievement+' · 물리 결과에 기반한 Engineering Achievement','success');
+ session.completed=true;if(missionId===9){physicalScene.camera={x:0,y:0,zoom:1.1};physicalScene.selected=null;}recordCompletion(progress,missionId,score,loss);progress.tutorialSeen=true;persist();renderNav();render();document.querySelector('.workspace').classList.add('celebrate');sound.success();feedback(missions[missionId-1].achievement+' · 물리 결과에 기반한 Engineering Achievement','success');
  showLearning($('summary-dialog'),learningSummary(missionId,initialLoss,loss,{session}),score,loss,isManufacturing()?' / P95 ASSEMBLY LOSS':missionId===10?' / WORST GAP PROBE':missionId===3?' / WORST ENVIRONMENT':'');
 }
 $('mission-nav').addEventListener('click',e=>{const button=e.target.closest('[data-mission]');if(button)loadMission(Number(button.dataset.mission));});$('practice').addEventListener('click',()=>loadMission(1,true));$('interface-practice').addEventListener('click',()=>loadMission(10,true));

@@ -1,4 +1,4 @@
-# Gameplay Design — v0.4
+# Gameplay Design — v0.5
 
 Observe → Predict → Experiment → Diagnose → Decide → Improve. 첫 행동과 목표가 중앙 상단에 보이며, Mission에 필요한 조작만 나타납니다. 네 가지 Mechanic은 Precision Control, Fault Diagnosis, Design Decision, Engineering Optimization입니다. 전체 Mission별 Unique Action / Principle / Failure / Success / Reward는 [Gameplay Audit](GAMEPLAY_AUDIT.md)의 Differentiation Matrix에 명시합니다.
 
@@ -71,3 +71,11 @@ Central scene shows actual w(z), source/target and ordered lens/Receiver/mirror 
 Accessible regardless of campaign unlocks. Source/target waist 5–30 µm, incoming waist location 0–1000, λ₀=1.31/1.55, Receiver Z=300–2500, zero/one/two ordered ideal lenses with f=80–1200, and optional ideal 90° Fold. Train presets start from input waist z=0. Drag/slider/keyboard share one validated configuration. Invalid component order/path is rejected, not repaired silently. Runtime source config and calculation modules stay separate; unknown optical component types are unsupported.
 
 Schema 4 autosaves the last valid independent Builder snapshot (`gaussian-q-v1`) with source, target, wavelength, index, waist location, lens order/parameters, receiver and fixed-loss assumptions. Campaign retries reset only the current experiment; practice cannot alter best scores or completions. Missions 01–07 retain content version 3, Mission 08–10 use version 4. v0.3 factory designs/evaluation snapshots and legacy scores survive migration. Mission 10 stored best/score uses the three-point worst loss, while the main power meter displays nominal power and the gap table displays off-nominal checks. Both are labeled explicitly.
+
+## The Packaging Experience — v0.5
+
+Hardware is the default main surface. Physical Scene, view/mode controls, selection and the Light ON/achievement cycle precede specialized mission panels. On mobile the workbench precedes measurement and mission navigation; main numeric/formula instruments are optional Advanced disclosures. Mission 01 now moves a Fiber Body/Facet; 05 produces/tests/sorts real sample packages and inspects REJECT; 09 installs a lens from inventory onto the actual optical train before refocusing. Buttons, old sliders and keyboard are retained as accessible alternatives. No Mission 11 or advanced assembly solver is added.
+
+Production line animates only ten real samples. Full production Dashboard reports selected count, GOOD, REJECT, estimated Yield and P95 before the existing histogram. A failed package restores actual row inputs and its total loss, threshold and largest loss contribution. Switching to Optical retains that package state. Navigation/retry cancels playback.
+
+Success visibly lights the actual computed output, stamps the package and provides the retained learning summary/optional synthesized sound. Mission 09 centers attention with a display-only completion zoom. None of these rewards alters calculated results. [Gameplay Changes](GAMEPLAY_CHANGES.md) maps all ten experiences; [Scene Architecture](PHYSICAL_SCENE_ARCHITECTURE.md) states projection and scale distortion. Existing optical assumptions and all completion thresholds remain unchanged.

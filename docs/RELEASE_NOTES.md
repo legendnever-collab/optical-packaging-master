@@ -1,17 +1,13 @@
-# v0.4.0 Release Candidate — Optical Interface Builder
+# v0.5.0 Release Candidate — The Packaging Experience
 
-v0.3 PR #3 was merged with user approval at `e66573f81fbda98352f30f121c0ddef549ec2544`. v0.4 is developed on `feature/v0.4-optical-interface-builder`; it is a separate RC for review, not an approved main merge or formal tag.
+Dependency: PR #4 v0.4 remains open at 3f94233f17a0af010b3ebfb33c1ebef4f666fb81; main is v0.3. This branch feature/v0.5-packaging-experience builds incrementally on v0.4 and uses it as stacked PR base. Merge neither PR without approval. After v0.4 merge, realign to latest main and rerun CI before v0.5 merge.
 
-- Preserved the seven v0.3 missions, spatial/angular/statistical engines and offline artifacts.
-- Added Chapter 3: Catch the Focus, Bridge the Gap, Fit the Package. Move Receiver Z, refocus a thin lens, then combine mode expansion and folded space constraints.
-- Added UI-independent geometric Gaussian q / ABCD propagation and coaxial complex-field overlap including size and curvature. Lens/mirror fixed losses are separately assumed/displayed.
-- Added direct Mouse/Touch/keyboard Receiver/Lens/Mirror handles, actual unfolded beam envelope, local beam probe and centerline route view.
-- Independent Interface Builder supports source/target waist, incoming waist location, wavelength, gap, 0–2 lenses and ideal fold; saves the last configuration.
-- Schema 4 preserves v0.3 badges, old scores/unlocks and factory designs/evaluation conditions. New missions have separate v4 content records.
-- Offline v0.4 HTML and deterministic RC ZIP with SHA-256 manifest. No external runtime assets or attachment/company-file redistribution.
+- Default physical 2.5D assembly bench: Fiber/Core/Facet, PIC/Port/Waveguide, lens mount, ideal mirror, Receiver, base and datum concept.
+- Direct physical Fiber drag, path Receiver/Lens/Mirror drag/keyboard, Lens Inventory Drop plus accessible install, actual refocus and power/envelope updates.
+- Hardware / Optical / Engineering / Inspection, optional Gaussian overlay, selection, camera Zoom/Pan/Exploded; Advanced numeric instruments preserved.
+- Real seeded ten-sample PLACE / TEST / SORT line, GOOD/REJECT dashboard for whole report, click rejected Package and replay exact X/Y/Tilt/loss state.
+- Lit/stamped completion, restored-link zoom and retained learning feedback/sound.
+- Ten existing missions and all physics engines/thresholds preserved. Same schema 4/content versions 3/4 keep progress and independent Builder draft.
+- Offline HTML, isolated direct-access vertical-slice snapshot 01/05/09, deterministic ZIP/manifest, coordinate/architecture and gameplay change reports plus visual screenshots.
 
-## Boundaries
-
-Coaxial paraxial scalar optics in one homogeneous medium, ideal lenses and ideal unfolded fold only. The original lateral/angular engine is not multiplied into propagation. No aperture, aberration, refraction, lens tilt/decenter/walk-off, component bodies/clearance, true vector reflection or whole-system Yield. Mission 10 checks three Receiver positions, not a probability or every position in a continuous range. Fixed losses, package centerline limits and scenario inputs are learning assumptions. Browser engine QA is not human learning-effect testing or physical-device certification.
-
-See TEST_SUMMARY.md for actual counts and unexecuted work, PHYSICS_MODEL.md for equations/conventions and GAMEPLAY_AUDIT.md for mission differentiation.
+No new solver, Mission 11, body/collision/aperture, traced reflection, decenter/tilt propagation, optical/statistical model fusion or new mechanical Yield model. Body and datum sizes are illustrative; q Envelope/z/body scales are disclosed separately. Animation velocity is theatrical; output attenuation and sample sorting are computed. Human first-play fun/learning, physical devices and branded platforms remain untested. See actual test counts in TEST_SUMMARY.md and completed CI in the PR.
