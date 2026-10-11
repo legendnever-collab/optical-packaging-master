@@ -1,31 +1,29 @@
-# v0.1.0 Release Candidate — Test Summary
+# v0.2.0 Release Candidate — Test Summary
 
 ## Executed locally
 
-| Suite | PASS | FAIL | Environment / evidence |
+| Suite | PASS | FAIL | Evidence |
 | --- | ---: | ---: | --- |
-| Physics | 29 | 0 | Node 24.19.0; includes independent normalized-field quadrature |
-| Gameplay / scoring | 17 | 0 | Node built-in test runner |
-| Persistence | 13 | 0 | Real validation plus restricted/quota/error adapters |
-| Build / offline asset inspection | 7 | 0 | Reproducible inline HTML, classic-script syntax and zero runtime asset references |
-| Chromium offline browser QA | 28 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1, Linux headless; built HTML via file:// |
-| **Total local automated assertions** | **94** | **0** | `npm test`; `OPM_BROWSERS=chromium npm run test:ui` |
+| Spatial Physics | 29 | 0 | Existing v0.1 reference and numerical quadrature regression |
+| Angular Physics | 19 | 0 | Formula reference, zero-tilt compatibility, symmetry/scaling, budget, invalid/extreme inputs and independent complex-field quadrature |
+| Gameplay / scoring | 23 | 0 | Guided sample gating, physical design acceptance, Angular observation gate, progression/retry/score |
+| Persistence | 16 | 0 | Schema 1→2 migration, four missions, blocked/quota/malformed and future-schema protection |
+| Build | 7 | 0 | Deterministic inline classic script, no runtime assets, accessible controls |
+| Chromium offline UI | 41 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1; Linux headless; actual file:// HTML |
+| **Local total** | **135** | **0** | Node 24.19.0 and Chromium QA |
 
-Browser QA runs with network offline and checks all three campaign missions, invalid submissions, three challenge progression, Mission 03 conceptual gating, Mouse Drag, fine Keyboard alignment, Slider sync, Center, Hints, Replay, Free Practice, Fixed Loss, offline refresh/save restore, blocked Local Storage, Reset confirmation, desktop/mobile viewport overflow, real Chromium touch protocol events, zero HTTP runtime requests and zero page errors. Detailed local evidence: `browser-qa-results.json`. Screenshots are internal QA, not release deliverables.
+UI QA exercises all four missions, wrong physical design rejection, three Mode card samples in each fixed-condition stage, Center preserving Angular Loss, actual angle Mouse/Touch Drag, Slider reference agreement, fine Keyboard adjustment, blocked storage, real v0.1-file→v0.2-file migration, unknown-schema preservation, offline refresh and mobile/desktop overflow. Network disabled during local Chromium QA; zero HTTP(S) runtime requests and zero page errors. Detailed local results: `browser-qa-results.json`. Screenshots are internal QA evidence; Korean font installed on QA host only, never a runtime dependency.
 
-Visual review: desktop 1440×1080 and mobile 390×844. Runtime uses OS fonts; Korean glyph support was added to the **QA host only** for visual review, with no bundled/runtime web-font dependency.
+Release integrity is checked separately using `python3 scripts/release.py --verify`: exact archived HTML/docs bytes, ZIP names/CRC and SHA-256 manifest. It is not added to assertion counts.
 
-Release verification: `python3 scripts/release.py --verify` checks exact HTML/docs bytes, ZIP names/CRC and all SHA-256 hashes. This is a separate integrity check, not inflated into the assertion total.
+## CI scope
 
-## CI and platform scope
+CI executes these core checks plus three real local-file Browser jobs. Actual CI outcomes are reported after publication; they are not pre-counted in local results. Chromium/Firefox use native offline emulation. WebKit uses HTTP(S) interception/abort because native-offline mode prevents file navigation in the runner. Thus WebKit network independence is tested, but native WebKit offline emulation is not claimed PASS. Mouse drag allows two CSS pixels of input quantization and angle drag allows a small raster-coordinate tolerance, with exact shared Slider/display state. Chromium CDP Touch tests exercise genuine Touch events, not a real phone.
 
-CI is configured for core checks plus network-blocked Chromium, Firefox and WebKit jobs. Chromium/Firefox use native offline emulation. WebKit uses HTTP(S) interception with abort because native offline emulation produced an internal error navigating a file:// URL in this CI runner. This verifies no runtime network dependency but is not a WebKit native-offline-emulation PASS. Drag tests allow up to two CSS pixels of browser pointer quantization while requiring exact Slider/display/analytical-Loss agreement; fine-keyboard checks require an exact relative 0.01 µm step. Their actual execution results must be reported from GitHub Actions after publication. They are not pre-counted as PASS in the local totals above. No Edge-branded, Safari-branded, Windows, Android, iOS or physical touch-device test was executed locally. Chromium DevTools touch testing verifies touch input handling, not performance on a real phone.
+## Limitations
 
-## Known limitations
-
-- Simplified circular scalar Gaussian X/Y model only; no full-vector EM, reflection, polarization, gap, angle, evanescent, propagation, thermal, adhesive or yield predictions.
-- Local file storage varies with browser/profile/path. Completion/best values persist; an unfinished experiment restarts. Blocked storage falls back to the current session and shows a status.
-- Fixed Loss in Free Practice is a declared dB assumption. Comparison table explicitly uses Fixed Loss = 0, while the active scene/Total Loss and tolerance disk include the current Fixed Loss.
-- Mission thresholds/radii are educational assumptions. Mission 03 is scored for concept understanding; its stored Loss is the selected design's actual result, not a fabricated low-loss requirement.
-- No measured process calibration, manufacturing timing, hardware-device compatibility certification or user learning-study evidence.
-- Release Candidate pending user review; no main merge or tagged production release.
+- No Windows/Edge-branded/Safari-branded/iOS/Android or physical device execution locally; browser-engine results do not certify these platforms.
+- X/Y + two Tilt components only; common-plane circular scalar paraxial assumptions. No Full 6-DOF, Gap, beam propagation/walk-off, refraction, Fresnel, polarization or reliability/yield.
+- Local Storage origin behavior varies by browser/profile/path. Tested engines permit same-profile file upgrade; copying HTML elsewhere does not guarantee identical storage. In-progress sessions restart on reload.
+- Educational Radius/Threshold settings; no measured manufacturing calibration or user-learning study. User evaluation of the redesigned guided missions remains necessary.
+- RC for review; no main Merge or production Tag.

@@ -1,25 +1,28 @@
 # Optical Packaging Master
 
-Interactive Optical Packaging Engineering Game — **v0.1.0 Release Candidate**
+**v0.2.0 Release Candidate — First Light + Aim the Light**
 
-Chapter 1 — First Light: Fiber를 직접 움직이며 Optical Coupling, Alignment Loss, Mode Size Trade-off를 익히는 오프라인 게임입니다. 기술 용어는 영어, 안내는 한국어입니다.
+Fiber를 직접 움직여 Optical Coupling을 성공시키는 오프라인 Engineering Game입니다. 기술 용어는 영어, 안내는 한국어입니다.
 
-## Run the game
+## 실행
 
-Download `dist/optical-packaging-master-v0.1.html` (Raw / Download raw file) or unzip `dist/optical-packaging-master-v0.1-release.zip`, then open the HTML directly in a modern browser. No installation, server, CDN, API key, upload or internet connection is needed. Windows에서 다운로드한 HTML을 더블클릭하면 실행됩니다.
+[`dist/optical-packaging-master-v0.2.html`](dist/optical-packaging-master-v0.2.html)을 Raw / Download raw file로 다운로드한 뒤 더블클릭하세요. 또는 [`dist/optical-packaging-master-v0.2-release.zip`](dist/optical-packaging-master-v0.2-release.zip)을 풀고 HTML을 여세요. 인터넷, 설치, 서버, CDN, API Key, 파일 업로드가 필요하지 않습니다.
 
-Campaign: Start → Fiber 중심 Drag → Loss 확인 → Complete Mission → Learning Summary → Next. Mouse, Touch, X/Y Sliders, Arrow keys (0.1 µm) and Shift+Arrow (0.01 µm) share one alignment state. A drag gesture or completed slider adjustment counts as one Attempt. Hints explain concepts progressively.
+- **Mission 01 — Find the Light:** Fiber를 Drag하여 두 Mode 중심을 맞춥니다. Total Loss ≤1 dB.
+- **Mission 02 — Alignment Challenge:** 세 초기 위치에서 각각 ≤0.4 dB. Center shortcut 없이 정렬합니다.
+- **Mission 03 — Mode Size Trade-off:** ① 같은 Offset에서 카드 3개 측정 → ② Center에서 카드 3개 재측정 → ③ Fixed Waveguide에 맞는 Mode를 골라 **이 Mode로 연결**. 현재 할 일과 조건을 단계별로 표시하며, 마지막 실제 Loss ≤0.10 dB가 성공 조건입니다.
+- **Mission 04 — Aim the Light:** 중심부터 맞추고 남는 Angular Loss를 확인합니다. **중심 확인 → 방향 조정 시작** 후 청록색 방향 핸들 두 개를 파란 축과 나란히 조정해 ≤0.50 dB로 연결합니다.
+- **Free Practice:** 처음부터 접근 가능. X/Y, Radius, Pair Type, Tilt, Wavelength와 Fixed Loss를 자유롭게 실험합니다. Campaign Score/Unlock에 영향을 주지 않습니다.
 
-- Mission 01: Find the Light — matched 2.5 µm modes, <=1 dB Total Loss.
-- Mission 02: The Alignment Challenge — three starting offsets, 1.5 µm modes, <=0.4 dB each. No Center shortcut. All three must pass.
-- Mission 03: Mode Size Trade-off — common-offset comparison of Narrow/Medium/Expanded in matched and fixed-waveguide cases, then two principle questions. Its completion criterion is understanding, not a low-loss threshold.
-- Free Practice: always available; Radius/Pair Type/Fixed Interface Loss control. Does not unlock or score campaign missions.
+Mouse/Touch Drag, Slider, Arrow keys는 같은 State를 조정합니다. Arrow step 0.1 µm 또는 0.1°, Shift+Arrow step 0.01. Hint는 원리를 설명합니다. Retry는 현재 실험만 초기화하며 Personal Best를 유지합니다.
 
-Local Storage saves versioned completion, Personal Best Score/Loss and last selected mission. Reload restores progression, not an unfinished alignment session. Replays preserve Personal Best. Keep the same HTML path, browser and profile; file-origin storage behavior varies. Progress Reset requires confirmation. When storage is blocked or full, current-session gameplay still works.
+## 저장과 버전 호환
 
-## Develop and validate
+Local Storage Schema 2는 v0.1 Schema 1의 완료 상태, Best Score/Loss, Tutorial과 마지막 Mission을 유지합니다. 기존 Mission 03 완료자는 Mission 04가 열립니다. 미래 버전의 알 수 없는 저장 형식은 덮어쓰지 않습니다. Browser/Profile/파일 경로에 따라 로컬 파일 저장 영역이 달라질 수 있으므로 같은 Browser와 Profile에서 실행하세요. 미완료 실험은 새로고침하면 처음부터 시작합니다. 저장 제한 환경도 현재 세션에서는 정상 플레이됩니다. Progress Reset은 확인 후 동작합니다.
 
-Node >=22 and Python >=3.10:
+## 개발과 검증
+
+Node ≥22, Python ≥3.10:
 
 ```bash
 npm test
@@ -28,18 +31,19 @@ npm ci
 npx playwright install --with-deps chromium firefox webkit
 npm run test:ui
 npm run release
+python3 scripts/release.py --verify
 ```
 
-Physics, game state and persistence tests/build use Node built-ins, no runtime dependency. Playwright is a pinned development-only dependency. Source `index.html` uses ES modules and can be served by `python3 -m http.server`; only the exported `dist` HTML is intended for `file://` use. Build deterministically inlines CSS/modules as a classic script; never hand-edit the deployment HTML.
+Source `index.html`은 ESM 개발용이며 `python3 -m http.server`로 열 수 있습니다. 로컬 파일 실행에는 CSS/JS를 모두 inline한 `dist` Single HTML을 사용하세요. Physics와 game policy는 UI와 독립적입니다. Runtime 외부 의존성은 없으며 Playwright는 개발용입니다. CI는 core test/build/ZIP 검증과 실제 Chromium/Firefox/WebKit local-file 검사를 실행합니다. CI 통과는 모든 운영체제·실물 Touch Device 인증을 의미하지 않습니다.
 
-See [Test Summary](docs/TEST_SUMMARY.md), [Physics Model](docs/PHYSICS_MODEL.md), [Game Design](docs/GAME_DESIGN.md), [Roadmap](docs/ROADMAP.md) and [Release Notes](docs/RELEASE_NOTES.md). CI runs unit/game/build tests, offline browser checks and release-package verification. Passing CI does not certify every installed browser/version or physical touch device.
+[Game Design](docs/GAME_DESIGN.md) · [Physics Model](docs/PHYSICS_MODEL.md) · [Test Summary](docs/TEST_SUMMARY.md) · [Release Notes](docs/RELEASE_NOTES.md) · [Roadmap](docs/ROADMAP.md)
 
-## Engineering boundaries
+## 모델과 한계
 
-Ideal scalar circular Gaussian transverse overlap only. Radius = field-amplitude 1/e radius. Mode Mismatch, Alignment, Fixed and Total Loss are separate. Fixed Loss is an educational scalar assumption. Color overlap is illustrative; computed field overlap controls the power indicator. Game Score cannot change a Physics Result. Thresholds are educational assumptions, not product specifications.
+정규화된 원형 Scalar Gaussian Spatial Overlap + 같은 평면의 Paraxial Phase Tilt를 계산합니다. Radius는 Field Amplitude 1/e 반경, 길이는 µm, UI 각도는 degree입니다. Mode Mismatch / Alignment / Angular / Fixed / Total Loss를 구분합니다. Game Score는 Physics Result를 바꾸지 않습니다. λ₀는 진공 파장, n=1은 공통 Air 매질입니다. Direction View는 각도를 4× 확대하여 표시합니다.
 
-Full-vector EM, reflection, polarization, gap, angle, evanescent coupling, propagation, bonding, thermal and yield are unmodeled in v0.1. Large matched modes are more tolerant to lateral translation; no claim that they are universally best.
+X/Y + 두 Tilt 성분을 구현했으며 Full 6-DOF, Gap, Beam Walk-off, Refraction, Fresnel, Full-vector EM, Polarization, Evanescent, Thermal, Adhesive, Yield는 아직 계산하지 않습니다. 큰 Mode는 횡방향 오차에는 관대하지만 Angular 오차에는 민감합니다. 실제 Package의 최적 설계라고 일반화하지 않습니다.
 
-## Baseline and release policy
+## Branch / Release 정책
 
-Initial `main` verified at `1a4608d3e9700a6d19f51bdeb7ec1dfa1a2c1716` with README only. Work is on `feature/v0.1-first-light`. No merge without user approval. Attached source documents and company information are not redistributed. This is a Release Candidate for review, not a tagged production release.
+v0.2는 검증된 v0.1 Head `49b9337f08883e6ea7dfca81b64ee21b906b8621`에서 `feature/v0.2-angular-alignment`으로 개발했습니다. v0.1 PR #1이 미병합이므로 v0.2 PR은 해당 Feature Branch를 Base로 합니다. 사용자 승인 전 main Merge, Auto-merge, Tag를 하지 않습니다. v0.1 HTML/ZIP도 보존합니다. 현재는 사용자 플레이 검토를 위한 Release Candidate입니다. 첨부 자료와 회사 문서는 공개 저장소에 재배포하지 않습니다.

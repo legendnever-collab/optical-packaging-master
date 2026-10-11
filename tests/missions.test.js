@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {missions,challengeOffsets,makeSession,missionPass,canAccess} from '../src/game/missions.js';import {gameScore} from '../src/game/scoring.js';import {gaussianCoupling as g} from '../src/physics/gaussian-coupling.js';import {freshProgress,recordCompletion} from '../src/game/progress.js';
-test('three explicitly versioned campaign missions',()=>assert.deepEqual(missions.map(m=>m.id),[1,2,3]));
+import {missions,challengeOffsets,makeSession,missionPass,canAccess,guidedReady} from '../src/game/missions.js';import {gameScore} from '../src/game/scoring.js';import {gaussianCoupling as g} from '../src/physics/gaussian-coupling.js';import {freshProgress,recordCompletion} from '../src/game/progress.js';
+test('four campaign missions',()=>assert.deepEqual(missions.map(m=>m.id),[1,2,3,4]));
 test('fresh campaign starts at Mission 01 only',()=>{const p=freshProgress();assert.ok(canAccess(1,p));assert.ok(!canAccess(2,p));assert.ok(!canAccess(3,p));});
 test('completion unlocks the next mission',()=>{const p=freshProgress();recordCompletion(p,1,900,.1);assert.ok(canAccess(2,p));assert.ok(!canAccess(3,p));});
 test('Free Practice bypasses unlocks without mutation',()=>{const p=freshProgress();assert.ok(canAccess(3,p,true));assert.deepEqual(p.missions,{});});
@@ -9,11 +9,18 @@ test('Mission 01 valid target passes',()=>{const s=makeSession(1);s.started=true
 test('Mission 01 wrong condition cannot pass',()=>{const s=makeSession(1);s.started=true;assert.ok(!missionPass(1,g({w1:2.5,w2:2.5,dx:4}),s));});
 test('Mission 02 target inclusive boundary',()=>{const s=makeSession(2);s.started=true;assert.ok(missionPass(2,{totalLoss:.4},s));assert.ok(!missionPass(2,{totalLoss:.401},s));});
 test('three challenge initial offsets start above target',()=>{assert.equal(challengeOffsets.length,3);for(const [dx,dy] of challengeOffsets)assert.ok(g({w1:1.5,w2:1.5,dx,dy}).totalLoss>.4);});
-test('Mission 03 requires recorded comparison',()=>{const s=makeSession(3);Object.assign(s,{started:true,toleranceAnswer:'Expanded',mismatchAnswer:'Medium'});assert.ok(!missionPass(3,{totalLoss:0},s));});
-test('Mission 03 incorrect conceptual answer cannot pass',()=>{const s=makeSession(3);Object.assign(s,{started:true,comparisonRecorded:true,toleranceAnswer:'Narrow',mismatchAnswer:'Medium'});assert.ok(!missionPass(3,{totalLoss:0},s));});
-test('Mission 03 completion is understanding, not fabricated zero loss',()=>{const s=makeSession(3);Object.assign(s,{started:true,comparisonRecorded:true,toleranceAnswer:'Expanded',mismatchAnswer:'Medium'});assert.ok(missionPass(3,{totalLoss:4.3429},s));});
+function measured(){const s=makeSession(3);s.started=true;s.modeSamples=[[1,1,1],[1,1,1]];return s;}
+test('Mission 03 next step requires all three actual samples',()=>{const s=makeSession(3);s.modeSamples[0]=[{totalLoss:1},null,{totalLoss:2}];assert.ok(!guidedReady(s));s.modeSamples[0][1]={totalLoss:0};assert.ok(guidedReady(s));});
+test('Mission 03 cannot skip the two observations',()=>{const s=makeSession(3);Object.assign(s,{started:true,modeStep:2,selectedMode:1});assert.ok(!missionPass(3,{totalLoss:0},s));});
+test('Mission 03 only final design can complete',()=>{const s=measured();s.selectedMode=1;assert.ok(!missionPass(3,{totalLoss:0},s));});
+test('Mission 03 requires an explicit design choice',()=>{const s=measured();s.modeStep=2;assert.ok(!missionPass(3,{totalLoss:0},s));});
+test('Mission 03 mismatch cannot pass even after observations',()=>{const s=measured();s.modeStep=2;s.selectedMode=2;assert.ok(!missionPass(3,g({w1:4,w2:2.5}),s));});
+test('Mission 03 matched final design passes actual loss',()=>{const s=measured();s.modeStep=2;s.selectedMode=1;assert.ok(missionPass(3,g({w1:2.5,w2:2.5}),s));});
+test('Mission 04 requires position-loss observation',()=>{const s=makeSession(4);s.started=true;assert.ok(!missionPass(4,{totalLoss:0},s));});
+test('Mission 04 aligned direction passes and excess loss fails',()=>{const s=makeSession(4);Object.assign(s,{started:true,positionObserved:true});assert.ok(missionPass(4,{totalLoss:.5},s));assert.ok(!missionPass(4,{totalLoss:.501},s));});
+test('Mission 03 completion unlocks Angular Mission',()=>{const p=freshProgress();recordCompletion(p,3,900,0);assert.ok(canAccess(4,p));assert.ok(canAccess(4,freshProgress(),true));});
 test('completed session cannot repeat completion',()=>{const s=makeSession(1);Object.assign(s,{started:true,completed:true});assert.ok(!missionPass(1,{totalLoss:0},s));});
-test('retry clears challenge state and hints',()=>{const s=makeSession(2);assert.equal(s.hints,0);assert.equal(s.attempts,0);assert.equal(s.challenge,0);assert.equal(s.comparisonRecorded,false);});
+test('retry clears challenge state and hints',()=>{const s=makeSession(2);assert.equal(s.hints,0);assert.equal(s.attempts,0);assert.equal(s.challenge,0);assert.deepEqual(s.modeSamples,[[null,null,null],[null,null,null]]);assert.equal(s.positionObserved,false);});
 test('game score rewards accuracy and efficiency independently',()=>{assert.equal(gameScore(0,1,1),1000);assert.ok(gameScore(.8,1,1)<gameScore(.1,1,1));assert.ok(gameScore(.1,1,10)<gameScore(.1,1,1));});
 test('hint penalty never changes physical result',()=>{const v=g({w1:2,w2:2,dx:.1});const before={...v};assert.ok(gameScore(v.totalLoss,1,1,1)<gameScore(v.totalLoss,1,1,0));assert.deepEqual(v,before);});
 test('failed or nonfinite result earns no score',()=>{assert.equal(gameScore(2,1,1),0);assert.equal(gameScore(Infinity,1,1),0);});

@@ -1,5 +1,19 @@
 {
-  "name": "optical-packaging-master", "version": "0.1.0", "private": true, "type": "module",
-  "scripts": {"test": "node --test tests/*.test.js", "build": "node scripts/build.mjs", "test:ui": "node scripts/browser-qa.mjs", "release": "python3 scripts/release.py", "check": "npm test && npm run build"},
-  "devDependencies": {"playwright": "1.62.1"}, "engines": {"node": ">=22"}
+  "name": "optical-packaging-master",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "build": "node scripts/build.mjs",
+    "test:ui": "node scripts/browser-qa.mjs",
+    "release": "python3 scripts/release.py",
+    "check": "npm test && npm run build"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
 }

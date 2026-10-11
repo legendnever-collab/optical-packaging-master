@@ -1,12 +1,14 @@
-# Roadmap — planned, not implemented
+# Roadmap
 
-| Version | Proposed theme | Required model work |
+| Version / status | Theme | Required work |
 | --- | --- | --- |
-| v0.2 | 6-DOF Alignment, Angular Sensitivity | Explicit axis/angle conventions, wavelength, phase and gap; avoid a misleading scalar penalty |
-| v0.3 | Multi-channel FAU | Channel coordinates, pitch/rotation errors, loss distribution and worst-channel constraints |
-| v0.4 | Bonding and Thermal Reliability | Adhesive/thermal displacement assumptions, before/after alignment and evidence-backed limitations |
-| v0.5 | Monte Carlo Yield and Economics | Seeded process distributions, measurable acceptance and sampling uncertainty |
-| v0.6 | Photonic Substrate and Evanescent Coupling | Separate physics/model validity and coupled-mode or calibrated data; do not reuse butt-overlap equation |
-| v0.7+ | Advanced Assembly Architectures | Explainable scenario comparison and engineering sandbox |
+| v0.1 implemented RC | First Light | Scalar spatial Gaussian overlap; initial three missions |
+| v0.2 implemented RC | Guided Mode Trade-off + Angular Alignment | Redesigned Mission 03; Mission 04; common-plane paraxial phase tilt; two direction components |
+| Next alignment increment — planned | Gap / Diffraction and 6-DOF vocabulary | Longitudinal propagation, curvature/walk-off, explicit mechanical axis conventions; circular-mode roll has no independent effect |
+| v0.3 — planned | Multi-channel FAU | Channel positions, pitch/rotation, uniformity and worst-channel loss |
+| v0.4 — planned | Bonding / Thermal Reliability | Evidence-backed adhesive/thermal displacement assumptions |
+| v0.5 — planned | Monte Carlo Yield / Economics | Seeded distributions, measurable acceptance and sampling uncertainty |
+| v0.6 — planned | Photonic Substrate / Evanescent Coupling | Separate coupled-mode or calibrated field model; do not reuse Gaussian butt-overlap formula |
+| v0.7+ — planned | Advanced Architectures | Explainable design comparison and engineering sandbox |
 
-Recommended next increment: add angular X/Y tilt first with a clear wavelength/phase model, then add longitudinal gap/diffraction. Introduce a 6-DOF vocabulary progressively rather than activating six independent sliders at once. Validate the first lateral-only model with user playtesting before expanding the interface.
+The original v0.2 proposal included Full 6-DOF. This increment deliberately implements X/Y plus θx/θy and a defined wavelength, with Gap and Roll left for a separately validated extension. Next: user playtest the revised Mission 03/04, then add longitudinal Gap with beam propagation rather than an arbitrary dB penalty.
