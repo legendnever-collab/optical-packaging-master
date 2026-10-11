@@ -1,4 +1,4 @@
-# Gameplay Design — v0.3
+# Gameplay Design — v0.4
 
 Observe → Predict → Experiment → Diagnose → Decide → Improve. 첫 행동과 목표가 중앙 상단에 보이며, Mission에 필요한 조작만 나타납니다. 네 가지 Mechanic은 Precision Control, Fault Diagnosis, Design Decision, Engineering Optimization입니다. 전체 Mission별 Unique Action / Principle / Failure / Success / Reward는 [Gameplay Audit](GAMEPLAY_AUDIT.md)의 Differentiation Matrix에 명시합니다.
 
@@ -52,6 +52,22 @@ Physics 값을 Score로 수정하지 않습니다. Mission 01/02/04는 기존 ga
 
 ## Persistence / Architecture
 
-Schema 1/2→3: 기존 01–04 기록과 Unlock을 보존하고 새 콘텐츠 Best/Badge는 `content[id].version=3`로 분리합니다. 최신 세 평가 Snapshot에 Seed/Count/Process/Model/Threshold를 함께 보관합니다. 불완전한 Session은 저장하지 않습니다. 알 수 없는 미래 Schema는 read-only입니다. 모든 저장 장애에 메모리 플레이를 제공합니다.
+기존 Schema 1/2→3 migration (v0.4는 Schema 4): 기존 01–04 기록과 Unlock을 보존하고 새 콘텐츠 Best/Badge는 `content[id].version=3`로 분리합니다. 최신 세 평가 Snapshot에 Seed/Count/Process/Model/Threshold를 함께 보관합니다. 불완전한 Session은 저장하지 않습니다. 알 수 없는 미래 Schema는 read-only입니다. 모든 저장 장애에 메모리 플레이를 제공합니다.
 
 `physics/assembly.js`는 샘플 생성·통계를 UI와 분리합니다. `game/scenarios.js`는 진단과 환경/공정 정책, `ui/assembly-view.js`는 표현을 맡습니다. Saved Design의 Pair Type과 평가 Model Version을 명시하지만 v0.4 Optical System Builder나 ABCD 모델은 구현하지 않았습니다. 자동 Gameplay Test와 Browser 실제 Campaign은 동작 검증이며 사람의 재미/학습 효과에 대한 증거는 아닙니다.
+
+## Chapter 3 — Build the Interface
+
+08 **Catch the Focus** introduces Z as a different control from XY. Given converging source: waist radius 10 µm at z=400, target waist 10, λ₀=1.55, input n=1, Receiver initially z=760. No lens/fold controls. Drag the Receiver or use arrows/slider until Total Loss ≤0.50 dB. Matching centers alone does not match curvature. Successful example z=400 gives 0 dB. Achievement: Focus Captured.
+
+09 **Bridge the Gap** fixes Receiver z=1000, source/target waist radius 10. Start without a lens: actual loss about 8.50 dB. Install one ideal lens (z=500,f=420 initially insufficient), then move its position or change focal length. Acceptance requires exactly one lens and actual Total Loss ≤0.50 including its assumed 0.10 dB. Example z=500,f=291 reaches approximately 0.10 dB. The two controls expose refocusing rather than another center alignment. Achievement: Gap Bridged.
+
+10 **Fit the Package** requests radius 10→20 over nominal unfolded length 1800. Select compact f=200/400 or expanded f=300/600 relay, move Lens B and place an ideal fold. Lens A catalog position is fixed. A long straight relay at z=300/1200 optically matches (0.20 dB fixed) but fails package width. Ideal fold at z=900 retains the same q but gives nominal centerline 900×900 and adds 0.15 dB. At Receiver ΔZ=−100/0/+100, loss worst≈0.3665 dB and all footprints ≤1000×1000. Compact catalog relay at this Receiver does not meet the combined target. Acceptance requires two lenses, a fold, all three loss values ≤0.55, all three footprints fit. No fabricated fold bonus or asserted whole-range Yield. Achievement: Optical Interface Designed.
+
+Central scene shows actual w(z), source/target and ordered lens/Receiver/mirror handles. Empty-path click reports radius, curvature, Rayleigh range and local waist distance. Color does not substitute for text PASS/FAIL. The folded layout is a separate centerline route because an unfolded Gaussian envelope should not imply tracing reflection or component dimensions.
+
+## Independent Interface Builder
+
+Accessible regardless of campaign unlocks. Source/target waist 5–30 µm, incoming waist location 0–1000, λ₀=1.31/1.55, Receiver Z=300–2500, zero/one/two ordered ideal lenses with f=80–1200, and optional ideal 90° Fold. Train presets start from input waist z=0. Drag/slider/keyboard share one validated configuration. Invalid component order/path is rejected, not repaired silently. Runtime source config and calculation modules stay separate; unknown optical component types are unsupported.
+
+Schema 4 autosaves the last valid independent Builder snapshot (`gaussian-q-v1`) with source, target, wavelength, index, waist location, lens order/parameters, receiver and fixed-loss assumptions. Campaign retries reset only the current experiment; practice cannot alter best scores or completions. Missions 01–07 retain content version 3, Mission 08–10 use version 4. v0.3 factory designs/evaluation snapshots and legacy scores survive migration. Mission 10 stored best/score uses the three-point worst loss, while the main power meter displays nominal power and the gap table displays off-nominal checks. Both are labeled explicitly.

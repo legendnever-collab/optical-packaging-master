@@ -1,4 +1,4 @@
-# Simplified Gaussian Mode Model — v0.3
+# Simplified Gaussian Mode Model — v0.4
 
 ## Spatial overlap (unchanged from v0.1)
 
@@ -46,7 +46,7 @@ Zero tilt retains v0.1 results exactly. Tests check angular symmetry, reference 
 
 Central heatmap shows each mode's relative intensity exp(−2r²/w²), not absolute W/µm². A phase-only tilt does not change that plane's intensity distribution. Direction views illustrate relative axes with 4× angle exaggeration. Power meter/transmission pulses use the computed total fraction. Visual color overlap is illustrative; the complex overlap integral is authoritative.
 
-Assume circular scalar modes, a common plane and homogeneous medium, equal polarization and phase curvature, and small relative direction components. Not computed: full-vector EM, polarization dependence, Fresnel reflection, refraction, longitudinal gap/diffraction, beam walk-off, projected ellipticity, roll, evanescent coupling, propagation loss, thermal deformation, adhesive shrinkage or calibrated real-world assembly yield. v0.3 estimates sample yield under the declared process model below and supplies X/Y and two Tilt components; it is **not Full 6-DOF Alignment**. Thresholds/radii are educational settings, not vendor process specifications.
+Chapters 1–2 assume circular scalar modes, a common plane and homogeneous medium, equal polarization and phase curvature, and small relative direction components. Not computed: full-vector EM, polarization dependence, Fresnel reflection, refraction, longitudinal gap/diffraction, beam walk-off, projected ellipticity, roll, evanescent coupling, propagation loss, thermal deformation, adhesive shrinkage or calibrated real-world assembly yield. v0.3 estimates sample yield under the declared process model below and supplies X/Y and two Tilt components; it is **not Full 6-DOF Alignment**. Thresholds/radii are educational settings, not vendor process specifications.
 
 ## Primary-source context
 
@@ -88,3 +88,41 @@ For matched modes, Lateral Loss ∝(dx²+dy²)/w² while Angular Loss ∝w²(θx
 Campaign process values are specified in GAME_DESIGN.md and displayed in-game. They are **Assumed**, never published industrial process capabilities. The provided Du et al., “Detachable interface toward a low-loss reflow-compatible fiber coupling for co-packaged optics (CPO),” Optics Express 31(2), 1318 (2023), pages 1322–1323, was read only for qualitative lateral/angular tolerance context. Its expanded-beam lenses, gap, measured coupling and large beam sizes are not implemented or used to calibrate these distributions. No attachment bytes or private-company content are included.
 
 This common-plane model factorizes spatial and phase-tilt losses. Monte Carlo propagates that model through assumed errors; it adds no Gap, walk-off, diffraction, refraction, aberration, adhesive, thermal, mechanical datum, cost or reliability physics. Full Optical System Builder and industrial reference architectures remain future work.
+
+## Coaxial Gaussian propagation — v0.4, independent from Chapters 1–2
+
+This module uses geometric q in a **single homogeneous medium**. λ₀ is vacuum wavelength, n is the medium index; campaign/practice n=1. Field amplitude radius w is 1/e, intensity radius is 1/e². Lengths, focal lengths and q components are µm.
+
+At a waist: zR=π n w₀²/λ₀, qwaist=i zR. A given source waist at coordinate zs sets q(0)=−zs+i zR. This explicitly allows the already converging input in Mission 08; no unstated upstream lens is simulated.
+
+q=z+i zR relative to the local waist; 1/q=1/R−i λ₀/(π n w²). Thus w²=λ₀ |q|²/(π n Im(q)), local waist²=λ₀ Im(q)/(π n), and inverse curvature Re(q)/|q|². R=∞ at a waist. Local waist distance is −Re(q); after another lens this distance no longer describes the whole path.
+
+For ray coordinates (x,θ), free propagation d has matrix [1,d;0,1]; ideal thin lens focal length f has [1,0;−1/f,1]. Physical sequence M1 then M2 composes M2 M1. q′=(Aq+B)/(Cq+D), with unit determinant in this same-medium convention. Core allows negative focal lengths and signed free-space distances for inverse/regression calculations; bounded game paths use positive ordered lenses inside a positive path. No index-changing surface is implemented.
+
+Primary references: [MIT OCW 6.974 Fundamentals of Photonics, Chapter 2, Gaussian beam optics §2.6](https://ocw.mit.edu/courses/6-974-fundamentals-of-photonics-quantum-electronics-spring-2006/8e54d1625e9e71eb5b4e4998e6967e4e_chapter2.pdf) and [Edmund Optics, Gaussian Beam Propagation](https://www.edmundoptics.eu/knowledge-center/application-notes/lasers/gaussian-beam-propagation/). Both describe q transformation and thin-lens curvature. MIT's matrix table uses a reduced-index convention (free-space B=L/n); **this implementation uses geometric q and B=d**, so the conventions must not be mixed. The overlap below is derived for the chosen scalar field and tested independently rather than read from a vendor performance claim.
+
+### Size and curvature at the Receiver
+
+Receiver is a circular target waist of radius wt in its plane. Incident and target q must share wavelength/index and axis. Normalized field may be written u(r)=sqrt(2/π)/w exp[−r²/w²] exp[−i k r²/(2R)] with k=2πn/λ₀. Its squared complex overlap is
+
+ηq = 4 b1 b2 / [(a1−a2)²+(b1+b2)²], qj=aj+i bj.
+
+Equivalently ηq = 4/(w1²w2²) / [(1/w1²+1/w2²)² + (k/2)²(1/R1−1/R2)²]. Size-only efficiency is [2w1w2/(w1²+w2²)]². Curvature Loss is −10log10(ηq) minus Size Mismatch Loss. It is nonnegative; two identical q give η=1 and 0 dB. Identical intensity sizes can still have different wavefronts. Same inverse curvature reduces to the existing size mismatch formula.
+
+ηq is Mode Overlap Efficiency. Overlap Loss=Size Mismatch+Curvature; Total Loss=Overlap Loss+Fixed Loss. Actual normalized Output Power=ηq ×10^(−FixedLoss/10). Logs/scaled ratios avoid overflow/cancellation and keep analytical loss when power underflows to zero. Invalid q, nonfinite fields, nonpositive waists/index/wavelength and unrepresentable states reject with explicit errors. UI validates a candidate before replacing the last valid configuration.
+
+Lens Fixed Loss=0.10 dB per lens; Ideal Fold Mirror Fixed Loss=0.15 dB. These are **Assumed learning parameters**, not calculated coatings, Fresnel coefficients or measured component data. No physics bonus rewards choosing a lens or fold.
+
+### Relay, Fold and bounded acceptance
+
+A 4f relay with lens positions f1 and 2f1+f2 and Receiver at 2(f1+f2) maps a waist radius by |f2/f1|. Tests verify a 2× radius transformation with zero curvature mismatch. Moving lens/Receiver from that configuration recalculates q; no heuristic radius boost is applied.
+
+An ideal 90° Fold at coordinate zf leaves unfolded propagation q unchanged and routes the centerline into dimensions W=zf, H=L−zf; straight dimensions are W=L,H=0. Mirror attenuation is separate. Component positions appear along the route; the envelope view is explicitly **unfolded** with separate longitudinal/radius scales. This is centerline geometry, not mechanical envelope: apertures, bodies, clearances and mirror/lens dimensions are absent.
+
+Mission 10 applies the actual model at Receiver deltas [−100,0,+100] µm and checks every optical result ≤0.55 dB and every centerline footprint ≤1000×1000 µm. Worst is the maximum loss of these three evaluations. It is not a continuous tolerance bound, probability, Monte Carlo extension or manufacturing Yield. Chapter 2 continues using its unchanged spatial/angular process engine.
+
+### Scope and verification
+
+Coaxial scalar paraxial propagation, ideal thin lenses, diffraction, longitudinal defocus and curvature are implemented. No decentered/tilted lenses, angular ray propagation, lateral walk-off, finite aperture/clipping, aberration, index transition/refraction, astigmatism, true mirror reflection, polarization or vector field. Chapters 1–2 and Chapter 3 have separate assumptions and outputs; multiplying their efficiencies would require a derived decenter/tilt propagation model and is deliberately unsupported. No Full Optical CAD or arbitrary component chain is claimed.
+
+Tests include analytical free propagation, matrix composition/inverses, signed focal length, radius continuity and curvature kick, 4f magnification, size-only regression, curvature penalty, defocus, n/λ conventions, extreme stability, domain validation, three-point acceptance and feasible/wrong designs. A separate 30,000-point complex radial field integral checks overlap for unequal incident/target beams. These numerical tests validate the specified simplified model, not an industrial package.

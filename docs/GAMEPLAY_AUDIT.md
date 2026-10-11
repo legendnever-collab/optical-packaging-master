@@ -1,4 +1,4 @@
-# v0.3 Gameplay Audit
+# v0.3–v0.4 Gameplay Audit
 
 Baseline directly fetched from main: `0cb4c3a4feb69bde4c7cc59b526376116ff40e35` (v0.2.0). Baseline regression: 94 PASS / 0 FAIL. Existing Gaussian spatial / angular physics and pointer/keyboard scenes are retained. No user test or learning-effect measurement was conducted.
 
@@ -25,3 +25,15 @@ Objective and immediate next action appear at the top. Diagnostic evidence is in
 ## Scope / evidence boundary
 
 7 missions are implemented, retaining Free Practice, replay, legacy progress, offline build and physical regression. Independent normal process errors, bias, sample uncertainty and model-domain rejection are explicit engineering assumptions. No gap, lens propagation, walk-off, refraction or industry yield calibration is added. Automated checks and visual inspection verify operation; first-time usability and learning efficacy remain hypotheses until observed with people.
+
+## v0.4 incremental audit
+
+Approved v0.3 PR #3 merged at `e66573f81fbda98352f30f121c0ddef549ec2544`; latest main fetched before branching. Baseline 126 PASS / 0 FAIL. Chapters 1–2 retain their differentiated actions and unchanged spatial/angular/statistics engines. New controls are shown only in Chapter 3 / independent Builder, keeping the original tutorial simple.
+
+| Mission | Unique action | Principle | Failure | Success | Reward |
+| --- | --- | --- | --- | --- | --- |
+| 08 Catch the Focus | Place Receiver along Z on a converging beam | Size/curvature matching matters despite coaxial centers | Defocus leaves loss | No lens, actual ≤0.50 dB | Focus Captured |
+| 09 Bridge the Gap | Install/refocus one lens across fixed gap | Thin lens changes curvature, propagation changes size | Bare gap or poor lens fails | One lens, actual ≤0.50 including fixed loss | Gap Bridged |
+| 10 Fit the Package | Choose relay, position lens/fold, inspect package checks | Expansion plus curvature and physical routing constraints | Optical success without fit; nominal success without probe acceptance | Two lenses + fold; three loss/footprint checks pass | Optical Interface Designed |
+
+M08 changes the observation plane, M09 changes an optical component, M10 makes a system choice under optical and space constraints. None asks for the previous X/Y centering behavior. The optional Builder exposes parameters without forced measurements or required campaign steps. Finite probes and centerline footprints are labeled; no player study or industrial packaging validation was performed.

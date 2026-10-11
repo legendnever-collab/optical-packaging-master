@@ -1,12 +1,12 @@
 # Optical Packaging Master
 
-**v0.3.0 Release Candidate — Engineering Problem-Solving + Design for Tolerance**
+**v0.4.0 Release Candidate — Optical Interface Builder**
 
 Fiber를 직접 움직여 빛을 연결한 다음, 출력 저하를 진단하고 조립 환경에 맞는 설계를 선택하는 오프라인 Engineering Game입니다. 안내는 한국어, 기술 용어는 영어입니다.
 
 ## 실행
 
-[실행 HTML](dist/optical-packaging-master-v0.3.html)을 **Download raw file**로 다운로드해 더블클릭하세요. [Release ZIP](dist/optical-packaging-master-v0.3-release.zip)을 풀고 HTML을 열어도 됩니다. 인터넷, 설치, 서버, CDN, API Key, 파일 업로드가 필요하지 않습니다. 이전 v0.1/v0.2 실행 파일도 보존합니다.
+[실행 HTML](dist/optical-packaging-master-v0.4.html)을 **Download raw file**로 다운로드해 더블클릭하세요. [Release ZIP](dist/optical-packaging-master-v0.4-release.zip)을 풀고 HTML을 열어도 됩니다. 인터넷, 설치, 서버, CDN, API Key, 파일 업로드가 필요하지 않습니다. 이전 v0.1/v0.2/v0.3 실행 파일도 보존합니다.
 
 | Mission | 지금 할 일 | 새로운 문제 |
 | --- | --- | --- |
@@ -18,11 +18,17 @@ Fiber를 직접 움직여 빛을 연결한 다음, 출력 저하를 진단하고
 | 06 Make It Tolerant | 고정 Waveguide/공정에서 Fiber Radius 하나를 연속 조정 | 동일 Sample에서 Yield ≥95% 달성 |
 | 07 Beat the Factory | 설계 2–3개 저장·비교 → 공정 변화에 대응 | 두 공정에서 Yield ≥95%, P95 ≤1 dB |
 
+| 08 Catch the Focus | Receiver를 Z 방향으로 드래그해 Waist에 놓기 | Center가 같아도 Defocus와 Curvature로 Loss 발생 |
+| 09 Bridge the Gap | Thin Lens 설치 → 위치와 Focal Length 조정 | 1,000 µm 광로의 실제 Beam Size/Curvature 연결 |
+| 10 Fit the Package | Relay 선택 → Lens B / Fold 위치 조정 | Mode Expansion, 3점 Gap 확인, Package 공간 동시 만족 |
+
+Interface Builder도 처음부터 열립니다. Source/Target Waist, 입력 Waist 위치, Wavelength, Receiver Z, 0–2개 Lens와 Ideal Fold를 실험하세요. Mouse/Touch와 방향키로 Receiver/Lens/Mirror를 움직이고, 빈 광로를 클릭해 Beam Radius/Curvature를 확인합니다. Builder의 마지막 구성은 자동 저장됩니다. Chapter 3는 Coaxial q/ABCD 모델이며 X/Y 또는 Tilt를 조합하지 않습니다.
+
 Free Practice는 처음부터 열립니다. X/Y, Tilt, Radius, Matched/Fixed Pair, Wavelength와 Fixed Loss를 자유롭게 실험하며 Campaign 성과를 바꾸지 않습니다. Mouse/Touch Drag, Sliders와 Arrow keys가 같은 State를 공유합니다. Shift+Arrow는 미세 조정입니다. Sound는 기본 OFF이며 켜면 오프라인 Web Audio로 성공음을 합성합니다. Retry는 현재 실험만 초기화합니다.
 
 ## 저장과 호환
 
-Local Storage Schema 3는 v0.1/v0.2 완료, Best Score/Loss와 Unlock을 보존합니다. 새 Gameplay의 Achievement는 별도로 표시합니다. 기존 Mission 01–04 완료자는 Chapter 2가 열리며 이전 미션을 Replay할 수 있습니다. 설계 3개와 최근 평가 조건(Seed, 공정 Bias/Sigma, Sample Count, 모델, 기준, 결과)을 저장합니다. 미완료 실험은 새로고침 시 다시 시작합니다.
+Local Storage Schema 4는 v0.1/v0.2/v0.3 완료, Best Score/Loss와 Unlock을 보존합니다. 새 Gameplay의 Achievement는 별도로 표시합니다. v0.3의 Mission 01–07 Achievement와 Factory Design은 유지됩니다. Mission 07 완료자는 Chapter 3가 열리며 이전 미션을 Replay할 수 있습니다. 설계 3개와 최근 평가 조건(Seed, 공정 Bias/Sigma, Sample Count, 모델, 기준, 결과)을 저장합니다. Campaign 미완료 실험은 새로고침 시 다시 시작하며 독립 Builder는 마지막 Configuration을 복원합니다.
 
 Browser/Profile/파일 경로에 따라 file:// 저장 영역이 달라질 수 있습니다. 같은 Browser/Profile에서 실행하세요. 저장 제한 환경에서도 현재 세션 플레이가 가능합니다. 알 수 없는 미래 저장 형식은 덮어쓰지 않으며 Progress Reset은 확인 후 동작합니다.
 
@@ -48,8 +54,8 @@ Source `index.html`은 ESM 개발용이며 `python3 -m http.server`로 열 수 �
 
 기존 Gaussian Spatial Overlap + Common-plane Paraxial Phase Tilt를 보존했습니다. Radius는 Field Amplitude의 1/e 반경, 길이는 µm, UI 각도는 degree이며 계산 시 radian으로 변환합니다. Game Score는 물리 결과를 바꾸지 않습니다. Independent Normal Assembly Errors와 명시적 Bias/Sigma에 대해 Seed를 고정한 Monte Carlo를 추가했습니다. 설계 비교에는 동일 Error Sample을 사용합니다. Yield, 95% Wilson CI, P95, 실패 Sample과 Worst Case를 표시합니다.
 
-공정 분포와 목표는 학습용 가정이며 실제 제조 데이터를 보정한 결과가 아닙니다. CI는 고정 설계의 표본 불확실성입니다. 같은 Sample에 설계를 반복 최적화하면 별도 Seed의 검증이 필요합니다. Gap, Lens, Walk-off, Refraction, Fresnel, Full-vector EM, Polarization, Thermal/Adhesive Reliability, 비용이나 Full 6-DOF는 계산하지 않습니다. 큰 Mode가 모든 Package에서 우수하다고 일반화하지 않습니다.
+공정 분포와 목표는 학습용 가정이며 실제 제조 데이터를 보정한 결과가 아닙니다. CI는 고정 설계의 표본 불확실성입니다. 같은 Sample에 설계를 반복 최적화하면 별도 Seed의 검증이 필요합니다. Chapter 3는 별도 Scalar Paraxial q/ABCD 모듈로 Free Space, Thin Lens, Waist 변환과 Wavefront Curvature의 Coaxial Overlap을 계산합니다. Lens 0.10 dB/개, Fold Mirror 0.15 dB는 별도 Fixed Loss 가정입니다. Fold는 Unfolded 광로 길이를 유지하는 Ideal 좌표 변환과 Centerline Footprint만 계산합니다. Mission 10은 ΔZ −100/0/+100 µm 세 점만 검사하며 연속 Tolerance나 Yield를 검증하지 않습니다. Aperture, 부품 폭, Lens/Mirror Angle, Walk-off, Refraction, Fresnel, Aberration, Full-vector EM, Polarization, Thermal/Adhesive, 비용, Full 6-DOF는 계산하지 않습니다. 큰 Mode가 모든 Package에서 우수하다고 일반화하지 않습니다.
 
 ## 개발 기준
 
-최신 main `0cb4c3a4feb69bde4c7cc59b526376116ff40e35`를 직접 확인하고 `feature/v0.3-gameplay-redesign`에서 증분 개발했습니다. Feature Branch와 main 대상 PR을 제공하며 사용자 승인 전 Merge, Auto-merge, Tag를 하지 않습니다. RC는 플레이 검토용입니다. 사람 대상 학습 효과/만족도 테스트와 실물 휴대기기 검증은 수행하지 않았습니다. 첨부 자료와 회사 문서 bytes는 공개 저장소에 재배포하지 않습니다.
+사용자 승인에 따라 v0.3 PR #3을 main에 병합했습니다: `e66573f81fbda98352f30f121c0ddef549ec2544`. 이 최신 main을 직접 확인한 뒤 `feature/v0.4-optical-interface-builder`에서 증분 개발했습니다. v0.4는 별도 PR의 RC이며 추가 승인 전 Merge, Auto-merge, Tag를 하지 않습니다. 사람 대상 학습 효과/만족도와 실물 휴대기기는 미검증입니다. 첨부 자료와 회사 문서 bytes는 공개 저장소에 재배포하지 않습니다.
