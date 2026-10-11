@@ -12,7 +12,7 @@
     "USER_JOURNEY.md": "a5ee23acb6e45778670512bfaba955a25de14ee73be0b86f91ab9ce7daa76d40",
     "MODEL_LIMITATIONS.md": "aa6fc5e3b8ea53a41d6dab3cddde0cf6ce062c5d02f5462f1872f70b912940cd",
     "MIGRATION.md": "8d954d0400978e96a1dee0cc1e0a5cf3ac7e035ee236adae894beb62984ec16c",
-    "TEST_SUMMARY.md": "c9df624ea6d793c9ec77cb38bf77f4c8cff9d434ab0c8015396c496bad06b5d8",
+    "TEST_SUMMARY.md": "fb1174fa80a413235f0a36bbee9c779ba435070891c31fa48ee777eb20d03173",
     "GAMEPLAY_AUDIT.md": "73a28e0cedcaddaf646c2aadaaffc3889a21e04856199c08bd69eeb13deebfbc",
     "RELEASE_NOTES.md": "b1753286e068f8d16bb80f86fb150dd713d32f7871b7213f1b625c7547731264",
     "ASSEMBLY_CHALLENGE.md": "1ca15a1c4449b5e2c641cc295fea615eaca64d55c7d5c08571061f9b4fe10896",
@@ -71,8 +71,8 @@
     "source/scripts/assembly-qa.mjs": "c1c35fa08dc86bd296dcec8aa39af05d19a7a3bc738951d8ea200fb08fa0e101",
     "source/scripts/browser-qa.mjs": "6d65ccadc7f0c8d14a5033c7a0a2ade1b2456ca4a7ce3bc2c884035d0deed667",
     "source/scripts/build.mjs": "2f8be5ba2e7239497b479bea42e09a297680171fb26e0296c3110c07b52f86ad",
-    "source/scripts/campaign-qa.mjs": "4930ff6c1b780663bb0ab06e165ab510aba037144201745b1302e1c8f28889fc",
-    "source/scripts/guidance-qa.mjs": "2509f2456afb085d5088fe6219848330e58e7c975f39af0880c306fcf691ff5a",
+    "source/scripts/campaign-qa.mjs": "ddabf9e898cdcc90f2f3a5a4397b9bed3d610016accfbcd6318cdac0211c95f4",
+    "source/scripts/guidance-qa.mjs": "1fae9c050512043d6efde376e742e7763b31e0500e937a7e4a9d5d7ba68a0989",
     "source/scripts/release.py": "1468012c515781d4fe808511fce2042c91aeb5af92d79244baa20c174752cce3",
     "source/.github/workflows/ci.yml": "622be19f363d53412559551fd1fd8b3c41fd790a74c42616bf4f1664ec1b81f9",
     "screenshots/v0.7-ch1-fiber.png": "2f34b1718b4cb45b04d43ebd34b55e0651910597d018227036693b28c6f7e72c",
@@ -99,6 +99,6 @@
   },
   "zip": {
     "path": "dist/optical-packaging-master-v0.7-release.zip",
-    "sha256": "7c0f4c849a05f915c57518ee0bdf588b45b9f86c862a6abda4556ef10bf732d5"
+    "sha256": "cfc8596347b187d9afa455d134763342338d6763243eee931f186d47fc4ba1f6"
   }
 }
