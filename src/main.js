@@ -42,7 +42,7 @@ function loadMission(id,isPractice=false){
  $('mission-title').textContent=practice?'Free Practice':m.title;$('scene-title').textContent=practice?'Optical Engineering Sandbox':m.subtitle;
  $('objective').textContent=practice?'X/Y, Tilt, Mode Radius, Wavelength와 Fixed Loss를 자유롭게 실험하세요.':m.objective;
  $('chapter-label').textContent=practice?'FREE PRACTICE':`CHAPTER ${m.chapter} · ${m.chapter===1?'FIRST LIGHT':'DESIGN FOR TOLERANCE'}`;$('mode-badge').textContent=practice?'ENGINEERING SANDBOX':m.mechanic;
- $('hint-text').textContent=m.hints[0];$('hint-text').hidden=true;
+ $('hint-text').textContent=m.hints[0];$('hint-text').hidden=true;document.querySelector('.hint-card').hidden=true;
  $('tutorial').hidden=practice||id!==1||progress.tutorialSeen;$('tutorial-title').textContent='Fiber를 드래그하세요';$('tutorial-text').textContent='청록색 +를 파란 중심으로. 출력광이 밝아지는지 보세요.';
  $('mode-size').value=String(state.w1);$('pair-type').value=pairType;$('fixed-interface').value='0';$('wavelength').value='1.55';$('design-radius').value=String(state.w1);$('design-pair').value=pairType;$('simulation-seed').value=String(seed);
  $('root-cause').value='';$('repair-action').value='';$('sample-count').value='100';$('assembly-run').innerHTML='';$('failure-detail').hidden=true;$('design-name').value='';
@@ -151,7 +151,7 @@ function complete(){
 $('mission-nav').addEventListener('click',e=>{const button=e.target.closest('[data-mission]');if(button)loadMission(Number(button.dataset.mission));});$('practice').addEventListener('click',()=>loadMission(1,true));
 $('start').addEventListener('click',()=>{session.started=true;sound.unlock(progress.sound);if(missionId===6)evaluateCurrent(1000);else render();feedback('지금 할 일: '+missions[missionId-1].objective);});
 $('reset').addEventListener('click',()=>{const started=session.started;loadMission(missionId,practice);session.started=started||practice;if(missionId===6&&session.started)evaluateCurrent(1000);else render();feedback('실험을 다시 시작합니다. 완료 기록과 저장 설계는 유지됩니다.');});
-$('hint').addEventListener('click',()=>{$('hint-text').hidden=false;$('hint-text').textContent=missions[missionId-1].hints[Math.min(session.hints,2)];session.hints++;render();feedback('Engineering Note에서 다음 힌트를 확인하세요.');});$('complete').addEventListener('click',complete);$('next').addEventListener('click',()=>loadMission(Math.min(7,missionId+1)));
+$('hint').addEventListener('click',()=>{document.querySelector('.hint-card').hidden=false;$('hint-text').hidden=false;$('hint-text').textContent=missions[missionId-1].hints[Math.min(session.hints,2)];session.hints++;render();feedback('Engineering Note에서 다음 힌트를 확인하세요.');});$('complete').addEventListener('click',complete);$('next').addEventListener('click',()=>loadMission(Math.min(7,missionId+1)));
 $('skip-tutorial').addEventListener('click',()=>{progress.tutorialSeen=true;$('tutorial').hidden=true;persist();});
 $('sound-toggle').addEventListener('click',async()=>{progress.sound=!progress.sound;persist();render();const ready=await sound.unlock(progress.sound);if(progress.sound&&!ready)feedback('이 환경에서는 Sound를 재생할 수 없습니다. 선택은 저장되며 플레이는 계속됩니다.');});
 for(const axis of ['x','y']){$(axis+'-offset').addEventListener('input',e=>moveTo(axis==='x'?Number(e.target.value):state.dx,axis==='y'?Number(e.target.value):state.dy));$(axis+'-offset').addEventListener('change',attempt);$('theta-'+axis).addEventListener('input',e=>tilt(axis,Number(e.target.value)));$('theta-'+axis).addEventListener('change',attempt);}

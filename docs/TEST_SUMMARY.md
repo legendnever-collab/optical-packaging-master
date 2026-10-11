@@ -11,8 +11,8 @@
 | Persistence | 25 | 0 | Schema 1/2→3, separate new achievements, saved evaluation snapshots, corrupt values, quotas/blocked storage and future schema protection |
 | Build | 7 | 0 | Deterministic Single HTML, no external runtime assets, classic script parse and accessible controls |
 | **Node total** | **126** | **0** | Node 24.19.0 |
-| Chromium offline UI | 53 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1, Linux headless, actual file:// artifact |
-| **Local total** | **179** | **0** | All checks executed; no skipped tests counted |
+| Chromium offline UI | 54 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1, Linux headless, actual file:// artifact |
+| **Local total** | **180** | **0** | All checks executed; no skipped tests counted |
 
 Baseline main v0.2 had 94 PASS / 0 FAIL before editing. The 48 existing Physics checks and engines are preserved. Old gameplay-policy tests were replaced to match the authorized redesign; the baseline's forced card sampling / repeated positioning requirements are intentionally superseded, not claimed unchanged.
 
@@ -20,11 +20,11 @@ Baseline main v0.2 had 94 PASS / 0 FAIL before editing. The 48 existing Physics 
 
 Browser QA plays every mission end-to-end and rejects wrong physical choices: limited inspections with initially hidden evidence, failed diagnosis/repair, different winners in two Interface environments, Center recheck preserving Angular Loss, mouse direction drag and fine keyboard, ten actual assemblies, 100 and 10000 statistics, actual failure inspection, constant-seed replay, continuous fixed-Waveguide optimization and two factory rounds on common cohorts. It verifies sound preference storage, saved design process snapshots, replay, full Free Practice, real v0.2-file→v0.3-file migration, unknown schema protection and blocked storage.
 
-Chromium uses native network-offline emulation. Observed runtime HTTP(S) requests=0 and critical page errors=0. Desktop 1440×1080 and mobile 390×844 are checked for overflow; diagnosis, optimization and factory controls are checked on mobile. Actual CDP Touch drag changes X/Y and angular state. This is emulated Touch, not a physical handset.
+Chromium uses native network-offline emulation. Observed runtime HTTP(S) requests=0 and critical page errors=0. Desktop 1440×1080 and mobile 390×844 are checked for overflow; diagnosis, optimization and factory controls are checked on mobile. Conceptual Hints appear in the workspace near the objective on mobile as well as desktop. Actual CDP Touch drag changes X/Y and angular state. This is emulated Touch, not a physical handset.
 
 Final screenshots for First Light, diagnosis, Interface decision, lottery, optimization, factory and mobile were visually inspected. Objective/next-action text precedes controls, diagnosis remains concealed, sensitivity and histogram labels correspond to actual physics, and narrow panels fit vertically. Screenshots are internal QA evidence under ignored `tmp/qa`; Korean font was installed on the QA host only. Structured local evidence is `browser-qa-results.json`.
 
-During development, a copy/test mismatch, mobile selector typo and Firefox headless audio initialization failed checks; these were corrected, including immediate saved Sound preference and a bounded optional AudioContext initialization fallback, and the final whole Chromium run passed 53/53. No earlier failure is counted as a final PASS without rerunning.
+During development, a copy/test mismatch, mobile selector typo and Firefox headless audio initialization failed checks; these were corrected, including immediate saved Sound preference and a bounded optional AudioContext initialization fallback, and the final whole Chromium run passed 54/54. No earlier failure is counted as a final PASS without rerunning.
 
 ## CI scope and independent release verification
 

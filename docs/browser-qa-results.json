@@ -9,7 +9,7 @@
       "networkMode": "native offline emulation"
     }
   ],
-  "pass": 53,
+  "pass": 54,
   "fail": 0,
   "results": [
     {
@@ -198,6 +198,10 @@
     },
     {
       "name": "chromium / actual Touch drag changes angular state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / mobile conceptual Hint is visible next to the objective",
       "status": "PASS"
     },
     {
