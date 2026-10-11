@@ -7,8 +7,8 @@
     "optical-packaging-master-v0.5.html": "a989cca89e4b11949cd744845bb395bb0e95a8f2ac9af39cee1fd571200cdbb7",
     "README.md": "f89181534ea2203c3e95ac6a19dbd478a6c6999f2e1943575da287c12626a6f5",
     "PHYSICS_MODEL.md": "e7fa2b7026c0251658eb994ab925ce3f8c25fb7e87e994f1625abd54b27207bc",
-    "RELEASE_NOTES.md": "62b5601c9d1014e2e8419b9a3c3be1dec55130d5d7d4e90b48a93f286b0de931",
-    "TEST_SUMMARY.md": "7865e508aa492aaf9134bd4d0f5cf46def2e4f8b67546c3727bc1f4e5279496f",
+    "RELEASE_NOTES.md": "61ce7aa54e00d5e6fc4bc8684aa563833abb5f5221b4e662867fbce0b39730ee",
+    "TEST_SUMMARY.md": "9a541e091c9d00d5f3bc446f15ce9b9233f5ae74057b31e87389673e40102ab2",
     "GAME_DESIGN.md": "3aaf414151253c03e014e81a844b2ed1922de3e75ab739adba8c84934d754767",
     "GAMEPLAY_AUDIT.md": "6f888fb75bdf90fbedeb1638ffd9829be5fdc17c3dff1d956b58daf5152e0704",
     "optical-packaging-master-v0.5-vertical-slice.html": "1198008e2b5f12a012c8d725c8995367f0175dff657dbcd0338bc5a1d1297658",
@@ -28,6 +28,6 @@
   },
   "zip": {
     "path": "dist/optical-packaging-master-v0.5-release.zip",
-    "sha256": "bbebe24fe71a30bc527b23c8d6e60eb6064a402b2e87a73f0c3194085dd833bb"
+    "sha256": "1aa66926889f05ab03b8d3832791a1bcd2aac9530ece7ae341f0ac6b237480da"
   }
 }

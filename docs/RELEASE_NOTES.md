@@ -11,3 +11,5 @@ Dependency: PR #4 v0.4 remains open at 3f94233f17a0af010b3ebfb33c1ebef4f666fb81;
 - Offline HTML, isolated direct-access vertical-slice snapshot 01/05/09, deterministic ZIP/manifest, coordinate/architecture and gameplay change reports plus visual screenshots.
 
 No new solver, Mission 11, body/collision/aperture, traced reflection, decenter/tilt propagation, optical/statistical model fusion or new mechanical Yield model. Body and datum sizes are illustrative; q Envelope/z/body scales are disclosed separately. Animation velocity is theatrical; output attenuation and sample sorting are computed. Human first-play fun/learning, physical devices and branded platforms remain untested. See actual test counts in TEST_SUMMARY.md and completed CI in the PR.
+
+Cross-browser release evidence: CI run #18 completed with 172 Node + 90 Chromium + 85 Firefox + 85 WebKit = **432 PASS / 0 FAIL**. Exact versions, network modes and boundaries are in TEST_SUMMARY.md. No human play observation is claimed.
