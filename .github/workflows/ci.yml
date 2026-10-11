@@ -1,4 +1,4 @@
-name: Optical Packaging v0.7 CI
+name: Optical Packaging v0.8 CI
 on:
   push:
     branches: [main]
@@ -19,7 +19,7 @@ jobs:
         run: |
           npm run build
           node scripts/build.mjs --vertical-slice
-          git diff --exit-code -- dist/optical-packaging-master-v0.7.html dist/optical-packaging-master-v0.7-vertical-slice.html
+          git diff --exit-code -- dist/optical-packaging-master-v0.8.html dist/optical-packaging-master-v0.8-vertical-slice.html
       - name: Verify release manifest and ZIP
         run: python3 scripts/release.py --verify
   browser:

@@ -1,3 +1,4 @@
+import {freshFAU,validateFAU,canCompleteFAU,evaluateFAUProduction} from './fau-campaign.js';
 import {ellipticalCoupling} from '../physics/elliptical-gaussian.js';
 import {evaluateRelay,validateRelay} from '../physics/beam-interface.js';
 import {generateSamples,wilsonInterval,lossQuantile,normalGenerator} from '../physics/assembly.js';
@@ -10,7 +11,8 @@ export const campaignChapters=[
  {id:3,title:'The Silicon Mode Mismatch Crisis',short:'Silicon Crisis',problem:'거의 완벽한 정렬인데도 출력이 낮습니다. 더 정밀한 위치 제어가 답일까요?',action:'정밀 정렬로 X/Y/Tilt를 0에 가깝게 만든 후, Mode를 검사하고 지배적인 원인을 진단하세요.',goal:'Loss 통과가 아닌 Mode Mismatch 진단',achievement:'Precision Cannot Fix Mode Mismatch',next:'정밀도가 아니라 Optical Field를 바꿔야 합니다. Mode Converter를 설계해봅시다.'},
  {id:4,title:'Engineer the Mode Converter',short:'Mode Converter',problem:'높은 Silicon Confinement를 완화하고 Optical Field를 SMF와 맞춰야 합니다.',action:'Converter Reference를 선택하고 정렬된 Coupling을 비교하세요. 개선 후 공정 편차를 적용하세요.',goal:'Nominal Loss ≤1 dB · Passive Yield 제약 확인',achievement:'Mode Matched — But Not Production Ready',next:'Nominal Loss는 좋아졌지만 공정 편차를 견디지 못합니다. Packaging Architecture가 필요합니다.'},
  {id:5,title:'Design for Passive Alignment',short:'Passive Design',problem:'좋은 Prototype이 반복 조립을 통과하지 못합니다. 위치·각도·공간을 함께 설계하세요.',action:'Datum 또는 Lens 경로를 선택하고 실제 부품을 설치하세요. 같은 Sample로 조립 Yield를 비교하세요.',goal:'Nominal ≤1 dB · ≥950/1000 Good · Geometry / Cost / WD',achievement:'Passive-ready Interface',next:'모델 조건에서 Passive-ready입니다. 이 설계를 실제 조립·고정·검사 순서로 제조하세요.'},
- {id:6,title:'Build, Lock & Qualify',short:'Manufacturing',problem:'전달받은 Optical Design을 비용과 시간 안에 100개 제품으로 만들어야 합니다.',action:'Carrier와 Fixture를 설치하고 Align → Lock → Test하세요. 독립 생산 Sample로 납품을 검증하세요.',goal:'Prototype ≤1 dB · Good ≥95/100 · Cost ≤6800 · Time ≤4000 s',achievement:'Qualified Optical Packaging Product',next:'빛의 연결과 제조를 함께 해결했습니다. 다른 설계는 Optional Engineering Lab에서 비교하세요.'}
+ {id:6,title:'Build, Lock & Qualify',short:'Manufacturing',problem:'전달받은 Optical Design을 비용과 시간 안에 100개 제품으로 만들어야 합니다.',action:'Carrier와 Fixture를 설치하고 Align → Lock → Test하세요. 독립 생산 Sample로 납품을 검증하세요.',goal:'Prototype ≤1 dB · Good ≥95/100 · Cost ≤6800 · Time ≤4000 s',achievement:'Qualified Optical Packaging Product',next:'한 채널 제품을 완성했습니다. 이제 여러 채널을 동시에 연결하는 FAU Packaging에 도전하세요.'},
+ {id:7,title:'Multi-channel FAU Packaging',short:'FAU Array',problem:'평균 출력은 좋아도 한 채널이 실패하면 Array 제품은 불합격입니다. 모든 채널을 함께 정렬하세요.',action:'4 → 8 → 16채널로 확장하며 Shared X/Y, Array Rotation, Pitch와 제조 공정을 비교하세요.',goal:'전 채널 ≤1 dB · 16-channel Good ≥95/100 · 전 채널 검사 · Cost ≤6500 · Time ≤4500 s',achievement:'Qualified Multi-channel FAU Product',next:'다채널 정렬과 제품 Yield를 함께 검증했습니다. Optional Engineering Lab에서 기존 설계도 비교하세요.'}
 ];
 const mode=(wx,wy=wx,angle=0)=>({wx,wy,angle});
 export const glassProfiles={
@@ -32,8 +34,9 @@ export const packagingEnvironments={
  angular:{name:'Loose Angular Registration',width:1600,height:900,componentLimit:3,maxCost:65,minWD:100,note:'Connector Tilt σ=0.8°. Expanded Beam의 각도 민감도가 문제가 됩니다.'}
 };
 export function defaultInterface(){return {modelVersion:campaignModel,sourceType:'SMF',sourceMode:mode(5.2),targetType:'SMF',targetMode:mode(5.2),wavelength:1.55,converter:'bare',converterIndex:0,glass:'asymmetric',alignment:{dx:3.5,dy:-2,thetaX:2.4,thetaY:-.8},architecture:'direct',environment:'standard',relay:{sourceRadius:5.2,targetRadius:4.8,wavelength:1.55,f1:260,f2:240,z1:260,z2:760,length:1000,converterLoss:.25,foldAt:null,installed:0},fixture:'economy',qualificationStatus:'draft',nominalCouplingLoss:null,assemblyDistribution:null,yield:null};}
-export function freshCampaign(){return {schemaVersion:1,contentVersion:7,modelVersion:campaignModel,chapter:1,completed:{},drafts:{1:{project:defaultInterface(),evidence:{},factory:null}},frozen:{},baselineHistory:[],archivedProjects:[],legacyHistory:{missions:{},content:{},assemblyDelivered:false}};}
+export function freshCampaign(){return {schemaVersion:1,contentVersion:8,modelVersion:campaignModel,chapter:1,completed:{},drafts:{1:{project:defaultInterface(),evidence:{},factory:null}},frozen:{},baselineHistory:[],archivedProjects:[],legacyHistory:{missions:{},content:{},assemblyDelivered:false}};}
 export function chapterDraft(id,previous){
+ if(id===7){const project=defaultInterface();project.targetType='Silicon PIC';selectConverter(project,'sin',1);project.alignment={dx:0,dy:0,thetaX:0,thetaY:0};return {project,evidence:{},factory:null,fau:freshFAU()};}
  const p=structuredClone(previous??defaultInterface());p.qualificationStatus='draft';p.nominalCouplingLoss=null;p.assemblyDistribution=null;p.yield=null;
  if(id===2){p.targetType='Glass WG';p.targetMode={...glassProfiles.asymmetric.mode};p.glass='asymmetric';p.alignment={dx:2,dy:-1,thetaX:0,thetaY:0};}
  if(id===3){p.targetType='Silicon PIC';p.targetMode={...converterReferences.bare.modes[0]};p.converter='bare';p.alignment={dx:.7,dy:-.4,thetaX:.4,thetaY:-.3};}
@@ -115,6 +118,7 @@ export function qualifyCampaignFactory(p,f,seed=20261014){
  return {...report,rows,good,reject:100-good,yield:good/100,interval:wilsonInterval(good,100),p95:lossQuantile(rows.map(r=>r.result.totalLoss).sort((a,b)=>a-b),.95),firstGood,totalCost:cost,totalTime:time,prototypeLoss,nominalLoss,reworked:rows.filter(r=>r.reworked).length,qualified:prototypeLoss<=1&&good>=95&&cost<=6800&&time<=4000&&req.pass};
 }
 export function canCompleteChapter(id,draft){
+ if(id===7)return Boolean(canCompleteFAU(draft.fau));
  const {project:p,evidence:e,factory:f}=draft,r=nominalInterface(p);
  if(id===1)return Boolean(e.light&&e.endface&&e.direction&&r.totalLoss<=.5);
  if(id===2)return Boolean(e.asymmetricTest&&e.axes&&e.profileTest===p.glass&&e.profileTest!=='asymmetric'&&r.totalLoss<=1);
@@ -127,6 +131,7 @@ export function canCompleteChapter(id,draft){
 export function designSignature(p){return JSON.stringify([p.architecture,p.environment,p.fixture,p.converter,p.converterIndex,p.relay]);}
 export function freezeChapter(progress,id){
  const d=progress.drafts[id];if(!canCompleteChapter(id,d))throw new RangeError('현재 Chapter의 Experiment / Qualification 요구를 충족하세요.');
+ if(id===7){const p=structuredClone(d.project),q=evaluateFAUProduction(d.fau.settings,d.fau.evaluation);p.qualificationStatus='product-qualified-model';p.nominalCouplingLoss=q.nominal.worstLoss;p.yield=q.yield;p.assemblyDistribution={seed:q.seed,count:q.count,process:q.process,lossLimit:1};progress.frozen[7]={project:p,evidence:{},factory:null,fau:structuredClone(d.fau)};progress.completed[7]={achievement:campaignChapters[6].achievement,status:p.qualificationStatus};return p;}
  const p=structuredClone(d.project),report=id>=4?evaluateInterfaceCohort(p):null;
  p.nominalCouplingLoss=nominalInterface(p,{dx:0,dy:0,thetaX:0,thetaY:0}).totalLoss;
  if(report){p.assemblyDistribution={seed:report.seed,count:report.count,process:report.process,lossLimit:report.lossLimit};p.yield=report.yield;}
@@ -144,7 +149,7 @@ export function freezeChapter(progress,id){
  return p;
 }
 export function enterChapter(progress,id){
- if(!Number.isInteger(id)||id<1||id>6||id>1&&!progress.completed[id-1])throw new RangeError('이전 개발 단계의 설계를 전달하세요.');
+ if(!Number.isInteger(id)||id<1||id>7||id>1&&!progress.completed[id-1])throw new RangeError('이전 개발 단계의 설계를 전달하세요.');
  if(!progress.drafts[id])progress.drafts[id]=chapterDraft(id,progress.frozen[id-1]?.project);
  progress.chapter=id;return progress.drafts[id];
 }
@@ -163,20 +168,23 @@ function validatedEvidence(e,project){
  if(e.factoryComparisons!==undefined){if(!Array.isArray(e.factoryComparisons)||e.factoryComparisons.length>4)throw new RangeError('Invalid factory comparison list.');copy.factoryComparisons=e.factoryComparisons.map(c=>{if(!c||typeof c.label!=='string'||c.label.length>90)throw new RangeError('Invalid factory comparison label.');return {label:c.label,factory:validateCampaignFactory(project,c.factory)};});}
  return copy;
 }
+function validateFAUProject(p){
+ validateInterfaceProject(p);if(p.converter!=='sin'||p.converterIndex!==1||p.architecture!=='direct'||p.relay.installed!==0||Object.values(p.alignment).some(v=>v!==0))throw new RangeError('Unsupported FAU optical reference.');
+}
 export function validateCampaign(value){
- if(value?.schemaVersion!==1||value?.contentVersion!==7||value?.modelVersion!==campaignModel)throw new RangeError('Unsupported Campaign schema / model.');
+ if(value?.schemaVersion!==1||![7,8].includes(value?.contentVersion)||value?.modelVersion!==campaignModel)throw new RangeError('Unsupported Campaign schema / model.');
  const p=freshCampaign();
- for(let id=1;id<=6;id++){
-  const d=value.drafts?.[id];if(!d)continue;validateInterfaceProject(d.project);
+ for(let id=1;id<=7;id++){
+  const d=value.drafts?.[id];if(!d)continue;if(id===7)validateFAUProject(d.project);else validateInterfaceProject(d.project);
   if(d.project.targetType!==(id===1?'SMF':id===2?'Glass WG':'Silicon PIC'))throw new RangeError('Invalid chapter platform.');
-  const e=validatedEvidence(d.evidence,d.project);
-  p.drafts[id]={project:structuredClone(d.project),evidence:structuredClone(e),factory:id===6?validateCampaignFactory(d.project,d.factory):null};
+  const e=validatedEvidence(d.evidence,d.project);if(id===7&&value.contentVersion!==8)throw new RangeError('FAU requires Content 8.');
+  p.drafts[id]={project:structuredClone(d.project),evidence:structuredClone(e),factory:id===6?validateCampaignFactory(d.project,d.factory):null,...(id===7?{fau:validateFAU(d.fau)}:{})};
   const saved=value.frozen?.[id];if(saved&&value.completed?.[id]&&(id===1||p.completed[id-1])){
-   validateInterfaceProject(saved.project);const fd={project:structuredClone(saved.project),evidence:validatedEvidence(saved.evidence,saved.project),factory:id===6?validateCampaignFactory(saved.project,saved.factory):null};
+   if(id===7)validateFAUProject(saved.project);else validateInterfaceProject(saved.project);const fd={project:structuredClone(saved.project),evidence:validatedEvidence(saved.evidence,saved.project),factory:id===6?validateCampaignFactory(saved.project,saved.factory):null,...(id===7?{fau:validateFAU(saved.fau)}:{})};
    if(canCompleteChapter(id,fd)){const current=p.drafts[id],downstream=p.drafts[id+1];p.drafts[id]=fd;delete p.drafts[id+1];freezeChapter(p,id);p.drafts[id]=current;if(downstream)p.drafts[id+1]=downstream;}
   }
  }
- p.chapter=Number.isInteger(value.chapter)&&value.chapter>=1&&value.chapter<=6&&(value.chapter===1||p.completed[value.chapter-1])?value.chapter:1;
+ p.chapter=Number.isInteger(value.chapter)&&value.chapter>=1&&value.chapter<=7&&(value.chapter===1||p.completed[value.chapter-1])?value.chapter:1;
  if(!p.drafts[p.chapter])p.drafts[p.chapter]=chapterDraft(p.chapter,p.frozen[p.chapter-1]?.project);
  if(value.archivedProjects!==undefined){if(!Array.isArray(value.archivedProjects)||value.archivedProjects.length>8)throw new RangeError('Invalid project archive.');p.archivedProjects=value.archivedProjects.map(a=>{if(!a||![5,6].includes(a.chapter)||!a.snapshot)throw new RangeError('Invalid archived handoff.');validateInterfaceProject(a.snapshot.project);return {chapter:a.chapter,snapshot:{project:structuredClone(a.snapshot.project),evidence:validatedEvidence(a.snapshot.evidence,a.snapshot.project),factory:a.chapter===6?validateCampaignFactory(a.snapshot.project,a.snapshot.factory):null}};});}
  p.baselineHistory=Object.keys(p.frozen).map(k=>({chapter:Number(k),targetType:p.frozen[k].project.targetType,loss:p.frozen[k].project.nominalCouplingLoss}));
@@ -186,7 +194,7 @@ export function validateCampaign(value){
 export function loadCampaign(storage,preview=false){
  if(preview)return {progress:freshCampaign(),writable:false,status:'preview'};
  try{
-  const raw=storage?.getItem(campaignKey);if(raw){const value=JSON.parse(raw);if(value?.schemaVersion>1||value?.contentVersion>7)return {progress:freshCampaign(),writable:false,status:'future-schema'};return {progress:validateCampaign(value),writable:true,status:'restored'};}
+  const raw=storage?.getItem(campaignKey);if(raw){const value=JSON.parse(raw);if(value?.schemaVersion>1||value?.contentVersion>8)return {progress:freshCampaign(),writable:false,status:'future-schema'};return {progress:validateCampaign(value),writable:true,status:'restored'};}
   const p=freshCampaign();for(const [key,field] of [['optical-packaging-master.progress','campaign'],['optical-packaging-master.assembly','assembly']]){
    const oldRaw=storage?.getItem(key);if(!oldRaw)continue;try{const old=JSON.parse(oldRaw);if(field==='campaign'&&[1,2,3,4].includes(old.schemaVersion)){p.legacyHistory.missions=old.missions??{};p.legacyHistory.content=old.content??{};}if(field==='assembly'&&old.schemaVersion===1)p.legacyHistory.assemblyDelivered=old.session?.run?.awarded===true;}catch{/* preserve corrupt legacy bytes */}
   }

@@ -1,3 +1,35 @@
+# Optical Packaging Master v0.8.0 — FAU Packaging RC
+
+기존 Chapter 1–6 다음에 Chapter 7의 **4 → 8 → 16-channel FAU Packaging**을 추가했습니다. 기존 좌측 문제·장면 / 우측 조작과 스크롤 중 고정되는 피드백을 유지합니다.
+
+- 4 CH: Shared X/Y 정렬, ±0.1 µm / Drag / Keyboard / Touch.
+- 8 CH: Array Rotation ±0.01°와 FAU Pitch 선택으로 양 끝 채널의 누적 오차 교정.
+- 16 CH: 평균 Power / 최저 채널 Power / 합격 채널 수, 채널 클릭 확대 Field, 공정·검사 비교와 독립 Qualification.
+- 중앙 2채널 검사에서 놓친 불량을 실제 All-channel Yield와 구분합니다. 모든 16채널 ≤1 dB인 제품만 Good으로 계산합니다.
+- 기존 Gaussian / q·ABCD / Converter / Factory와 Optional Engineering Lab은 보존했습니다. v0.7 배포 HTML·ZIP·Manifest·Preview는 byte-identical입니다.
+- 저장: Schema 1 / Content 8. Content 7의 완료·Frozen·Archive를 검증 후 유지하며 새 FAU 완료 기록을 자동 생성하지 않습니다. 기존 파일과 새 파일의 `file://` 저장 영역이 다를 수 있으므로 Text Backup / Paste Restore를 사용하세요.
+
+실행: `dist/optical-packaging-master-v0.8.html`. Source·모델·QA·스크린샷: `dist/optical-packaging-master-v0.8-release.zip`. 설치·런타임 네트워크·파일 업로드 없이 실행합니다.
+
+```bash
+npm ci
+npm test
+npm run build
+node scripts/build.mjs --vertical-slice
+npm run test:ui
+npm run test:campaign
+npm run release
+python3 scripts/release.py --verify
+```
+
+모델 경계: 독립된 평행 Common-plane Gaussian 채널입니다. Array Rotation은 배열 중심 좌표의 회전이며 Beam phase tilt가 아닙니다. Pitch / Mode / 제조 오차 / Cost / Time은 교육용 가정이고 Crosstalk·Evanescent Coupling·실제 Foundry 성능·Adhesive / Thermal은 계산하지 않습니다. 자세한 모델과 Migration은 `docs/FAU_PACKAGING.md`를 참조하세요.
+
+main `6648b4419482ffb24cdc6f99569a82ca726700d0` 기반 Feature Branch `feature/v0.8-fau-packaging`입니다. v0.8은 PR로 검토하며 별도 병합 승인을 기다립니다.
+
+아래는 v0.7까지의 개발 기록입니다.
+
+---
+
 # Optical Packaging Master v0.7.0
 
 SMF에서 시작해 Glass Waveguide, Bare Silicon의 Mode Mismatch, Spot Size Conversion, Passive Optical Architecture와 제조 Qualification까지 배우는 Offline Engineering Game입니다.

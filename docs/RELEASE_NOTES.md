@@ -28,3 +28,8 @@ QA 결과와 실행/미실행 엔진은 TEST_SUMMARY.md와 JSON Evidence를 참�
 - 화면에 충분히 들어갈 때 왼쪽 문제와 Scene도 유지합니다. HUD/Scene 크기를 측정해 작은 높이 또는 긴 목표 내용에서는 Scene 고정을 풀어 가려진 내용이 생기지 않게 합니다. 강제 Scroll이나 별도 중첩 Scroll을 추가하지 않습니다.
 - Tablet/Mobile은 상하 배치하고 HUD만 유지합니다. 화면 폭 320–1440 px, 높이 480–1024 px의 실제 Browser Emulation에서 입력·표시·경계·키보드·Reduced Motion을 확인합니다.
 - 기존 Alignment 이벤트, Guidance 상태, Physics/Game/Persistence 소스는 그대로입니다. 이전 main의 HTML·ZIP·Preview·Manifest는 dist/archive/*v0.7-before-layout*로 보존합니다.
+
+
+## v0.8 additive FAU Packaging
+
+Chapter 1–6의 모델과 완료 기록을 유지하며 Chapter 7의 4→8→16-channel Array를 추가합니다. Campaign Schema 1 / Content 8은 Content 7을 검증 후 이관하며 Interface Model v7.1을 변경하지 않습니다. Array Geometry / Process / All-channel Acceptance / UX / Migration / 모델 경계의 상세 사항은 [FAU_PACKAGING.md](FAU_PACKAGING.md)를 참조하세요. v0.7 HTML·ZIP·Manifest·Preview는 그대로 보존합니다.

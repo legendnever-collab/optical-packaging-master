@@ -221,3 +221,8 @@ FactoryPlayback receives real evaluateDesign rows and never generates/mutates re
 Optical/Statistical solver files and their 102 reference tests are unchanged. The new independent Challenge composes declared Fixture/part Normal errors and fixed Datum bias before calling `angularCoupling`. Actual Prototype calibration is derived from its observed sample. Independent production uses another seed; candidate designs share standard normals. Active correction and optional rejected-unit rework feed actual assumed residual X/Y/angles into the same engine, preserving mismatch and recomputing Loss. No optical score discount is used.
 
 The top view evaluates declared Carrier/PIC rectangles inside a Package with axis-aligned clearance and mount constraints. Z motion changes geometry only, not unimplemented optical gap loss. Facet microscopy uses a separately stated common transverse scale. Lock is a state constraint without material shrinkage. Rework costs/time, Fixture prices and correction residuals are uncalibrated teaching assumptions. Prototype, First Pass, final Yield, confidence interval and cost per actual Good are distinct. Full derivation, mapping, fixed seeds, policies and limitations are in [ASSEMBLY_CHALLENGE.md](ASSEMBLY_CHALLENGE.md). Current q/ABCD and phase-tilt models remain separate.
+
+
+## v0.8 additive FAU Packaging
+
+Chapter 1–6의 모델과 완료 기록을 유지하며 Chapter 7의 4→8→16-channel Array를 추가합니다. Campaign Schema 1 / Content 8은 Content 7을 검증 후 이관하며 Interface Model v7.1을 변경하지 않습니다. Array Geometry / Process / All-channel Acceptance / UX / Migration / 모델 경계의 상세 사항은 [FAU_PACKAGING.md](FAU_PACKAGING.md)를 참조하세요. v0.7 HTML·ZIP·Manifest·Preview는 그대로 보존합니다.

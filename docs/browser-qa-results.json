@@ -1,7 +1,7 @@
 {
   "artifact": {
-    "path": "optical-packaging-master-v0.7.html",
-    "sha256": "760879c730525b2afd176327cf9660dc86880a154ab1d2ca1a9540ae5ea082c6"
+    "path": "optical-packaging-master-v0.8.html",
+    "sha256": "325781db22b991b816803d10dc62e62cbb429decfe12c49a931de79aebf2c99a"
   },
   "engines": [
     "chromium"

@@ -42,3 +42,7 @@
 34. Guidance is UI-only and derives from the existing campaign/evidence/factory state. Fine controls dispatch existing input/change handlers, respect disabled state/bounds and never own a parallel physics state. Do not add physics or chapters in this final patch.
 
 35. v0.7 responsive play-layout polish starts from merged main 4802888. Persistent Power is actual totalEfficiency, not a new completion score. Preserve one engineering state and all existing controls; keep the previous merged release bytes in dist/archive/*before-layout*.
+
+36. v0.8은 승인된 FAU Chapter 7 확장입니다. 기존 Chapter 1–6 Physics와 v0.7 Release bytes를 보존합니다. Array Rotation과 Phase Tilt를 구분하고, Package Yield는 모든 채널의 실제 Loss AND로 판정합니다. Average Power로 불량 채널을 상쇄하지 않습니다.
+37. Campaign Schema 1 / Content 8은 Content 7을 검증 후 이관합니다. Interface Model v7.1은 유지하고 FAU Model / Seed / Count / Settings를 별도 보존합니다. Sample 오차를 Clip하지 않습니다. 비교 Seed와 독립 Qualification Seed를 구분하고 교육용 가정을 실제 Foundry / 제조 보증으로 표현하지 않습니다.
+38. v0.8 개발·PR 게시 승인입니다. v0.7의 이전 Merge 승인을 v0.8에 적용하지 않습니다. 명시적인 별도 승인 전 main Merge / Tag / GitHub Release Publish는 수행하지 않습니다.

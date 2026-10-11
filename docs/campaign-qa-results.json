@@ -1,11 +1,11 @@
 {
-  "version": "0.7.0",
+  "version": "0.8.0",
   "artifact": {
-    "path": "optical-packaging-master-v0.7.html",
-    "sha256": "760879c730525b2afd176327cf9660dc86880a154ab1d2ca1a9540ae5ea082c6"
+    "path": "optical-packaging-master-v0.8.html",
+    "sha256": "325781db22b991b816803d10dc62e62cbb429decfe12c49a931de79aebf2c99a"
   },
   "status": "completed",
-  "pass": 101,
+  "pass": 127,
   "fail": 0,
   "skipped": 0,
   "environments": [
@@ -112,7 +112,7 @@
       "status": "PASS"
     },
     {
-      "name": "chromium / campaign final handoff gives clear product achievement and optional lab",
+      "name": "chromium / campaign single-channel handoff gives clear product achievement and FAU continuation",
       "status": "PASS"
     },
     {
@@ -417,6 +417,110 @@
     },
     {
       "name": "chromium / play layout layout adds zero HTTP assets or critical page errors",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / real v0.7 content migration preserves all six completed/frozen chapters",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / 4-channel actual action / single NEXT / disabled Optical Test",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / touch fine button edits engineering state and immediate Power",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / fine bounds disable + and preserve valid geometry",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / channel selection opens actual Loss / offsets microscope",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / keyboard fine movement updates shared state and retains focus",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / native mouse drag uses exact delivered SVG coordinates / shared XY",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / 4→8 transition removes old next target and exposes rotation / pitch edge failure",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / rotation ±0.01° updates geometry / live results",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / pitch alone still fails edge channels while centers pass",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / 8→16 all-channel prototype gate and sticky three real metrics",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / center inspection misses 30 real rejects; Yield is 70%, not accepted 100%",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / sample inspection switches entire channel map and HUD to actual row",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / precision all-channel process qualifies comparison without final award",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / independent final seed unlocks actual all-channel product achievement",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / reload restores completed array, descriptors, real report and older optics",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / accessible native channel selector exposes all 16 with a full-size touch control",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / viewport 1440: all metrics remain visible while controls scroll / no overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / viewport 1024: all metrics remain visible while controls scroll / no overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / viewport 768: all metrics remain visible while controls scroll / no overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / viewport 390: all metrics remain visible while controls scroll / no overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / viewport 320: all metrics remain visible while controls scroll / no overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / edited design invalidates evaluation but retains frozen achievement / history",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / chapter transition removes array metrics / highlight; replay restores actual draft",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / native CDP touch drag updates shared optical state",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium FAU / offline array journey uses zero network assets / page errors",
       "status": "PASS"
     }
   ]
