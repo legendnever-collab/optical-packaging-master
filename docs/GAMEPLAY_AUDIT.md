@@ -43,3 +43,11 @@ M08 changes the observation plane, M09 changes an optical component, M10 makes a
 Mode-first instruments made manipulation and manufacturing feel similar despite different equations. v0.5 places an assembly bench first and moves optional technical displays behind Advanced. P0 examples are direct Fiber-to-PIC alignment, real-sample production/sorting/inspection and Inventory Lens Drop/refocus. The same components then appear in all ten retained policies. See GAMEPLAY_CHANGES.md for the action/consequence matrix. Hardware bodies remain a declared illustrative projection; no new mechanical accuracy is claimed.
 
 Functional review criteria are automated: objective visible, real component drag changes state, same optical outputs across views, failed sample is actual seeded row, successful package is stamped/lit, and different mission policies reject their wrong choices. Counts and executed engine evidence are in TEST_SUMMARY.md. Human fun/learning claims remain unverified.
+
+## v0.6 audit / unique assembly sequence
+
+| Content | Player action | Principle | Failure | Success / Feedback |
+| --- | --- | --- | --- | --- |
+| Independent Assembly Challenge | Install → Align → Lock → Test → Unlock/Rework → Manufacture → Deliver | Geometry + Datum tolerance + measured Prototype vs independent production + cost/time | Boundary/slot/PIC collision, locked bad Link, low Yield or budget overrun | Prototype ≤1 dB, ≥95 Good, Cost ≤4800, Time ≤3200; ORDER DELIVERED + actual report + debrief |
+
+No Mission 11. Ten legacy mission mechanics remain distinct. Next-action text follows current model state; the first three scene steps are immediately visible, optional assumptions are disclosed under details. Mobile bench precedes controls, with Carrier inventory next to the scene and labeled installation alternative. Mechanical actions have enforced model consequences; raw/first/final optical states and counted rework drive outcomes. Several strategies can pass. No human usability/fun/learning assessment is claimed.

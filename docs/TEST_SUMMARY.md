@@ -1,62 +1,46 @@
-# v0.5.0 RC — Physics Regression & Browser Test Report
+# v0.6 RC — Regression / Browser / Offline Evidence
 
 ## Local execution — 2026-10-11
 
-| Suite | PASS | FAIL | Actual scope |
+| Suite | PASS | FAIL | Scope |
 | --- | ---: | ---: | --- |
-| Spatial Physics | 29 | 0 | Existing reference/stability/field integral, unchanged |
-| Angular Physics | 19 | 0 | Phase tilt and independent complex integral, unchanged |
-| Assembly statistics | 28 | 0 | Seed/moments/bias/zero sigma/Yield/P95/CI/ranking, unchanged |
-| Gaussian propagation/interfaces | 26 | 0 | q/ABCD/4f/size/curvature/complex integral/gap/fold feasibility, unchanged |
-| Mission/scoring | 21 | 0 | Ten existing success policies and wrong choices, unchanged thresholds |
-| Persistence | 29 | 0 | Legacy/content/factory/draft/future/restricted storage; schema 4 retained |
-| Build | 7 | 0 | Single HTML, classic parse, determinism and no external assets |
-| Scene mappings / factory playback | 13 | 0 | XY/straight/fold/camera inverses, power, real row stages, immutability, ten cap, cancellation and replay |
-| **Node total** | **172** | **0** | Node 24.19.0; skipped/cancelled=0 |
-| Chromium offline UI | 90 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1, Linux headless file:// |
-| **Local total** | **262** | **0** | Actual checks; archive verifier separately reported |
+| Spatial Physics | 29 | 0 | Unchanged reference/stability/field integral |
+| Angular Physics | 19 | 0 | Unchanged phase tilt / independent complex integral |
+| Assembly statistics | 28 | 0 | Unchanged seed/moments/bias/zero sigma/Yield/P95/CI/ranking |
+| Gaussian propagation/interfaces | 26 | 0 | Unchanged q/ABCD/4f/size/curvature/gap/fold |
+| Mission/scoring | 21 | 0 | Ten retained success policies and wrong choices |
+| Campaign persistence | 29 | 0 | Schema 4, v1–v5 records, badges/designs/Builder/future/restricted storage |
+| Build | 7 | 0 | Versioned single HTML, classic parse, determinism and no assets |
+| Legacy scene/playback | 13 | 0 | Reversible mappings, actual power/row stages/cancel |
+| New Challenge model/save | 34 | 0 | Geometry/sequence/Lock/rework/calibration/moments/shared samples/independent seed/cost/qualify/raw/residual/restore/invalid/future |
+| **Node total** | **206** | **0** | Node 24.19.0, skipped/cancelled=0 |
+| Chromium offline UI | 123 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1 Linux file:// |
+| **Local total** | **329** | **0** | Actual checks; ZIP verifier separately reported |
 
-Baseline v0.4 Head 3f94233f17a0af010b3ebfb33c1ebef4f666fb81: 159 Node PASS / 0 FAIL. PR #4 is open/unmerged; main v0.3 e66573f81fbda98352f30f121c0ddef549ec2544. Every optical solver and all 102 physics/statistical reference tests remain byte-identical. Persistence's gameVersion expectation and build artifact version changed; no schema or content version was bumped and no previous achievement was deleted.
+v0.5 baseline had 172 Node and 90 Chromium tests. Optical/statistical core files and all 102 associated reference tests remain byte-identical. No legacy mission threshold, content version or schema changed; only current gameVersion and build artifact version changed.
 
-## Actual UI / offline coverage
+## Actual coverage
 
-Every Mission 01–10 is played end-to-end with the retained policies and actual wrong-physics rejection. Hardware default, physical Fiber drag with exact shared XY/result, four views, Gaussian Overlay, camera/exploded invariance, opaque fault evidence, direct physical Receiver Z, Inventory Lens Drop, lens fine Keyboard/focus retention and focal adjustment with actual q envelope/output changes are exercised. Existing XY/Angular/Receiver instrument drag, slider state and fine keyboard are retained under Advanced.
+Full ten-mission Campaign is played including wrong-choice rejection, diagnosis concealment, old hardware/instrument pointer/keyboard/touch, q/Lens refocus, seeded manufacturing, factory inspection and independent Builder autosave. Actual previous v0.2/v0.3/v0.4/v0.5 standalone files are opened before the new file; v0.5 ten badges, scores, designs and q draft survive. Unknown campaign formats are preserved.
 
-Factory plays ten actual samples through PLACE/TEST/SORT; counts and rows reconcile. Full dashboard reconciles produced/GOOD/REJECT/Yield/P95 with selected 100/1000/10000 evaluation. Rejected-package Inspection restores actual state, Loss/limit/dominant contribution. Same seed reproduces results. In-flight production navigation is tested with animation enabled and prevents stale state writes. Sound preferences/fallback, replay, full practice, stored factory process snapshots and independent Builder draft refresh are preserved.
+New Challenge starts without campaign unlocks. Browser verifies oversized Fixture rejection, real inventory mouse Drop, Carrier/PIC collision and keyboard X-to-optical synchronization. Locked inputs reject motion without introducing optical loss; failed Test, charged Unlock, actual Facet mouse drag, shared sliders and two successive fine keyboard steps are exercised. Economy Prototype success/72% production failure, Precision Passive qualification, actual Active Before/Final states, 28 counted reworks, three same-seed snapshots and high-yield budget rejection are checked against fixed reference results. Visible delivery, learning debrief and independent Lock/Test/run/award save restore are verified. Explicit Challenge reset preserves campaign bytes.
 
-Actual old v0.2, v0.3 and v0.4 standalone files are opened before the new file to exercise persistence continuity. All ten v0.4 content badges and Builder configuration survive; unit tests include full evaluation snapshots. Vertical Slice directly opens 01/05/09 and plays factory/lens without reading or overwriting existing progress. Future schema is protected and blocked storage still permits session play.
+Seven emulated CDP Touch assertions are Chromium-only: legacy physical Fiber/XY/Angular/Receiver/Lens, new Carrier inventory and Facet alignment. Mobile 390×844 checks scene-first placement/no horizontal overflow. Desktop 1440×1080, reduced/normal motion and in-flight cancellation are exercised. Blocked storage permits manufacturing; future challenge schema preserves original bytes. Isolated preview reads/writes neither existing save key. All contexts have **0 runtime HTTP(S) requests / 0 critical page errors** under Chromium native offline.
 
-Chromium native offline emulation: runtime HTTP(S) requests=0; critical page errors=0. 1440×1080 desktop and 390×844 mobile check layout. Actual emulated CDP Touch changes physical Fiber, legacy XY, angular, Receiver and installs an Inventory Lens. No physical handset claim. Reduced Motion removes optical travel; no-preference retains actual-power animation. Production outcomes are independent of delay settings.
+Ten v0.6 screenshots cover preserved campaign and new failed-package/qualified-order/comparison/mobile content; Korean QA-host fonts are not bundled into runtime. Actual screenshot inspection reviewed scene/control/model labels. Development checks fixed the screenshot selector and version expectation, and strengthened drop/keyboard checks using actual installed coordinates. Complete final local suite was rerun.
 
-## Visual evidence
+## CI / archive verification
 
-Six committed PNG captures under docs/screenshots show First Light, factory, actual rejection inspection, restored lens link, ideal folded package and mobile lens placement. Korean font is installed on the QA host only, not in the artifact. Main component/routing/typography and mobile controls were visually reviewed. Hardware is the largest workbench surface, detailed instruments are collapsed by default, and text distinguishes model assumptions and error/achievement. Internal full-page engine captures are in ignored tmp/qa.
+CI uses Node 22, exact deterministic rebuild comparison for both HTML exports, source/SHA256/CRC ZIP verification and actual Chromium/Firefox/WebKit file campaigns. Completed CI counts and versions are reported in the PR after execution; do not infer them from local checks. Chromium/Firefox use native offline emulation; WebKit aborts HTTP(S), since native offline prevents its file navigation on the runner. Its network independence is tested but native-offline navigation is not claimed. Seven Touch assertions are Chromium-only.
 
-Development checks caught closed-Advanced read assertions and an overlay intercepting Receiver input; tests were adapted to actual disclosure controls and optical overlays made pointer-transparent. A fixed display extent ensures Receiver movement visibly changes its position. Cross-browser CI caught a test assuming z=500 from a CSS-box drop; actual SVG projection/rounding gives z=499 in Firefox/WebKit and 500 in Chromium. The test now requires exactly +2 µm from the measured installed z and retained active Lens focus. Keyboard rendering restores focus after both state updates. The complete local final suite was rerun; earlier failures are not counted as final success. No human first-play observation or fun/learning-effect study was performed.
+`python3 scripts/release.py --verify` validates exact HTML/docs/QA/screenshots and SHA256SUMS against committed files. v0.1–v0.5 HTML/ZIP bytes are unchanged. The isolated final-source preview supports legacy 01/05/09 and the new Challenge with null storage; first implementation is preserved in a phase commit. No company attachment or credential bytes are distributed.
 
-## CI / artifact verification
+## Known limitations / unverified
 
-Stacked PR CI runs Node, deterministic rebuild/committed-source check, archive/SHA256/source-byte verification, and real Chromium/Firefox/WebKit local-file campaigns. Completed [CI run #18](https://github.com/legendnever-collab/optical-packaging-master/actions/runs/38114156427), code head `3baf3d28e8825dcdf8345df25bd67ac8cb9adcb5`, executed the following on Ubuntu 24.04 / Node 22.23.3 / Playwright 1.62.1:
-
-| CI suite | PASS | FAIL | Engine |
-| --- | ---: | ---: | --- |
-| Node | 172 | 0 | Core + both exact HTML rebuilds + ZIP manifest verification |
-| Chromium | 90 | 0 | 151.0.7922.34, native offline |
-| Firefox | 85 | 0 | 153.0, native offline |
-| WebKit | 85 | 0 | 26.5, HTTP(S) abort |
-| **CI total** | **432** | **0** | Four jobs completed successfully |
-
-Five CDP Touch assertions are Chromium-only, explaining browser count differences. Local checks are separately reported and not added to CI totals. Chromium/Firefox use native offline; WebKit aborts HTTP(S) requests because native-offline prevents file navigation on the runner. WebKit network independence is tested; native WebKit offline-emulation navigation is not claimed. Five CDP Touch assertions are Chromium-only.
-
-`python3 scripts/release.py --verify` checks manifest hashes, all archive names/CRC/SHA256SUMS and exact HTML/document/screenshot bytes. v0.4 HTML/ZIP and older artifacts are unchanged. The vertical-slice HTML is a direct-access review build generated from final source with the isolated memory-only flag. The initial intermediate snapshot remains in phase history. No attachment/company bytes or credentials are redistributed.
-
-## Known issues / unverified work
-
-- 2.5D bodies, mounts and datum are illustrative; no body collision, aperture, clearance, real reflection/refraction, aberration or component tolerance solver. Drawn body overlap is not a calculated packaging defect.
-- Phase-tilt/spatial statistics and coaxial q propagation remain separate models. Optical overlays do not combine them.
-- Fold is ideal centerline geometry plus declared 0.15 dB. Lens is ideal plus assumed 0.10 dB. Mission 10 tests three Z probes, not full-range tolerance/Yield.
-- Narrow screens require zoom/Advanced/keyboard for precise parameter work; SVG body labels scale with scene. CDP Touch is emulation; real phones/tablets/branded Edge/Safari/Windows/iOS/Android are not certified.
-- file:// storage depends on profile/path. Independent Builder saves, partial campaign experiments restart; restricted storage is session-only. Vertical Slice never persists.
-- Statistical assumptions are uncalibrated; adaptive same-cohort design search needs independent verification for industrial claims.
-- Sound output quality has no listener assessment. No human playtime, enjoyment, comprehension or learning-effect evidence.
-- v0.5 depends on open PR #4 and remains an unmerged RC. After #4 merge, realign to latest main and rerun CI; no auto-merge/tag.
+- Declared rectangular Carrier/PIC fit only: axis-aligned inflated clearance, margin and Slot. No arbitrary solids/3D collision, full assembly kinematics, finite optics, stiffness/contact/thermal/bonding.
+- Challenge Z is mechanical only, no common-plane Gap optics. q/ABCD and X/Y/phase tilt remain separate. Active correction is assumed residual performance, not a search/metrology solver.
+- Time/Credits/process inputs are teaching assumptions, not real supplier pricing/cycle measurement. Time is serial sum, not a discrete-event parallel production scheduler. Playback previews ten final samples and reports full rework counts separately.
+- Qualification is observed Prototype +100-unit order within budgets; true industrial Yield is not certified. Candidate comparison uses shared samples and adaptive optimization needs further held-out/calibrated validation.
+- file:// storage depends on profile/path and separate keys; blocked/future storage uses session play. Campaign partial missions restart while Challenge valid draft restores. Preview never persists.
+- Real phones/tablets, branded Safari/Edge, Windows/macOS/iOS/Android are unverified. CDP Touch is emulation. Fine labels in mobile SVG may require sliders/keyboard.
+- No human first-play timing, enjoyment, educational-effect or audio-listener assessment. This remains an unmerged Release Candidate.

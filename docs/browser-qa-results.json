@@ -9,7 +9,7 @@
       "networkMode": "native offline emulation"
     }
   ],
-  "pass": 90,
+  "pass": 123,
   "fail": 0,
   "results": [
     {
@@ -353,6 +353,10 @@
       "status": "PASS"
     },
     {
+      "name": "chromium / real v0.5 upgrade preserves ten badges, bests, designs and Builder draft",
+      "status": "PASS"
+    },
+    {
       "name": "chromium / vertical slice opens 01 05 09 directly and preserves campaign save",
       "status": "PASS"
     },
@@ -370,6 +374,134 @@
     },
     {
       "name": "chromium / all auxiliary contexts have no runtime HTTP assets or critical page errors",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Challenge is directly accessible without unlocking Campaign",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 finite oversized fixture fails actual Package fit before Lock",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Carrier inventory mouse Drop creates installed component at real Slot",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Carrier dragging into PIC causes geometric clearance failure",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Carrier keyboard changes actual lateral optical state by two micrometres",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Lock freezes component and fine controls without introducing optical loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 bad locked Prototype fails actual Optical Test",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Unlock charges rework and restores alignment interaction",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Facet direct drag synchronizes XY, loss and optical output",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Facet fine keyboard retains focus after two redraws",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 100 independent production units expose Prototype versus manufacturing Yield",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 failed package Inspection replays real state, loss and dominant mechanism",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Precision Passive qualifies with high yield and honest cost/time",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Order Delivered provides visible package achievement and learning debrief",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 saved locked draft, production, achievement and campaign survive offline refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Active per-unit correction feeds actual residual model",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Before/After Inspection distinguishes raw placement and actual Active correction",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 Passive rework preserves first pass Yield and adds exact manufacturing consequence",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 three actual design evaluations use identical production seed and retain snapshots",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 expensive high-yield design fails the actual cost budget",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 reduced motion removes beam travel while preserving optical power",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 explicit Challenge reset clears its own state and preserves Campaign bytes",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 returning to Campaign preserves its original ten missions and records",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 mobile assembly scene is first and no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 actual emulated Touch installs Carrier from inventory on Package",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 actual emulated Touch fine alignment changes physics",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 normal motion animates actual-power light while physics remains visible",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 navigation cancels pending production playback without stale campaign mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 future independent save is preserved while Challenge remains playable",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 blocked storage still supports complete independent Factory simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 isolated preview reads no existing assembly and preserves both storage keys",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / v0.6 all Challenge contexts have zero HTTP assets and critical page errors",
       "status": "PASS"
     }
   ]

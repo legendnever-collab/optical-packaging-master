@@ -1,3 +1,19 @@
+# v0.6 Gameplay Changes — Assemble, Lock & Test
+
+Baseline main v0.5 merge `80fe758062745772da7f7f3c5f16a84eaa7b2f56`. All ten missions and optical/statistical engines remain. New independent Assembly Challenge is accessible immediately, with a separate schema-1 save and qualified-order reward.
+
+| Previous experience | New player action | Actual engineering consequence |
+| --- | --- | --- |
+| Move until power is high | Place finite Carrier in a mechanical Slot | Oversized Fixture / Clearance / Datum fit can fail |
+| Always adjustable controls | Lock → Optical Test → paid Unlock | Bad alignment becomes an assembly defect needing rework |
+| Nominal result / Yield graph | Choose Passive / per-unit Active / failed-unit rework | Actual first/final states and pass counts recompute |
+| Yield alone | Deliver 95+ Good in budget/time | High-Yield design can fail cost budget |
+| Campaign progression only | Direct Assembly Challenge and three saved candidate orders | Experiment without changing existing badges |
+
+Setup, prototype calibration and independent manufacturing seeds are separated. Inventory Drag/Touch/Keyboard fallback, actual Facet drag and fine keys, rejection Inspection Before/Final, adaptive next-action guide and visible ORDER DELIVERED provide the playable sequence. Economics are labeled assumptions; the 100-unit order is not industrial yield certification. Full definition: ASSEMBLY_CHALLENGE.md.
+
+## Retained v0.5 transformation history
+
 # v0.5 Gameplay Change Report
 
 Baseline: PR #4 head 3f94233f17a0af010b3ebfb33c1ebef4f666fb81, still open; main e66573f81fbda98352f30f121c0ddef549ec2544. Baseline 159 Node PASS / 0 FAIL. This is a stacked incremental presentation/interaction release; no Mission 11, no new solver.

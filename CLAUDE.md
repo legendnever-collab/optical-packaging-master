@@ -20,7 +20,12 @@
 16. Fold is unfolded-axis identity plus centerline geometry and separately assumed fixed mirror attenuation. Do not claim reflection physics, apertures or mechanical envelope. Mission 10 uses three deterministic gap checks, not Yield or whole-range acceptance. Store/score their worst loss explicitly.
 17. Preserve v3 content badges (M01–07), factory designs and process evaluations in schema 4. Independent Builder autosave must not alter campaign achievements. Rebuild v0.4 artifacts without overwriting older standalone releases.
 
-18. v0.5 is based on unmerged v0.4 PR #4. Keep stacked dependency explicit. Never merge either without approval. After #4 merge fetch latest main and update/revalidate v0.5 PR base.
+18. v0.4/v0.5 were merged with user approval. v0.6 baseline main is 80fe758062745772da7f7f3c5f16a84eaa7b2f56. v0.6 needs its own approval before merge/tag.
 19. PhysicalScene is presentation, not new physics. Field overlays are pointer-transparent; camera/exploded edits cannot mutate engineering state. Concealed fault geometry stays concealed across every view.
 20. Factory playback consumes actual evaluateDesign rows, previews only ten, and must cancel on navigation/retry. Inspect actual row.state/results; full dashboard counts use full report. Do not fabricate PASS/FAIL for animation.
 21. Keep schema 4/content versions 3/4 to preserve v0.4 achievements. Vertical-slice mode is fresh memory-only progress, opens 01/05/09 directly, and must never read/write campaign progress. Preserve prior releases.
+
+22. Assembly Challenge is independent of the ten-mission campaign. Preserve Schema 4 exactly; new challenge uses a separate schema-1 key and protects unknown schemas. Preview must read/write neither key.
+23. Lock is an interaction state, not adhesive shrinkage physics. Mechanical fit covers declared axis-aligned Carrier/PIC rectangles, boundary margin and slot only; no 3D collision/aperture/stiffness/thermal claims. Z geometry must never fabricate Gaussian gap propagation.
+24. Prototype calibration seed and independent production seed differ. Compare candidates on identical fixture/component/residual standard-normal samples. Active correction and rework must recalculate actual residual optical inputs. Preserve raw/first/final results and first-pass/final Yield.
+25. Manufacturing cost/time are declared teaching assumptions: include Prototype, parts, Fixture, Alignment, Lock, Test and charged Unlock/rework. Qualification needs Prototype PASS, ≥95/100 Good and actual order budgets. Zero-good cost is unavailable, not zero/infinity in saved JSON.

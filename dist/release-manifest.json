@@ -1,33 +1,38 @@
 {
-  "version": "0.5.0",
+  "version": "0.6.0",
   "status": "Release Candidate",
-  "baseline": "3f94233f17a0af010b3ebfb33c1ebef4f666fb81",
-  "dependency": "Open PR #4 / feature/v0.4-optical-interface-builder",
+  "baseline": "80fe758062745772da7f7f3c5f16a84eaa7b2f56",
+  "dependency": "main / merged v0.5",
   "files": {
-    "optical-packaging-master-v0.5.html": "a989cca89e4b11949cd744845bb395bb0e95a8f2ac9af39cee1fd571200cdbb7",
-    "README.md": "f89181534ea2203c3e95ac6a19dbd478a6c6999f2e1943575da287c12626a6f5",
-    "PHYSICS_MODEL.md": "e7fa2b7026c0251658eb994ab925ce3f8c25fb7e87e994f1625abd54b27207bc",
-    "RELEASE_NOTES.md": "61ce7aa54e00d5e6fc4bc8684aa563833abb5f5221b4e662867fbce0b39730ee",
-    "TEST_SUMMARY.md": "9a541e091c9d00d5f3bc446f15ce9b9233f5ae74057b31e87389673e40102ab2",
-    "GAME_DESIGN.md": "3aaf414151253c03e014e81a844b2ed1922de3e75ab739adba8c84934d754767",
-    "GAMEPLAY_AUDIT.md": "6f888fb75bdf90fbedeb1638ffd9829be5fdc17c3dff1d956b58daf5152e0704",
-    "optical-packaging-master-v0.5-vertical-slice.html": "1198008e2b5f12a012c8d725c8995367f0175dff657dbcd0338bc5a1d1297658",
-    "PHYSICAL_SCENE_ARCHITECTURE.md": "4ad4d48db9805f40212770fb9ddf904cf5cc9660ddc6a70bdc052e8e67a617c9",
-    "GAMEPLAY_CHANGES.md": "e40b31dc602e539bef9a5390b0071555fb5df17419137af1f27ca5c8c301fa22",
-    "browser-qa-results.json": "33ae65998291011339859884554aa77c87cc4e8a2c7466ddf44dce29d6d65473",
-    "screenshots/v0.5-factory.png": "007fccac18a8467f71408acf91bf5396a5cbb22ee8cb54b7728e5ab2e9ea8282",
-    "screenshots/v0.5-first-light.png": "8b2a32388a72e0b808a3a2d28140f23b7c490ad6c4e11a8b5f5f653b8012ef0c",
-    "screenshots/v0.5-fold.png": "2c9b3c513c73040b08640f5dd03c065ce62d9976478d6c4f70032ade70094704",
-    "screenshots/v0.5-inspection.png": "bab802696ec3a19370d0889fbce78c8362db44d1b1470c275dbc690918897aad",
-    "screenshots/v0.5-lens.png": "fd794613a849100264bc96934c7a8cbf5b744949c615785bab970fbd0578820b",
-    "screenshots/v0.5-mobile.png": "30be182bca17e49994a859eaebc34f68c095f209348b7dfc62d31e49ade99d4a"
+    "optical-packaging-master-v0.6.html": "78d52997cef52612c7c5e3e8b4d9c109ffbcedc6f46af48af4e5506618b035bf",
+    "README.md": "17d825ada970eeb63f7b071eb4a1372b7ece15ad2e85dd3e2128cfcb02188c98",
+    "PHYSICS_MODEL.md": "c51efbc907a41d93f5c562ea82a0d0516c2a536fb84773eacfcc9b2e99316202",
+    "RELEASE_NOTES.md": "aca9291ec02846fdeec9d845b2b4849a08e5989fcb9f534e5ba8a0bde7d8705b",
+    "TEST_SUMMARY.md": "69d36587cc775b954fe7b2705b26289ea3a899e3ecdf24c6adba1c779a15abbe",
+    "GAME_DESIGN.md": "5028e09a2ffba674027cf7ca951d3aa821af14e7ef4080e19e41e81b2b3d24c0",
+    "GAMEPLAY_AUDIT.md": "4c7fb18885b8c9052e722ddd2387a64679707e77979e0925c4572fb3d3392bf9",
+    "ASSEMBLY_CHALLENGE.md": "1ca15a1c4449b5e2c641cc295fea615eaca64d55c7d5c08571061f9b4fe10896",
+    "optical-packaging-master-v0.6-vertical-slice.html": "9d99604589302e2fde80c3cdf8885679642e613f9dde5932c93408ff0998bd62",
+    "PHYSICAL_SCENE_ARCHITECTURE.md": "a8ec6bbfd8730e08d09a0890e062e81724397f343b984de852ce2f5ab6ff6b58",
+    "GAMEPLAY_CHANGES.md": "ec1cbba73384ad6703da7ca6ff8999710cb775b00c3467032d9b0483918dfd3b",
+    "browser-qa-results.json": "b7ffc3f875c43a489d8781f315fae5ab0191e3eae6fa7f7ed01fffced4fa1e0b",
+    "screenshots/v0.6-challenge-comparison.png": "a750b8738711e0a87dfbaa36807da345993a34e7da19db559ac79483402bff52",
+    "screenshots/v0.6-challenge-delivered.png": "81af5c77f1b970d79b21a14b20a27fc3d17f53d9de6fafd0fbf2555285063eff",
+    "screenshots/v0.6-challenge-inspection.png": "fe3f4d4c97bb69692fa2968ef09df6a106b15faab1d459a9a3cd521789337566",
+    "screenshots/v0.6-challenge-mobile.png": "7a4f447c79d6e394914304a9c08141f2b5f5f4d21b9de3ef667e8e9dd0eda2ef",
+    "screenshots/v0.6-factory.png": "007fccac18a8467f71408acf91bf5396a5cbb22ee8cb54b7728e5ab2e9ea8282",
+    "screenshots/v0.6-first-light.png": "8b2a32388a72e0b808a3a2d28140f23b7c490ad6c4e11a8b5f5f653b8012ef0c",
+    "screenshots/v0.6-fold.png": "2c9b3c513c73040b08640f5dd03c065ce62d9976478d6c4f70032ade70094704",
+    "screenshots/v0.6-inspection.png": "bab802696ec3a19370d0889fbce78c8362db44d1b1470c275dbc690918897aad",
+    "screenshots/v0.6-lens.png": "fd794613a849100264bc96934c7a8cbf5b744949c615785bab970fbd0578820b",
+    "screenshots/v0.6-mobile.png": "30be182bca17e49994a859eaebc34f68c095f209348b7dfc62d31e49ade99d4a"
   },
   "html": {
-    "path": "dist/optical-packaging-master-v0.5.html",
-    "sha256": "a989cca89e4b11949cd744845bb395bb0e95a8f2ac9af39cee1fd571200cdbb7"
+    "path": "dist/optical-packaging-master-v0.6.html",
+    "sha256": "78d52997cef52612c7c5e3e8b4d9c109ffbcedc6f46af48af4e5506618b035bf"
   },
   "zip": {
-    "path": "dist/optical-packaging-master-v0.5-release.zip",
-    "sha256": "1aa66926889f05ab03b8d3832791a1bcd2aac9530ece7ae341f0ac6b237480da"
+    "path": "dist/optical-packaging-master-v0.6-release.zip",
+    "sha256": "7156f35b6094f467b69574581e87f0e6209fb1a95b24929b133d044f54e53dac"
   }
 }

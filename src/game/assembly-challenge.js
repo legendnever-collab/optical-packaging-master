@@ -65,7 +65,7 @@ export function validateChallenge(value){
  if(value.stage!=='inventory'){if(!value.position||![value.position.z,value.position.x].every(v=>Number.isFinite(v)&&Math.abs(v)<=10000))throw new RangeError('Invalid Carrier position.');s.position={...value.position};}
  if(['locked','tested'].includes(s.stage)&&!mechanicalFit(s.fixture,s.position).pass)throw new RangeError('Invalid locked geometry.');
  prototypeResult(s);
- if(value.run){if(s.stage!=='tested'||!Number.isInteger(value.run.seed))throw new RangeError('Invalid saved production.');s.run={seed:value.run.seed,awarded:value.run.awarded===true};}
- s.history=Array.isArray(value.history)?value.history.slice(-3).filter(h=>h?.modelVersion===challengeVersion&&typeof h.name==='string'&&h.name.length<=40&&h.snapshot&&Number.isInteger(h.seed)).map(h=>{const draft=validateChallenge({...challengeSession(),...h.snapshot,stage:'tested',run:null,history:[]});return {modelVersion:challengeVersion,name:h.name,seed:h.seed,snapshot:challengeSnapshot(draft)};}):[];
+ if(value.run){if(s.stage!=='tested'||(!Number.isInteger(value.run.seed)||value.run.seed<0||value.run.seed>0xffffffff))throw new RangeError('Invalid saved production.');s.run={seed:value.run.seed,awarded:value.run.awarded===true};}
+ s.history=Array.isArray(value.history)?value.history.slice(-3).filter(h=>h?.modelVersion===challengeVersion&&typeof h.name==='string'&&h.name.length<=40&&h.snapshot&&Number.isInteger(h.seed)&&h.seed>=0&&h.seed<=0xffffffff).map(h=>{const draft=validateChallenge({...challengeSession(),...h.snapshot,stage:'tested',run:null,history:[]});return {modelVersion:challengeVersion,name:h.name,seed:h.seed,snapshot:challengeSnapshot(draft)};}):[];
  return s;
 }

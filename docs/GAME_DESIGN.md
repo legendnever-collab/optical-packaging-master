@@ -1,4 +1,4 @@
-# Gameplay Design — v0.5
+# Gameplay Design — v0.6
 
 Observe → Predict → Experiment → Diagnose → Decide → Improve. 첫 행동과 목표가 중앙 상단에 보이며, Mission에 필요한 조작만 나타납니다. 네 가지 Mechanic은 Precision Control, Fault Diagnosis, Design Decision, Engineering Optimization입니다. 전체 Mission별 Unique Action / Principle / Failure / Success / Reward는 [Gameplay Audit](GAMEPLAY_AUDIT.md)의 Differentiation Matrix에 명시합니다.
 
@@ -79,3 +79,13 @@ Hardware is the default main surface. Physical Scene, view/mode controls, select
 Production line animates only ten real samples. Full production Dashboard reports selected count, GOOD, REJECT, estimated Yield and P95 before the existing histogram. A failed package restores actual row inputs and its total loss, threshold and largest loss contribution. Switching to Optical retains that package state. Navigation/retry cancels playback.
 
 Success visibly lights the actual computed output, stamps the package and provides the retained learning summary/optional synthesized sound. Mission 09 centers attention with a display-only completion zoom. None of these rewards alters calculated results. [Gameplay Changes](GAMEPLAY_CHANGES.md) maps all ten experiences; [Scene Architecture](PHYSICAL_SCENE_ARCHITECTURE.md) states projection and scale distortion. Existing optical assumptions and all completion thresholds remain unchanged.
+
+## Independent Assembly Challenge — Assemble, Lock & Test
+
+상단에서 직접 진입하는 별도 Challenge이며 Mission 11은 추가하지 않습니다. Campaign 01–10 성공 조건과 기존 기록은 보존합니다. Inventory/Alignment/Locked/Tested 상태에 따라 다음 행동을 짧게 표시합니다. Fixture 선택, 실제 Carrier 설치/간섭 확인, Facet 현미경 Drag, Lock/Test, 유료 Unlock, 생산·검사·재작업, 납품을 연결합니다.
+
+Unique Action: 같은 구성의 수치 최적화에서 벗어나 부품을 설치하고 고정/해제하며 공정을 설계합니다. Engineering Principle: 지정된 기구 공간, Datum 공차 누적, Prototype/생산 편차, Active/Passive 교정, First/Final Yield와 양품당 비용. Failure: Oversized Fixture, PIC Clearance, Slot 이탈, 고정된 불량 Link, 낮은 Yield, 예산/시간 초과. Success: Prototype ≤1 dB + Good ≥95/100 + Cost ≤4800 + Time ≤3200. Reward: ORDER DELIVERED와 실제 결과·Engineering Debrief, 별도 저장.
+
+목표를 충족하는 전략이 여러 개입니다: Precision Passive, Economy Active, Economy Passive+불량 재작업. 각 전략은 동일한 표준 Normal Sample을 사용하는 독립 생산 Seed에서 비교합니다. Precision+Active는 100개 양품에도 예산을 초과할 수 있습니다. Oversized 정밀 Fixture는 기구 공간에 들어가지 않습니다. 이런 실패가 물리 Loss를 임의로 바꾸지는 않습니다.
+
+조립·비용 모델은 [Assembly Challenge](ASSEMBLY_CHALLENGE.md)에 정의했습니다. 100개 납품 조건은 표본 주문 기준이며 양산 Yield를 보장하지 않습니다. 실제 사람 대상 학습·재미 검증은 아직 없습니다.
