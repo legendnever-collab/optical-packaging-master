@@ -1,0 +1,20 @@
+{
+  "baseline": "2d52ce76d8a53a089af7756e8404f8272f099728",
+  "files": {
+    "dist/optical-packaging-master-v0.1-release.zip": "a8802c66499523b90f61d272ea9123d7ac8dc79e561d6670657517c890898f93",
+    "dist/optical-packaging-master-v0.1.html": "47aeb78b19a37107b92c5b381a80c36cc41434c06be6db4aefd906bd64e10f3e",
+    "dist/optical-packaging-master-v0.2-release.zip": "5f2ebbbcc067394729384dd1c5d43ff5cf1824fbecf7ba0f8b99d3432b7a5d9d",
+    "dist/optical-packaging-master-v0.2.html": "e93a3bb7ab76f517a8b3e6f0bc79893f8b400e76e47fd347abe22b900cebf6ac",
+    "dist/optical-packaging-master-v0.3-release.zip": "5f2327732f9bb0afe3566ba513f61e621b25f6e25b3e1776a54028f43fff3754",
+    "dist/optical-packaging-master-v0.3.html": "8568a5cbd3d3ced60af5ceedc7ff722ad33d9dd9353b306d3713d7c61188f3b6",
+    "dist/optical-packaging-master-v0.4-release.zip": "f5f188b535c81f28176f19c3e0b04067d6ae77717c516f93fe1a410b7bd40d38",
+    "dist/optical-packaging-master-v0.4.html": "d2125042c1c1609881b363789638f7fb7a82b3ad267570de18b683d32e5e22bb",
+    "dist/optical-packaging-master-v0.5-release.zip": "1aa66926889f05ab03b8d3832791a1bcd2aac9530ece7ae341f0ac6b237480da",
+    "dist/optical-packaging-master-v0.5-vertical-slice.html": "1198008e2b5f12a012c8d725c8995367f0175dff657dbcd0338bc5a1d1297658",
+    "dist/optical-packaging-master-v0.5.html": "a989cca89e4b11949cd744845bb395bb0e95a8f2ac9af39cee1fd571200cdbb7",
+    "dist/optical-packaging-master-v0.6-release.zip": "7156f35b6094f467b69574581e87f0e6209fb1a95b24929b133d044f54e53dac",
+    "dist/optical-packaging-master-v0.6-vertical-slice.html": "9d99604589302e2fde80c3cdf8885679642e613f9dde5932c93408ff0998bd62",
+    "dist/optical-packaging-master-v0.6.html": "78d52997cef52612c7c5e3e8b4d9c109ffbcedc6f46af48af4e5506618b035bf",
+    "dist/release-manifest.json": "7c5c7d6a701417c530cd5e46f8a2851974ad459b8d15dea9c3470ebedaea8190"
+  }
+}

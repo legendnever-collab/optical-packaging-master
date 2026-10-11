@@ -1,53 +1,44 @@
-# v0.3–v0.5 Gameplay Audit
+# v0.7 gameplay audit
 
-Baseline directly fetched from main: `0cb4c3a4feb69bde4c7cc59b526376116ff40e35` (v0.2.0). Baseline regression: 94 PASS / 0 FAIL. Existing Gaussian spatial / angular physics and pointer/keyboard scenes are retained. No user test or learning-effect measurement was conducted.
+Verified 2026-10-11: main `80fe758062745772da7f7f3c5f16a84eaa7b2f56` (v0.5), PR #6 OPEN, v0.6 head `2d52ce76d8a53a089af7756e8404f8272f099728`. v0.7 branches from that explicit source baseline. No merge authorized. Until #6 is merged, the main-targeted v0.7 PR includes its two commits. Retarget/rebase after #6 if independently reviewed; do not silently discard manufacturing work.
 
-## Findings
+## Current user journey (v0.6)
 
-v0.2 M01/M02 both reduce X/Y Loss, M03 forces six measurements and a matching card, and M04 repeats Center then direction correction. One shared instrument shell puts similar controls in every mission. Numbers are meaningful, but roles, hidden information, consequence and decisions differ too little. Long scene/panel stacking obscures objectives on mobile; the same PASS affordance conflates observation, diagnosis and selection.
+Sequential Mission 01 → 02 diagnosis cases → 03 repeat interface choices → 04 angular → 05 observe ten → 06 size optimization → 07 factory comparison → 08 gap → 09 lens → 10 folded path. Separate Assembly Challenge starts from radius=3 independent optical preset. Legacy completion uses summary / continue / next and some design commit mechanics. Optics and assembly are intentionally separate models.
 
-## Differentiation matrix / implementation contract
+## Gameplay redundancy matrix
 
-| Mission | Unique player action | Engineering principle | Failure mechanic | Success condition | Achievement |
-| --- | --- | --- | --- | --- | --- |
-| 01 First Light | Drag Fiber; compare input/output light | Spatial overlap controls transmitted fraction | Output remains dim; target unmet | ≤1 dB, with voluntary sound + visible first-light feedback | First Light Achieved |
-| 02 Find the Fault | Choose up to 2 distinct diagnostic tests; identify cause; apply repair | Center, radius mismatch and phase tilt have distinct evidence | Wrong diagnosis/repair leaves actual Loss or requires retry | Correct diagnosis + actual restoration in all 3 cases | Root Cause Identified |
-| 03 Choose the Optical Interface | Predict a design, experiment, commit per assembly environment | Lateral/angular sensitivity trade-off changes ranking | Same Mode is unsuitable in another environment | Pass both physical environment requirements | Robust Interface Selected |
-| 04 Aim the Light | Discover hidden direction error at already aligned centers; drag direction handles | Equal intensity centers do not guarantee phase overlap | Lateral repair cannot fix angular loss | Identify angular cause and correct to ≤0.5 dB | Direction Restored |
-| 05 Assembly Lottery | Design then watch 10 independent assemblies; increase sample count | Nominal performance differs from process yield | Individual random errors fail although nominal is ideal | Inspect a failed sample; evaluate ≥100 samples | Manufacturing Variation Revealed |
-| 06 Make It Tolerant | Optimize continuous Fiber radius under a fixed process and fixed Waveguide radius | Lateral, angular and mismatch penalties compete | Radius extremes lower modeled yield | ≥95% estimated Yield on 1000 common samples | Tolerance Design Achieved |
-| 07 Beat the Factory | Save up to 3 named designs; evaluate common samples; adapt to process shift | Best nominal Loss can have worse passive yield | A winner on one process loses after angular/bias change | Compare ≥2 designs and meet physical Yield/P95 targets in two processes | Factory Challenge Beaten |
+| Existing activity | Unique cause/action | Issue in connected story | v0.7 placement |
+|---|---|---|---|
+| M01 lateral SMF/PIC schematic | drag to align | first target unexplained; arbitrary PIC mode | New Ch1 SMF↔SMF + endface + tilt discovery |
+| M02 three hidden diagnostic cases | inspect/repair position, size, angle | repeats alignment before a physical platform context | Preserved optional diagnostic lab |
+| M03 mode choice in two error environments | compare angular/lateral trade-off | expanded mode appears as arbitrary upgrade | Ch4/5 attach trade-off to converter / packaging purpose |
+| M04 angle correction | inspect direction | second alignment exercise detached from initial link | Combine angular fault in Ch1 |
+| M05 ten assemblies then statistics | inspect actual reject sample | ten observations used as procedural gate | New Ch4/5 immediate cohort test, optional first-ten production animation in Ch6 |
+| M06 radius sweep | fixed-process optimize | slider optimization detached from manufacturable converter | Optional Lab; new Ch4 supported reference modes only |
+| M07 saved designs / factory rounds | common cohort comparison | additional repeated statistics and commits | Ch5 automatic candidate comparison on test; Ch6 economics |
+| M08 diffraction/gap | coaxial propagation | optical component sequence rather than engineering purpose | Preserved Lab + relay in Ch5 |
+| M09 lens / waist/curvature | physically install/move lens | lens not responding to an experienced yield failure | Ch5 expanded detachable interface after Ch4 fails |
+| M10 fold / three gap probes | folded footprint | three discrete gaps could be mistaken for production qualification | Lab scope unchanged; Ch5 fold changes package envelope, no new reflector claims |
+| v0.6 Assembly Challenge | Carrier / fit / Lock/Test/rework | independent preset loses selected optical design | New Ch6 adapter inherits Ch5 project, reuses fixture/fit policies; legacy challenge retained |
 
-## Learning UX checks
+## Proposed journey
 
-Objective and immediate next action appear at the top. Diagnostic evidence is initially hidden from scene, controls, measurements and accessibility text. Inspection costs provide information rather than procedural busywork. Interface comparison is optional; no six-card forced sequence. Assembly statistics share one cohort/seed across designs, explicitly labeled. Failed parts can be selected to reveal a real sample's Offset/Tilt/Loss and dominant loss contribution. A short four-part learning summary connects each achievement to its engineering principle.
+1. Establish an SMF link; observe core versus mode and angular error.
+2. Characterize asymmetric glass mode; rotate axes under controlled offsets; choose an improved fabricated mode profile.
+3. Precision-align bare Si; diagnose irreducible mismatch as the success condition.
+4. Compare constrained converter references; reduce nominal loss; immediately see poor passive yield under declared errors.
+5. Select a mechanical datum or physically install relay optics; same random cohort; geometry and angular registration change the decision.
+6. Manufacture that frozen optical project; Carrier fit → Align → Lock → Test → independent production → product qualification.
 
-## Scope / evidence boundary
+No mandatory ten-observation gate. Replay does not erase frozen handoffs. Old achievements remain in legacy storage/history and are not credited as new experiment completions.
 
-7 missions are implemented, retaining Free Practice, replay, legacy progress, offline build and physical regression. Independent normal process errors, bias, sample uncertainty and model-domain rejection are explicit engineering assumptions. No gap, lens propagation, walk-off, refraction or industry yield calibration is added. Automated checks and visual inspection verify operation; first-time usability and learning efficacy remain hypotheses until observed with people.
+## Physics dependency map
 
-## v0.4 incremental audit
-
-Approved v0.3 PR #3 merged at `e66573f81fbda98352f30f121c0ddef549ec2544`; latest main fetched before branching. Baseline 126 PASS / 0 FAIL. Chapters 1–2 retain their differentiated actions and unchanged spatial/angular/statistics engines. New controls are shown only in Chapter 3 / independent Builder, keeping the original tutorial simple.
-
-| Mission | Unique action | Principle | Failure | Success | Reward |
-| --- | --- | --- | --- | --- | --- |
-| 08 Catch the Focus | Place Receiver along Z on a converging beam | Size/curvature matching matters despite coaxial centers | Defocus leaves loss | No lens, actual ≤0.50 dB | Focus Captured |
-| 09 Bridge the Gap | Install/refocus one lens across fixed gap | Thin lens changes curvature, propagation changes size | Bare gap or poor lens fails | One lens, actual ≤0.50 including fixed loss | Gap Bridged |
-| 10 Fit the Package | Choose relay, position lens/fold, inspect package checks | Expansion plus curvature and physical routing constraints | Optical success without fit; nominal success without probe acceptance | Two lenses + fold; three loss/footprint checks pass | Optical Interface Designed |
-
-M08 changes the observation plane, M09 changes an optical component, M10 makes a system choice under optical and space constraints. None asks for the previous X/Y centering behavior. The optional Builder exposes parameters without forced measurements or required campaign steps. Finite probes and centerline footprints are labeled; no player study or industrial packaging validation was performed.
-
-## v0.5 audit: optical modes → physical tasks
-
-Mode-first instruments made manipulation and manufacturing feel similar despite different equations. v0.5 places an assembly bench first and moves optional technical displays behind Advanced. P0 examples are direct Fiber-to-PIC alignment, real-sample production/sorting/inspection and Inventory Lens Drop/refocus. The same components then appear in all ten retained policies. See GAMEPLAY_CHANGES.md for the action/consequence matrix. Hardware bodies remain a declared illustrative projection; no new mechanical accuracy is claimed.
-
-Functional review criteria are automated: objective visible, real component drag changes state, same optical outputs across views, failed sample is actual seeded row, successful package is stamped/lit, and different mission policies reject their wrong choices. Counts and executed engine evidence are in TEST_SUMMARY.md. Human fun/learning claims remain unverified.
-
-## v0.6 audit / unique assembly sequence
-
-| Content | Player action | Principle | Failure | Success / Feedback |
-| --- | --- | --- | --- | --- |
-| Independent Assembly Challenge | Install → Align → Lock → Test → Unlock/Rework → Manufacture → Deliver | Geometry + Datum tolerance + measured Prototype vs independent production + cost/time | Boundary/slot/PIC collision, locked bad Link, low Yield or budget overrun | Prototype ≤1 dB, ≥95 Good, Cost ≤4800, Time ≤3200; ORDER DELIVERED + actual report + debrief |
-
-No Mission 11. Ten legacy mission mechanics remain distinct. Next-action text follows current model state; the first three scene steps are immediately visible, optional assumptions are disclosed under details. Mobile bench precedes controls, with Carrier inventory next to the scene and labeled installation alternative. Mechanical actions have enforced model consequences; raw/first/final optical states and counted rework drive outcomes. Several strategies can pass. No human usability/fun/learning assessment is claimed.
+- Ch1 → existing circular Gaussian/phase-tilt reference; normalized 2D specialization.
+- Ch2 → rotated positive-definite 2D precision; independent complex numerical reference.
+- Ch3 → explicitly illustrative scalar bare-Si effective field; no impossible 1 dB goal.
+- Ch4 → discrete assumed effective-field references + separately declared conversion loss; no tip-width performance prediction.
+- Ch5 direct → same common-plane overlap. Relay → existing q/ABCD + affine rays through same path + exact complex field overlap at receiver. Mirror → ideal unfolded path + envelope and fixed loss assumption.
+- Ch5 statistics → existing seeded Normal generators, nearest-rank P95, Wilson interval; mating errors and permanent module residuals separately defined.
+- Ch6 → same project optics and error generator + existing finite Carrier/PIC fit and fixture inventory + charged manufacturing state machine. Optics do not reset to v0.6 radius=3.

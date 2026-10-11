@@ -1,91 +1,40 @@
-# Gameplay Design — v0.6
+# Optical Packaging Master v0.7 — Physics-driven Campaign
 
-Observe → Predict → Experiment → Diagnose → Decide → Improve. 첫 행동과 목표가 중앙 상단에 보이며, Mission에 필요한 조작만 나타납니다. 네 가지 Mechanic은 Precision Control, Fault Diagnosis, Design Decision, Engineering Optimization입니다. 전체 Mission별 Unique Action / Principle / Failure / Success / Reward는 [Gameplay Audit](GAMEPLAY_AUDIT.md)의 Differentiation Matrix에 명시합니다.
+물리적으로 겪은 문제를 해결하기 위해 다음 기술을 도입합니다. 기본 Campaign은 6개 개발 Chapter이며, 기존 Mission 01–10과 v0.6 Assembly Challenge는 Optional Engineering Lab에서 보존합니다.
 
-## Chapter 1 — First Light
+**Physical Problem → Failed Experiment → Understanding → Engineering Solution → New Constraint → Improved Design**
 
-**01 First Light.** Matched Radius 2.5 µm, 초기 X/Y=(4,−3) µm, Total Loss ≤1 dB. Fiber Drag/Slider/Keyboard와 Center 도움을 유지합니다. Input 100%와 실제 Total transmitted fraction을 비교하고, 광선 밝기·두께와 Optical Scene의 Transmission을 계산 결과로 갱신합니다. 첫 성공은 화면 Achievement와 선택적 합성 Sound를 제공합니다. 짧은 안내만 사용합니다. 1–2분 입문 이해는 설계 목표이며 사람 대상으로 검증한 사실은 아닙니다.
+## Chapter 설계
 
-**02 Find the Fault.** 첫 화면은 Total Loss와 Output Power만 제공합니다. Scene, Offset/Radius/Tilt Controls, Loss 분해와 접근성 측정도 숨깁니다. 장치별 서로 다른 검사 2회까지 가능합니다. Center / Tilt / Radius 검사로 실제 Parameter를 공개합니다. 이미 선택한 검사는 추가 비용을 쓰지 않습니다. 두 정상 검사를 통해 배제하거나 Fault 검사를 통해 직접 식별할 수 있습니다.
+1. **Connect Two Fibers**: 같은 SMF를 연결합니다. Core/Cladding과 Mode를 구분하고, 중심 정렬 뒤 남는 Angular Loss를 해결합니다.
+2. **Glass Waveguide Challenge**: 비대칭 Mode를 정렬하고 X/Y 허용도를 비교합니다. Circular SMF 기준에서는 중심 Loss가 Mode 회전에 불변임을 직접 확인합니다. 서로 다른 제작 Profile을 비교해 개선합니다.
+3. **Silicon Mode Mismatch Crisis**: Bare Si를 완벽하게 정렬해도 작은 Mode 때문에 큰 Mismatch가 남습니다. 낮은 Loss 대신 정확한 원인 진단으로 성공합니다.
+4. **Engineer the Mode Converter**: Bare / Si Inverse Taper / SiN-assisted SSC를 구분된 Reference로 비교합니다. Nominal 개선 후 즉시 같은 제조 편차를 적용해 Yield 부족을 경험합니다.
+5. **Design for Passive Alignment**: Precision Datum 또는 실제 설치한 Lens Relay를 선택합니다. Compact Package에서는 Fold의 공간 이점과 추가 Loss, Angular Registration이 나쁜 환경에서는 Expanded Beam의 민감도를 비교합니다.
+6. **Build, Lock & Qualify**: Frozen Optical Project를 그대로 받아 Carrier / Fixture / Align / Lock / Test / Rework / 독립 100개 생산을 수행합니다. Optical Loss와 Good Count, 실제 합산 Cost/Time을 동시에 만족해야 합니다.
 
-| 장치 | 실제 초기 Physics State | 우세 원인 | 실제 Corrective Action |
-| --- | --- | --- | --- |
-| A | w1=w2=2.5; dx=2.5, dy=−1.5 µm; Tilt=0 | Lateral | dx=dy=0 |
-| B | w1=1.2, w2=4 µm; Centers/Tilt=0 | Mismatch | w1=w2 |
-| C | w1=w2=4; Centers=0; θx=3°, θy=−2° | Angular | θx=θy=0 |
+## UI와 성공 상태
 
-최소 한 검사 후 Root Cause와 Corrective Action을 선택합니다. 잘못된 복구도 해당 Parameter만 실제로 바꾸며 Loss를 재계산합니다. 올바른 진단 + 복구 + 실제 Loss ≤0.5 dB를 세 장치에서 충족해야 완료됩니다. 초급 사례는 원인 하나가 우세하도록 구성했으며 실제 장치의 복합 Fault를 부정하지 않습니다.
+Physical Scene, Current Problem, Next Action, 실제 Output Power, Engineering Goal을 우선 표시합니다. 첫 Light ON / Endface / Precision 행동은 장면 위에서도 접근할 수 있습니다. 고급 Model/Field/Scope 설명은 기본적으로 접습니다.
 
-**03 Choose the Optical Interface.** 강제 카드 측정 순서를 없앴습니다. Matched Small/Medium/Expanded Radius=1.5/2.5/4 µm 중 예측 → 실험 → 연결안 확정으로 진행합니다. 상세 Comparison은 선택사항입니다. Radius Pair가 함께 바뀌는 가상의 Interface 선택이며 렌즈/변환기의 구조를 시뮬레이션하지 않습니다.
+Ch1–4는 Experiment 결과를 전달합니다. Ch3의 정확한 한계 진단을 제품 성능 성공으로 오해시키지 않습니다. Ch5의 버튼은 설계를 명시적으로 Frozen하며, 이후 한 번의 Handoff Dialog에서 다음 문제를 보여줍니다. Ch6는 제품 Qualification을 확정합니다. “현재 설계 계속 실험”은 언제나 현재 Draft를 유지합니다.
 
-| 환경 | 고정 X/Y µm | 고정 θx/θy ° | 요구 Loss | Small / Medium / Expanded 실제 dB | 적합한 선택 |
-| --- | --- | --- | --- | --- | --- |
-| A High-Precision Assembly | 0.15 / 0.10 | 2.50 / 1.80 | ≤0.25 | 0.179 / 0.345 / 0.834 | Small |
-| B Relaxed Positioning | 1.40 / 0.80 | 0.15 / 0.10 | ≤0.90 | 5.019 / 1.808 / 0.709 | Expanded |
+Observation Count, 임의 점수, 경험 횟수는 물리 성능을 바꾸거나 진행을 막지 않습니다. Ch6 첫 10개 실제 Sample의 재생은 계산 결과를 보여주는 선택적 연출이며 전체 100개 평가와 구분합니다. UI 애니메이션에 나타나는 Loss/GOOD/REJECT는 실제 모델 Row를 사용합니다.
 
-이 값들은 확률적 Yield가 아닌 대표 오차 상태의 결정론적 비교입니다. Direction을 그림으로 먼저 소개하고 위상 설명은 Mission 04에서 제공합니다. 같은 설계가 모든 환경에서 PASS하지 않습니다.
+## 선택과 Trade-off
 
-**04 Aim the Light.** 초기 Center Error는 0이며 Radius=4, θx=3°, θy=−2°입니다. Center 재확인으로 Loss가 변하지 않는 것을 관찰합니다. Direction 검사 후 두 핸들과 θ Controls가 열립니다. X/Y는 고정하며 실제 Total Loss ≤0.5 dB이면 완료합니다. Direction Views는 각도 4× 확대를 표시하고 Shift+Arrow/Pointer Capture를 유지합니다. 완성 후 매 부품의 Active Alignment가 공정 시간·비용에 어떤 문제를 줄지 질문합니다. 실제 비용은 계산하지 않습니다.
+- Datum: 부품 수가 적고 위치 편차를 줄일 수 있지만 Precision Fixture 비용이 필요합니다.
+- Relay: Detachable Plane에서 위치 편차를 완화하지만 영구 Subassembly의 사전 정렬과 추가 Lens, Working Distance가 필요합니다.
+- Fold: Package Envelope를 줄이지만 Mirror Loss와 부품 비용이 추가됩니다.
+- Expanded Mode/Beam: 위치 민감도와 각도 민감도가 상반되므로 크기를 늘리는 것만으로 모든 문제를 해결하지 않습니다.
+- SSC: 선택된 공정 Stack/Mode Reference가 지원될 때만 유효하며 SiN-assisted가 모든 PIC에서 우수하다고 주장하지 않습니다.
 
-## Chapter 2 — Design for Tolerance
+## 설계 연속성
 
-모든 Length는 µm, UI Tilt는 degree, λ0=1.55 µm, n=1, Fixed Loss=0입니다. 각 Process는 독립 Normal Bias/Sigma를 명시합니다. PASS 기준은 Sample Total Loss ≤1 dB입니다. Nominal은 Error=0 상태이므로 Systematic Bias도 Nominal에 포함하지 않습니다. 같은 설계·Seed·공정·Count는 같은 결과를 만듭니다.
+완료한 결과는 분리된 Frozen Snapshot입니다. Draft를 추가 실험해도 이전 기준선은 유지됩니다. Ch4에서 Converter를 명시적으로 다시 전달하면 Ch5의 호환 가능한 부품 배치는 유지하고 Acceptance를 다시 평가합니다. Ch5에서 Optical Design을 변경해 다시 Frozen하면 Ch6는 새 설계를 받아 새 조립을 시작합니다. 이전 제조 결과는 Archive에 보존하며 제품 완료 상태를 다시 획득해야 합니다. 호환되는 설계를 전달할 때 사용자의 부품을 설명 없이 초기화하지 않습니다.
 
-| 공정 | σX=σY µm | Bias X/Y µm | σθx=σθy ° | Bias θx/θy ° | 사용 |
-| --- | ---: | --- | ---: | --- | --- |
-| A Lateral 우세 | 0.70 | 0 / 0 | 0.12 | 0 / 0 | 05, 07 round 1 |
-| Optimization | 0.45 | 0 / 0 | 0.30 | 0 / 0 | 06 |
-| B Angular 증가 | 0.20 | 0.12 / 0 | 0.45 | 2.50 / 1.80 | 07 round 2 기본 |
-| C Systematic Bias | 0.45 | 0.75 / 0 | 0.22 | 0 / 0 | 07 선택 Challenge |
+## 준비 범위
 
-**05 Assembly Lottery.** Radius와 Matched/Fixed Waveguide를 설계한 뒤 10개 실제 Sample의 Power/Loss/PASS/FAIL을 짧게 재생합니다. 이후 100/1000/10000 통계를 계산합니다. 전체 부품을 애니메이션으로 강제하지 않습니다. Histogram, Yield/CI, Counts, Nominal/P95와 실제 실패/Worst Sample의 State 및 우세 Loss를 조사합니다. 완료 조건은 10개 관찰 + ≥100개 평가 + 현재 결과의 실패 부품 검사입니다. 높은 Yield 경쟁보다 Variation 발견이 목적입니다. 실패가 전혀 없는 설계는 다른 설계를 실험해야 합니다. Retry/Navigation은 재생을 취소합니다. N을 늘리면 같은 Seed의 기존 Sample Prefix를 보존합니다.
+SENKO / Teramount / Broadcom을 특정 제품 재현으로 구현하지 않습니다. v0.7은 공개 문헌으로 설명 가능한 물리 문제와 모델 경계에 집중합니다. 업체별 산업 구조 비교는 후속 단계이며 비공개 Parameter를 사용하지 않습니다.
 
-**06 Make It Tolerant.** Waveguide=2.5 µm와 Optimization 공정을 고정하고 Fiber Radius 1–5 µm, step 0.1 하나만 조정합니다. 1000 Sample, Seed=20261011을 매 조작마다 공통으로 사용합니다. X/Y 및 θx/θy 2D Sensitivity Map은 실제 Total Loss로 계산하며 밝기는 Output Power, Cell 설명은 Loss/PASS/FAIL입니다. 다른 Error는 0입니다. 목표는 반올림 전 Yield ≥95%입니다. 예: Fiber 2.7 µm는 97.8%이지만 4 µm는 Mismatch 때문에 낮아집니다. 범위 내 최적점을 탐색하는 미션으로, 카드 선택인 Mission 03과 구분됩니다.
-
-**07 Beat the Factory.** Matched Pair 또는 WG=2.5 Fixed Pair를 사용해 이름 붙인 설계를 3개까지 저장합니다. 최소 2개를 같은 1000 Error Samples에서 평가합니다. 표는 Yield/95% CI, Nominal, P95, Robustness=1 dB−P95, Worst actual Sample과 우세 원인을 보여줍니다. 채택 시 Yield ≥95% 및 P95 ≤1 dB를 확인합니다. 첫 공정을 승인하면 Angular/Bias 공정으로 바뀌며 기존 설계를 다시 비교하거나 수정합니다. 두 공정 모두 승인해야 완료됩니다. 기본 Seed에서 matched 2.5/4 µm의 Nominal은 동일 0 dB지만 A Yield=77.3%/97.8%, B=100.0%/72.5%로 순위가 반전됩니다. Round 2에 C 공정을 선택해 재생할 수 있습니다.
-
-## Score / Feedback / Replay
-
-Physics 값을 Score로 수정하지 않습니다. Mission 01/02/04는 기존 gameScore 함수를 사용합니다: 600+300 max(0,1−Loss/Target), 효율 보상 max(0,100−4 max(0,Attempts−1)), Hint당 −20, 총 0–1000. Mission 02는 세 복구 중 Worst Loss를 사용합니다. Mission 03은 각 환경의 실제 Loss/Target Score 평균, Best Loss는 Worst Environment입니다. Mission 05는 표본 실험 보상 min(1000,800+50 log10(N)−20 Hints)입니다. Mission 06은 1000 Yield−20 Hints, Mission 07은 두 승인 공정 Score 평균입니다. Chapter 2 Best Loss는 P95이며 Mission 07은 두 공정의 Worst P95입니다. 표시한 반올림 수치로 PASS를 결정하지 않습니다.
-
-완료 화면은 What Happened / Why / Engineering Principle / Real-world Packaging Connection 네 부분을 제공합니다. Hint는 순차적 개념 설명입니다. 완료 후 Next/Replay, 전체 Free Practice와 Personal Best를 유지합니다. Dark Navy instrument 스타일, Keyboard Focus, text PASS/FAIL과 Reduced Motion을 유지하며 Sound는 사용자 선택입니다.
-
-## Persistence / Architecture
-
-기존 Schema 1/2→3 migration (v0.4는 Schema 4): 기존 01–04 기록과 Unlock을 보존하고 새 콘텐츠 Best/Badge는 `content[id].version=3`로 분리합니다. 최신 세 평가 Snapshot에 Seed/Count/Process/Model/Threshold를 함께 보관합니다. 불완전한 Session은 저장하지 않습니다. 알 수 없는 미래 Schema는 read-only입니다. 모든 저장 장애에 메모리 플레이를 제공합니다.
-
-`physics/assembly.js`는 샘플 생성·통계를 UI와 분리합니다. `game/scenarios.js`는 진단과 환경/공정 정책, `ui/assembly-view.js`는 표현을 맡습니다. Saved Design의 Pair Type과 평가 Model Version을 명시하지만 v0.4 Optical System Builder나 ABCD 모델은 구현하지 않았습니다. 자동 Gameplay Test와 Browser 실제 Campaign은 동작 검증이며 사람의 재미/학습 효과에 대한 증거는 아닙니다.
-
-## Chapter 3 — Build the Interface
-
-08 **Catch the Focus** introduces Z as a different control from XY. Given converging source: waist radius 10 µm at z=400, target waist 10, λ₀=1.55, input n=1, Receiver initially z=760. No lens/fold controls. Drag the Receiver or use arrows/slider until Total Loss ≤0.50 dB. Matching centers alone does not match curvature. Successful example z=400 gives 0 dB. Achievement: Focus Captured.
-
-09 **Bridge the Gap** fixes Receiver z=1000, source/target waist radius 10. Start without a lens: actual loss about 8.50 dB. Install one ideal lens (z=500,f=420 initially insufficient), then move its position or change focal length. Acceptance requires exactly one lens and actual Total Loss ≤0.50 including its assumed 0.10 dB. Example z=500,f=291 reaches approximately 0.10 dB. The two controls expose refocusing rather than another center alignment. Achievement: Gap Bridged.
-
-10 **Fit the Package** requests radius 10→20 over nominal unfolded length 1800. Select compact f=200/400 or expanded f=300/600 relay, move Lens B and place an ideal fold. Lens A catalog position is fixed. A long straight relay at z=300/1200 optically matches (0.20 dB fixed) but fails package width. Ideal fold at z=900 retains the same q but gives nominal centerline 900×900 and adds 0.15 dB. At Receiver ΔZ=−100/0/+100, loss worst≈0.3665 dB and all footprints ≤1000×1000. Compact catalog relay at this Receiver does not meet the combined target. Acceptance requires two lenses, a fold, all three loss values ≤0.55, all three footprints fit. No fabricated fold bonus or asserted whole-range Yield. Achievement: Optical Interface Designed.
-
-Central scene shows actual w(z), source/target and ordered lens/Receiver/mirror handles. Empty-path click reports radius, curvature, Rayleigh range and local waist distance. Color does not substitute for text PASS/FAIL. The folded layout is a separate centerline route because an unfolded Gaussian envelope should not imply tracing reflection or component dimensions.
-
-## Independent Interface Builder
-
-Accessible regardless of campaign unlocks. Source/target waist 5–30 µm, incoming waist location 0–1000, λ₀=1.31/1.55, Receiver Z=300–2500, zero/one/two ordered ideal lenses with f=80–1200, and optional ideal 90° Fold. Train presets start from input waist z=0. Drag/slider/keyboard share one validated configuration. Invalid component order/path is rejected, not repaired silently. Runtime source config and calculation modules stay separate; unknown optical component types are unsupported.
-
-Schema 4 autosaves the last valid independent Builder snapshot (`gaussian-q-v1`) with source, target, wavelength, index, waist location, lens order/parameters, receiver and fixed-loss assumptions. Campaign retries reset only the current experiment; practice cannot alter best scores or completions. Missions 01–07 retain content version 3, Mission 08–10 use version 4. v0.3 factory designs/evaluation snapshots and legacy scores survive migration. Mission 10 stored best/score uses the three-point worst loss, while the main power meter displays nominal power and the gap table displays off-nominal checks. Both are labeled explicitly.
-
-## The Packaging Experience — v0.5
-
-Hardware is the default main surface. Physical Scene, view/mode controls, selection and the Light ON/achievement cycle precede specialized mission panels. On mobile the workbench precedes measurement and mission navigation; main numeric/formula instruments are optional Advanced disclosures. Mission 01 now moves a Fiber Body/Facet; 05 produces/tests/sorts real sample packages and inspects REJECT; 09 installs a lens from inventory onto the actual optical train before refocusing. Buttons, old sliders and keyboard are retained as accessible alternatives. No Mission 11 or advanced assembly solver is added.
-
-Production line animates only ten real samples. Full production Dashboard reports selected count, GOOD, REJECT, estimated Yield and P95 before the existing histogram. A failed package restores actual row inputs and its total loss, threshold and largest loss contribution. Switching to Optical retains that package state. Navigation/retry cancels playback.
-
-Success visibly lights the actual computed output, stamps the package and provides the retained learning summary/optional synthesized sound. Mission 09 centers attention with a display-only completion zoom. None of these rewards alters calculated results. [Gameplay Changes](GAMEPLAY_CHANGES.md) maps all ten experiences; [Scene Architecture](PHYSICAL_SCENE_ARCHITECTURE.md) states projection and scale distortion. Existing optical assumptions and all completion thresholds remain unchanged.
-
-## Independent Assembly Challenge — Assemble, Lock & Test
-
-상단에서 직접 진입하는 별도 Challenge이며 Mission 11은 추가하지 않습니다. Campaign 01–10 성공 조건과 기존 기록은 보존합니다. Inventory/Alignment/Locked/Tested 상태에 따라 다음 행동을 짧게 표시합니다. Fixture 선택, 실제 Carrier 설치/간섭 확인, Facet 현미경 Drag, Lock/Test, 유료 Unlock, 생산·검사·재작업, 납품을 연결합니다.
-
-Unique Action: 같은 구성의 수치 최적화에서 벗어나 부품을 설치하고 고정/해제하며 공정을 설계합니다. Engineering Principle: 지정된 기구 공간, Datum 공차 누적, Prototype/생산 편차, Active/Passive 교정, First/Final Yield와 양품당 비용. Failure: Oversized Fixture, PIC Clearance, Slot 이탈, 고정된 불량 Link, 낮은 Yield, 예산/시간 초과. Success: Prototype ≤1 dB + Good ≥95/100 + Cost ≤4800 + Time ≤3200. Reward: ORDER DELIVERED와 실제 결과·Engineering Debrief, 별도 저장.
-
-목표를 충족하는 전략이 여러 개입니다: Precision Passive, Economy Active, Economy Passive+불량 재작업. 각 전략은 동일한 표준 Normal Sample을 사용하는 독립 생산 Seed에서 비교합니다. Precision+Active는 100개 양품에도 예산을 초과할 수 있습니다. Oversized 정밀 Fixture는 기구 공간에 들어가지 않습니다. 이런 실패가 물리 Loss를 임의로 바꾸지는 않습니다.
-
-조립·비용 모델은 [Assembly Challenge](ASSEMBLY_CHALLENGE.md)에 정의했습니다. 100개 납품 조건은 표본 주문 기준이며 양산 Yield를 보장하지 않습니다. 실제 사람 대상 학습·재미 검증은 아직 없습니다.
+인간 대상 Learning / Enjoyment / First-play 연구는 수행하지 않았습니다. 자동 UI/Physics QA는 해당 연구를 대신하지 않습니다.
