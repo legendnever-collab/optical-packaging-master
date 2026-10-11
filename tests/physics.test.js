@@ -27,3 +27,6 @@ test('infeasible tolerance returns null',()=>assert.equal(tol(1,4,.1),null));
 test('invalid tolerance target rejected',()=>assert.throws(()=>tol(2,2,-1),RangeError));
 test('expanded matched mode improves same-offset loss and tolerance',()=>{const a=compareModes(1.5,0);assert.ok(a[0].totalLoss>a[1].totalLoss&&a[1].totalLoss>a[2].totalLoss);assert.ok(a[2].tolerance>a[1].tolerance);});
 test('fixed waveguide minimum centered mismatch is Medium',()=>{const a=compareModes(0,0,false);near(a[1].totalLoss,0);assert.ok(a[0].totalLoss>0&&a[2].totalLoss>0);});
+
+test('joint extreme offsets and radii retain finite ratio-based loss',()=>{const v=g({w1:1.7e308,w2:1.7e308,dx:1.7e308,dy:1.7e308});near(v.totalLoss,20/Math.LN10,1e-10);near(v.efficiency,Math.exp(-2),1e-10);});
+test('extreme matched radii retain representable tolerance',()=>{const t=tol(1.7e308,1.7e308,1);assert.ok(Number.isFinite(t)&&t>0);near(g({w1:1.7e308,w2:1.7e308,dx:t}).totalLoss,1,1e-9);});

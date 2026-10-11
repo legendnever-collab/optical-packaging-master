@@ -4,12 +4,12 @@
 
 | Suite | PASS | FAIL | Environment / evidence |
 | --- | ---: | ---: | --- |
-| Physics | 27 | 0 | Node 24.19.0; includes independent normalized-field quadrature |
+| Physics | 29 | 0 | Node 24.19.0; includes independent normalized-field quadrature |
 | Gameplay / scoring | 17 | 0 | Node built-in test runner |
 | Persistence | 13 | 0 | Real validation plus restricted/quota/error adapters |
 | Build / offline asset inspection | 7 | 0 | Reproducible inline HTML, classic-script syntax and zero runtime asset references |
 | Chromium offline browser QA | 28 | 0 | Chromium 141.0.7390.0 / Playwright 1.62.1, Linux headless; built HTML via file:// |
-| **Total local automated assertions** | **92** | **0** | `npm test`; `OPM_BROWSERS=chromium npm run test:ui` |
+| **Total local automated assertions** | **94** | **0** | `npm test`; `OPM_BROWSERS=chromium npm run test:ui` |
 
 Browser QA runs with network offline and checks all three campaign missions, invalid submissions, three challenge progression, Mission 03 conceptual gating, Mouse Drag, fine Keyboard alignment, Slider sync, Center, Hints, Replay, Free Practice, Fixed Loss, offline refresh/save restore, blocked Local Storage, Reset confirmation, desktop/mobile viewport overflow, real Chromium touch protocol events, zero HTTP runtime requests and zero page errors. Detailed local evidence: `browser-qa-results.json`. Screenshots are internal QA, not release deliverables.
 
