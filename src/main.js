@@ -1,3 +1,4 @@
+import {AssemblyChallenge} from './ui/assembly-challenge.js';
 import {PhysicalScene} from './ui/physical-scene.js';
 import {FactoryPlayback} from './ui/factory-playback.js';
 import {beamAtQ,opticalPathQ} from './physics/gaussian-propagation.js';
@@ -207,3 +208,7 @@ for(const id of ['path-pairs','path-fold-row'])$('architecture-controls').append
 scene=new AlignmentScene($('alignment-canvas'),()=>({...state,result,enabled:spatialEnabled()&&!isPath(),showTolerance:practice,tolerance:alignmentTolerance(state.w1,state.w2,1,state.fixedLoss)}),moveTo,attempt);
 const angleViews=['x','y'].map(axis=>new AngularScene($('angular-'+axis),axis,()=>({theta:state[axis==='x'?'thetaX':'thetaY']||0,enabled:angleEnabled()}),value=>tilt(axis,value),attempt));
 loadMission(missionId);persist();
+
+const assemblyChallenge=new AssemblyChallenge($('assembly-challenge'),slicePreview?null:storage,loaded.readOnly);
+$('open-assembly').addEventListener('click',()=>{generation++;running=false;factoryPlayback.cancel();document.querySelector('.lab-layout').hidden=true;$('assembly-challenge').hidden=false;assemblyChallenge.render();assemblyChallenge.persist();$('open-assembly').setAttribute('aria-pressed','true');$('ac-feedback').scrollIntoView({block:'start'});});
+$('return-campaign').addEventListener('click',()=>{assemblyChallenge.cancel();$('assembly-challenge').hidden=true;document.querySelector('.lab-layout').hidden=false;$('open-assembly').setAttribute('aria-pressed','false');render();$('open-assembly').focus();});

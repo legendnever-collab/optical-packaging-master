@@ -1,7 +1,7 @@
 import {validateOpticalPath} from '../physics/gaussian-propagation.js';
 export const STORAGE_KEY='optical-packaging-master.progress';
 export const SCHEMA_VERSION=4;
-export function freshProgress(){return {schemaVersion:4,gameVersion:'0.5.0',tutorialSeen:false,missions:{},content:{},designs:[],lastMission:1,sound:false,interfaceDraft:null};}
+export function freshProgress(){return {schemaVersion:4,gameVersion:'0.6.0',tutorialSeen:false,missions:{},content:{},designs:[],lastMission:1,sound:false,interfaceDraft:null};}
 function validRecord(m){return m?.complete===true&&Number.isFinite(m.bestScore)&&m.bestScore>=0&&m.bestScore<=1000&&Number.isFinite(m.bestLoss)&&m.bestLoss>=0;}
 function validEvaluation(e) {
  const axes=['dx','dy','thetaX','thetaY'];

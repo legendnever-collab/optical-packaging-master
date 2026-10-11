@@ -1,0 +1,4 @@
+import {challengeSession,validateChallenge} from './assembly-challenge.js';
+export const challengeStorageKey='optical-packaging-master.assembly';
+export function loadChallenge(storage){try{const raw=storage?.getItem(challengeStorageKey);if(!raw)return {session:challengeSession(),writable:!!storage,status:storage?'ready':'unavailable'};const value=JSON.parse(raw);if(value.schemaVersion>1)return {session:challengeSession(),writable:false,status:'future-schema'};if(value.schemaVersion!==1)throw new Error('Invalid save version');return {session:validateChallenge(value.session),writable:true,status:'ready'};}catch{return {session:challengeSession(),writable:false,status:'unavailable'};}}
+export function saveChallenge(storage,session){try{storage.setItem(challengeStorageKey,JSON.stringify({schemaVersion:1,gameVersion:'0.6.0',session:validateChallenge(session)}));return true;}catch{return false;}}
