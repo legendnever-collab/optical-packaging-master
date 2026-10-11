@@ -1,20 +1,20 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "Release Candidate",
-  "baseline": "1a4608d3e9700a6d19f51bdeb7ec1dfa1a2c1716",
+  "baseline": "49b9337f08883e6ea7dfca81b64ee21b906b8621",
   "files": {
-    "optical-packaging-master-v0.1.html": "47aeb78b19a37107b92c5b381a80c36cc41434c06be6db4aefd906bd64e10f3e",
-    "README.md": "ed1d689a88a0f94eaec61bde3348b355dfc9efed6c40be3028e02db0b1b0b05f",
-    "PHYSICS_MODEL.md": "d4b27ab501ad9656a1d417827e58665b2f1965ef961ca400066b09313731ac14",
-    "RELEASE_NOTES.md": "1c6aab65289bfa82bdff441858c98120b945c3be2243fed1adba3cbc603d4d06",
-    "TEST_SUMMARY.md": "577e004d63cb08116fee0313a8da08d276b6758e0f8f9fb590356de232f475b6"
+    "optical-packaging-master-v0.2.html": "e93a3bb7ab76f517a8b3e6f0bc79893f8b400e76e47fd347abe22b900cebf6ac",
+    "README.md": "02dcdd14c88b847a103f4c1854624e506a4d7b84da86027eb7b177fb752c34d0",
+    "PHYSICS_MODEL.md": "50e1dc968f3e6363d92f120e735b05443cb06353e78e3ec95655d72f2ba99558",
+    "RELEASE_NOTES.md": "206dcf32c91054c2b7a9c11af728535fd10c4dc7484c8eb54309e4ad270b63e5",
+    "TEST_SUMMARY.md": "e38f07d5ef9cb8293e014b8a4377342bf3c467457734f3bfb17c8b2fa2d449f0"
   },
   "html": {
-    "path": "dist/optical-packaging-master-v0.1.html",
-    "sha256": "47aeb78b19a37107b92c5b381a80c36cc41434c06be6db4aefd906bd64e10f3e"
+    "path": "dist/optical-packaging-master-v0.2.html",
+    "sha256": "e93a3bb7ab76f517a8b3e6f0bc79893f8b400e76e47fd347abe22b900cebf6ac"
   },
   "zip": {
-    "path": "dist/optical-packaging-master-v0.1-release.zip",
-    "sha256": "a8802c66499523b90f61d272ea9123d7ac8dc79e561d6670657517c890898f93"
+    "path": "dist/optical-packaging-master-v0.2-release.zip",
+    "sha256": "5f2ebbbcc067394729384dd1c5d43ff5cf1824fbecf7ba0f8b99d3432b7a5d9d"
   }
 }

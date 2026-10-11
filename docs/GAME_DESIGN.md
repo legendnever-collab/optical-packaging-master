@@ -1,31 +1,38 @@
-# First Light — Game Design v0.1
+# First Light + Aim the Light — Game Design v0.2
 
-The player is an Optical Packaging Engineer in an instrument-style lab. Core loop: Observe → Manipulate → Simulate → Fail → Diagnose → Improve → Master. Physics is continuously recalculated; Start gates manipulation, Complete validates the result. Retry resets the session, not campaign accomplishments.
+Observe → Manipulate → Diagnose → Improve → Master. Physics Result, Game Score and Engineering Assumptions remain distinct. Start gates manipulation; Retry resets the current experiment while preserving achievements. Navigation unlocks sequentially; Free Practice is always accessible.
 
-| Mission | Model and goal | Learning | Reward |
-| --- | --- | --- | --- |
-| 01 Find the Light | w1=w2=2.5 µm; initial (4,-3); <=1 dB | Mode centers and lateral overlap | Accuracy + efficient adjustments |
-| 02 Alignment Challenge | w1=w2=1.5; (3,-2),(-2.6,2.2),(2.8,2.7); <=0.4 dB each | Quadratic dB sensitivity; precise search | Mean score of 3 challenges; stored Loss = worst of 3 |
-| 03 Mode Size Trade-off | Radii 1.5,2.5,4; matched pairs versus fixed w2=2.5 | Wider tolerance versus mismatch | 1000 minus 20 per Hint; stored Loss = selected design at completion |
+| Mission | Conditions / physical PASS | Player action and learning |
+| --- | --- | --- |
+| 01 Find the Light | Matched radius 2.5 µm; initial (4,−3); Total Loss ≤1 dB | Drag Fiber toward Waveguide; observe centers, power and Loss. Center assistance and a short tutorial. |
+| 02 Alignment Challenge | Matched radius 1.5 µm; three offsets; each ≤0.4 dB | Find three alignment optima without Center shortcut. Offset doubling gives four times Alignment Loss in dB. |
+| 03 Mode Size Trade-off | Radii 1.5 / 2.5 / 4 µm; three fixed-condition experiments; final Total Loss ≤0.10 dB | Click three cards at a common offset, click three centered cards with fixed Waveguide, then select the matching connection design. |
+| 04 Aim the Light | Matched radius 4 µm; initial (2,−1), θx=+3°, θy=−2°; λ₀=1.55 µm, n=1; final ≤0.50 dB | Center first, observe residual Angular Loss, then drag both direction handles until the incoming axes match the blue target axes. |
 
-## Interaction and progression
+## Mission 03: no principle-answer quiz
 
-Mouse/touch grabs the movable Fiber near its center. Drag preserves the grab offset to avoid snapping; pointer capture permits a continuous drag beyond the scene boundary, with ±6 µm physical clamps. Up, cancel and lost capture settle one gesture. Two sliders and keyboard share this physical state. Arrow=0.1 µm, Shift+Arrow=0.01 µm. Resize rescales the coordinate plane without changing physics. Only supported transverse translation is manipulable.
+The current instruction, three-step progress and fixed conditions appear **above** the transverse scene. The player sees one task at a time:
 
-Mission 01 has a skippable, action-driven 20-second tutorial and Center assistance. Mission 02 removes Center and presents three distinct starts; invalid submissions give diagnosis, not completion. There is a target rather than a hard attempt limit so novices can keep learning. Attempts improve the score but never alter a computed Loss. All campaign missions are replayable after unlock. Practice is accessible from a clean save and never unlocks missions.
+1. **Same Offset:** X=1.50 µm, Y=0. Select each card to measure matched pairs: Narrow 4.34 dB, Medium 1.56 dB, Expanded 0.61 dB. Both radii change together; Offset is locked. All three real samples are required to continue.
+2. **Center inspection:** X=Y=0, Waveguide radius fixed at 2.50 µm. Measure all three Fiber cards: Narrow 1.09 dB, Medium 0 dB, Expanded 0.93 dB. Centering cannot remove size mismatch.
+3. **Connection design:** With the same fixed Waveguide and zero offset, explicitly select a Fiber card and press **이 Mode로 연결**. Only the physically matched Medium achieves ≤0.10 dB. An unsuitable card returns a mismatch diagnosis; completion never invents a lower Loss.
 
-Mission 03 displays two simultaneous columns calculated at exactly the same live offset: all three matched pairs and all three fixed-waveguide pairs. The comparison table excludes Fixed Interface Loss, explicitly labeled. Capture at >=0.5 µm Error records six values in session and identifies that common offset. Two questions separately test largest matched lateral tolerance and lowest centered fixed-WG mismatch. Mode/Pair selectors update the active scene. The dashed amber disk shows the **active** design's total 1 dB region, including Fixed Loss in practice. If the target is infeasible the disk disappears.
+Campaign Offset/Pair/Radius sliders cannot change these controlled conditions. Cards update the actual scene and live measurements. Retry clears sample history and returns to step 1. The general comparison table is retained in Free Practice, labeled Spatial Loss (Tilt and Fixed Loss excluded).
 
-## Scoring
+## Mission 04: Position, then Direction
 
-M01/M02: accuracy=600+300 max(0,1-L/target); efficiency=max(0,100-4 max(0,attempts-1)); score=max(0,round(accuracy+efficiency-20 hints)). Scores range 0–1000 and are only awarded after an actual PASS. M02 averages the three challenge scores. M03 scores conceptual completion (1000 minus 20 per hint) independently of Loss; this is labeled a comparison mission. Best Score and Best Loss may come from different replays.
+Start enables X/Y adjustment. θ controls initially remain locked. A Center button next to the angular instructions makes the next action accessible on mobile. Center leaves θ unchanged: overlapping intensity patterns still show nonzero Angular Loss. **중심 확인 → 방향 조정 시작** requires Error ≤0.1 µm with Angular Loss above the mission budget. This records the observation, fixes X/Y at zero, and activates θx/θy sliders and two draggable projected side views.
 
-## UI and learning
+Direction handles use pointer capture for mouse/touch and arrow keys (0.1°, Shift 0.01°). Relative phase tilt is shown through X–Z / Y–Z direction diagrams; angles are exaggerated 4× and explicitly labeled. The central intensity heatmap does not morph under phase-only tilt. Numeric Loss/Power changes are authoritative. A matched-mode comparison shows larger radii are more angular-sensitive at the same Tilt. Zero Tilt assistance is available in Practice only.
 
-Dark navy/charcoal, cyan Fiber and blue target, restrained amber Alignment indicator. Central scene is a transverse intensity plane with radius rings, center markers, axes and connecting offset line. Relative per-mode intensity is Gaussian; numeric output is authoritative. Transmission pulses/track use total transmitted fraction. A live PASS/TARGET NOT MET text accompanies color. No decorative full-screen effects.
+## Controls, score and feedback
 
-Desktop: Mission/Brief left, central scene/actions, parameters/measurement right. Tablet condenses navigation; mobile stacks panels. Progressive Hint and the four completion sections explain what happened, why, the principle and its real packaging connection. Engineering Assumptions are available in a dialog; its close control, keyboard and Escape remain available.
+X/Y range ±6 µm; direction components ±4° in the UI. Sliders, drag and keyboard update the same state. A settled gesture or slider adjustment counts as one Attempt. Free Practice exposes matched/fixed Radius, Tilt, wavelength (1.31 / 1.55 µm), optional Fixed Interface Loss and Center/Zero Tilt. It cannot record campaign scores or unlocks.
 
-## Persistence boundary
+All missions score physical PASS using accuracy=600+300 max(0,1−L/target), efficiency=max(0,100−4 max(0,attempts−1)), score=max(0,round(accuracy+efficiency−20 hints)). Mission 02 averages three challenge scores and stores the worst achieved Loss. Mission 03 stores the final design's actual Loss. Scores never alter physics. Best Score and Best Loss can come from different replays.
 
-Schema 1 stores completions, best values, tutorial seen, and last campaign mission. An unfinished experiment restarts at its initial conditions on reload. Saves are opportunistic with an honest status; restricted environments play in memory. Future versions require explicit schema migration. No setup, account, upload or network is required.
+Progressive Hints and completion summaries cover What Happened, Why, Engineering Principle and Real-world Packaging Connection. Mission 03 contrasts lateral tolerance and mismatch; Mission 04 contrasts position and direction. Text PASS/target status supplements color. Dark instrument styling, responsive panels, keyboard focus and reduced-motion handling are retained.
+
+## Save compatibility
+
+Schema 2 migrates schema 1 completion, best values, tutorial state and last mission. Previously completed Mission 03 remains completed and unlocks Mission 04; the new guided experiment can still be replayed. Unknown future schemas are preserved read-only. Unfinished experiments restart after refresh. File-origin storage availability depends on browser/profile/path; unavailable storage falls back to in-memory play.

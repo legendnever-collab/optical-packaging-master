@@ -9,7 +9,7 @@
       "networkMode": "native offline emulation"
     }
   ],
-  "pass": 28,
+  "pass": 41,
   "fail": 0,
   "results": [
     {
@@ -77,23 +77,63 @@
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 03 live comparison has all three modes",
+      "name": "chromium / Mission 03 explains the current action and fixed condition",
       "status": "PASS"
     },
     {
-      "name": "chromium / incorrect trade-off answer cannot complete",
+      "name": "chromium / Mission 03 cannot skip the third measurement",
       "status": "PASS"
     },
     {
-      "name": "chromium / Expanded fixed WG leaves centered mismatch",
+      "name": "chromium / Expanded improves lateral tolerance at the same offset",
       "status": "PASS"
     },
     {
-      "name": "chromium / Mission 03 completes after comparison and correct principles",
+      "name": "chromium / Centered Expanded exposes mode mismatch",
       "status": "PASS"
     },
     {
-      "name": "chromium / Replay preserves Personal Best and resets session",
+      "name": "chromium / Mission 03 wrong physical design cannot connect",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Mission 03 connects matching design and unlocks Angular",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Replay keeps Personal Best and resets guided observations",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Angular Mission starts with Position before Direction",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Center keeps physical angular loss and direction",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Observing residual loss enables angle handles and locks Position",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Angular slider values agree with the independent loss reference",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Angle handle drag synchronizes slider and physical loss",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Angle handle supports keyboard fine adjustment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Angular Mission completes with physical zero-loss result",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / Angular Mission progress restores offline",
       "status": "PASS"
     },
     {
@@ -118,6 +158,18 @@
     },
     {
       "name": "chromium / actual touch drag updates alignment",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / actual touch angle drag updates Tilt",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / real local-file schema 1 upgrade preserves completion and best scores",
+      "status": "PASS"
+    },
+    {
+      "name": "chromium / future schema survives boot and play without overwrite",
       "status": "PASS"
     },
     {

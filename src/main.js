@@ -82,6 +82,7 @@ function render(){
  if(missionId===3&&!practice)$('complete').textContent='이 Mode로 연결';
  const angleEnabled=enabled&&(practice||missionId===4&&session.positionObserved);
  for(const [axis,val] of [['x',thetaX],['y',thetaY]]){$('theta-'+axis).value=val.toFixed(2);$('theta-'+axis).disabled=!angleEnabled;$('theta-'+axis+'-output').textContent=signed(val)+'°';}
+ $('angular-readout').textContent=`Total Loss ${fmt(result.totalLoss)} dB · Angular ${fmt(result.angularLoss)} dB · Power ${fmt(result.totalEfficiency*100)}%${practice?'':` · Target ≤ ${missions[3].target.toFixed(2)} dB`}`;
  $('theta-error').textContent=fmt(result.thetaError)+'°';$('angular-loss').textContent=fmt(result.angularLoss)+' dB';$('lambda-label').textContent=wavelength.toFixed(2);
  $('angular-center').hidden=practice||session.positionObserved;$('angular-center').disabled=!enabled;
  $('observe-position').hidden=practice||session.positionObserved;$('observe-position').disabled=!enabled||result.error>.1||result.angularLoss<=missions[3].target;
