@@ -4,21 +4,21 @@
   "baseline": "2d52ce76d8a53a089af7756e8404f8272f099728",
   "dependency": "v0.6 PR #6 merged at 2ceb71e94f867f76905eaa57a4a762d684f9983a",
   "files": {
-    "optical-packaging-master-v0.7.html": "b8d365c6725a639e30d9e14abb58845f3da07b98ac046d98cd5fe4905a4ac5d7",
-    "optical-packaging-master-v0.7-vertical-slice.html": "d7d554058429ee0db776e30d4aec61a83310bda04c71613146a2d9d4ab7ba394",
+    "optical-packaging-master-v0.7.html": "6e5d8523ddcd2b97290caeb4196bc9f04e6c1a9d0c0dae105e8c80798d323d51",
+    "optical-packaging-master-v0.7-vertical-slice.html": "33ffe6e4b85f08f6e49b151745b5e56498dde6f4da5236c18ca5396315f944a0",
     "optical-packaging-master-v0.7-chapters-1-4-preview.html": "e7fdfa9d687abbc6bfb06900964e1180e8dac69b57ddea0499e8ed120f846956",
     "GAME_DESIGN.md": "6781339b36d72637dc5c2c8cebb43a207fbcfd263182f8fc7c1ba3fbf40ecaac",
     "PHYSICS_MODEL.md": "c9d15b75bc790274a59666cbba5f68980babfe46531f4325e301f95b1499db85",
     "USER_JOURNEY.md": "a5ee23acb6e45778670512bfaba955a25de14ee73be0b86f91ab9ce7daa76d40",
     "MODEL_LIMITATIONS.md": "aa6fc5e3b8ea53a41d6dab3cddde0cf6ce062c5d02f5462f1872f70b912940cd",
     "MIGRATION.md": "8d954d0400978e96a1dee0cc1e0a5cf3ac7e035ee236adae894beb62984ec16c",
-    "TEST_SUMMARY.md": "37bef20415626f4c1bb8e771e10415d0806dff13df3ee7132b26101efb383379",
+    "TEST_SUMMARY.md": "c9df624ea6d793c9ec77cb38bf77f4c8cff9d434ab0c8015396c496bad06b5d8",
     "GAMEPLAY_AUDIT.md": "73a28e0cedcaddaf646c2aadaaffc3889a21e04856199c08bd69eeb13deebfbc",
     "RELEASE_NOTES.md": "b1753286e068f8d16bb80f86fb150dd713d32f7871b7213f1b625c7547731264",
     "ASSEMBLY_CHALLENGE.md": "1ca15a1c4449b5e2c641cc295fea615eaca64d55c7d5c08571061f9b4fe10896",
     "PHYSICAL_SCENE_ARCHITECTURE.md": "a8ec6bbfd8730e08d09a0890e062e81724397f343b984de852ce2f5ab6ff6b58",
-    "browser-qa-results.json": "660862356fc8fde52f2525d8cbf25e9d2921bb73d72682c952d5c25219bf9fbe",
-    "campaign-qa-results.json": "96935afb929167e8b986cea99f8593d4a543b82c5f9a071827596557d1fa2063",
+    "browser-qa-results.json": "8891fb1c5eef170bf626b372de75d6545a84c215d93d27f4dc538d8c05c03b0b",
+    "campaign-qa-results.json": "8894b04f8797a91a66b6edc01eb6bb1939c9d7631191a50bfcb299b34d1e1902",
     "source/README.md": "b05d80abaa1008dcb9a699d7aec2a4d6b4214727568f4a11ec5d4baa34186442",
     "source/CLAUDE.md": "23f29d9b98f27846cb97e934fdb365b2e0f3606ec2856fac0e56372814bdef27",
     "source/index.html": "77b79a86d494fb0412ff8147e88ac1b60b228e523cabed526f86db51076a7dae",
@@ -32,7 +32,7 @@
     "source/src/game/progress.js": "a8257d5a459de624e04828e0124522982d3d8a99b3306183abb306bb36e32b96",
     "source/src/game/scenarios.js": "9b010c056a051bf023d75ecdb2be9cf1c3761d44e7f2366490a3ca52670e930f",
     "source/src/game/scoring.js": "85832bad68dfbfbd4aa7b0d758de77298d05a9d8c9720228c57d9856218f8fee",
-    "source/src/main.js": "30c5a5f9372c28277bdd272aefb91e04a5e051f04341d8d8c3b2621b40409920",
+    "source/src/main.js": "7c56d3d989108846786ac132f9f29fcd1efe71bbe6592049c3e515e2a80157a2",
     "source/src/physics/angular-coupling.js": "67ec636ed9ed25068236ef3e02fc832ed70d8e449505a501b1ce9617e97b959e",
     "source/src/physics/assembly.js": "40df1f0b7dbe2ccc5e5c1a9f35700f0a598a44a02f04b05834d743686d41fb57",
     "source/src/physics/beam-interface.js": "101b7fd7066bd3390c6e3ecd0c063dd431fd8d702a0923aaab164e1c58be6b04",
@@ -54,7 +54,7 @@
     "source/src/ui/learning-panel.js": "f375cac53f8f713e87eb2496522b64f48467a343313b24514548fbec866e138d",
     "source/src/ui/optical-layer.js": "a177de78a1530a34fbaebe3155363d6b5186b56fb2c765b445b42e4e0d199f5c",
     "source/src/ui/physical-scene.js": "d7620ea26305c7cbdd0faf2d13efb13e8f10798cc5d59ba262dda95f74231d7a",
-    "source/src/ui/physics-campaign.js": "30bddf756a311e9cfb4db0da7081faafae7c04a91f9c4803a8c5a5c3b27cc7db",
+    "source/src/ui/physics-campaign.js": "f2c41654e21ce735f95a2af5cef3146567fcf0ff1f6cf42dcfe172036ca2ddb6",
     "source/src/ui/sound.js": "245d304ea81253a78b4d2a8d121d26e8ae7a71473a8a2e004706a47fe95f8d8c",
     "source/tests/angular.test.js": "032b79dea367fab40b29830308544a01e2af1f5f2d034647f3cd4d5f9e975800",
     "source/tests/assembly.test.js": "35509b177ba3dab2a163f25ea99e348f686bf63490a5a9c55844448b3ec6b8be",
@@ -72,7 +72,7 @@
     "source/scripts/browser-qa.mjs": "6d65ccadc7f0c8d14a5033c7a0a2ade1b2456ca4a7ce3bc2c884035d0deed667",
     "source/scripts/build.mjs": "2f8be5ba2e7239497b479bea42e09a297680171fb26e0296c3110c07b52f86ad",
     "source/scripts/campaign-qa.mjs": "4930ff6c1b780663bb0ab06e165ab510aba037144201745b1302e1c8f28889fc",
-    "source/scripts/guidance-qa.mjs": "b7de91ecf60ceaa5ce23db758c4e4822e0acf878626e1e87e3eb8f89f65ddb74",
+    "source/scripts/guidance-qa.mjs": "2509f2456afb085d5088fe6219848330e58e7c975f39af0880c306fcf691ff5a",
     "source/scripts/release.py": "1468012c515781d4fe808511fce2042c91aeb5af92d79244baa20c174752cce3",
     "source/.github/workflows/ci.yml": "622be19f363d53412559551fd1fd8b3c41fd790a74c42616bf4f1664ec1b81f9",
     "screenshots/v0.7-ch1-fiber.png": "2f34b1718b4cb45b04d43ebd34b55e0651910597d018227036693b28c6f7e72c",
@@ -95,10 +95,10 @@
   },
   "html": {
     "path": "dist/optical-packaging-master-v0.7.html",
-    "sha256": "b8d365c6725a639e30d9e14abb58845f3da07b98ac046d98cd5fe4905a4ac5d7"
+    "sha256": "6e5d8523ddcd2b97290caeb4196bc9f04e6c1a9d0c0dae105e8c80798d323d51"
   },
   "zip": {
     "path": "dist/optical-packaging-master-v0.7-release.zip",
-    "sha256": "e010febfa9c9b173c86b3e9ad463d0c5ad81b7faec2658b72e08bc2c432c7792"
+    "sha256": "7c0f4c849a05f915c57518ee0bdf588b45b9f86c862a6abda4556ef10bf732d5"
   }
 }
