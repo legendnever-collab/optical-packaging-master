@@ -12,7 +12,7 @@ async function align(p){await slider(p,'x-offset',0);await slider(p,'y-offset',0
 async function close(p){await p.locator('#dialog-continue').click();}
 for(const engine of engines){
  let browser;try{browser=await pw[engine].launch({headless:true,...(engine==='chromium'&&process.env.OPM_CHROMIUM_PATH?{executablePath:process.env.OPM_CHROMIUM_PATH,args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu']}:{} )});}catch(e){results.push({name:engine+' browser launch',status:'FAIL',error:e.message});continue;}
- environments.push({engine,version:browser.version(),networkMode:engine==='webkit'?'HTTP(S) interception abort':'native offline emulation'});
+ environments.push({engine,version:browser.version(),networkMode:engine==='webkit'?'HTTP(S) interception abort':'native offline emulation'});console.log('ENV '+JSON.stringify(environments.at(-1)));
  const context=await browser.newContext({viewport:{width:1440,height:1080},reducedMotion:'reduce'});await blockNetwork(context,engine);
  const p=await context.newPage(),errors=[],network=[];p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>{if(/^https?:/.test(r.url()))network.push(r.url());});
  const tag=engine+' / ';
@@ -46,7 +46,7 @@ for(const engine of engines){
  await p.locator('[data-mode-card="0"]').click();await p.locator('[data-mode-card="1"]').click();
  await check(tag+'Mission 03 cannot skip the third measurement',async()=>assert.ok(await p.locator('#mode-next').isDisabled()));
  await p.locator('[data-mode-card="2"]').click();
- await check(tag+'Expanded improves lateral tolerance at the same offset',async()=>{assert.equal(await text(p,'total-loss'),'0.61');assert.equal(await p.locator('#x-offset').inputValue(),'1.5');assert.ok(await p.locator('#mode-next').isEnabled());});
+ await check(tag+'Expanded improves lateral tolerance at the same offset',async()=>{assert.equal(await text(p,'total-loss'),'0.61');assert.equal(Number(await p.locator('#x-offset').inputValue()),1.5);assert.ok(await p.locator('#mode-next').isEnabled());});
  await p.locator('#mode-next').click();for(const i of [0,1,2])await p.locator(`[data-mode-card="${i}"]`).click();
  await check(tag+'Centered Expanded exposes mode mismatch',async()=>{assert.equal(await text(p,'total-loss'),'0.93');assert.equal(await text(p,'alignment-loss'),'0.00 dB');assert.match(await text(p,'mode-instruction'),/②/);});
  await p.locator('#mode-next').click();await p.locator('[data-mode-card="2"]').click();await p.locator('#complete').click();
@@ -57,7 +57,7 @@ for(const engine of engines){
  await p.locator('#next').click();await p.locator('#start').click();
  await check(tag+'Angular Mission starts with Position before Direction',async()=>{assert.ok(await p.locator('#theta-x').isDisabled());assert.ok(await p.locator('#observe-position').isDisabled());});
  await p.locator('#angular-center').click();
- await check(tag+'Center keeps physical angular loss and direction',async()=>{assert.equal(await text(p,'alignment-error'),'0.00 µm');assert.equal(await p.locator('#theta-x').inputValue(),'3');assert.ok(Number(await text(p,'total-loss'))>.5);assert.match(await text(p,'feedback'),/Angular Loss/);});
+ await check(tag+'Center keeps physical angular loss and direction',async()=>{assert.equal(await text(p,'alignment-error'),'0.00 µm');assert.equal(Number(await p.locator('#theta-x').inputValue()),3);assert.ok(Number(await text(p,'total-loss'))>.5);assert.match(await text(p,'feedback'),/Angular Loss/);});
  await p.locator('#observe-position').click();
  await check(tag+'Observing residual loss enables angle handles and locks Position',async()=>{assert.ok(await p.locator('#theta-x').isEnabled());assert.ok(await p.locator('#x-offset').isDisabled());});
  await check(tag+'Angular slider values agree with the independent loss reference',async()=>{const tx=Number(await p.locator('#theta-x').inputValue()),ty=Number(await p.locator('#theta-y').inputValue());const expected=10/Math.LN10*(Math.PI*4/1.55)**2*((tx*Math.PI/180)**2+(ty*Math.PI/180)**2);assert.equal(await text(p,'total-loss'),expected.toFixed(2));});
