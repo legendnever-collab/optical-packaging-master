@@ -32,13 +32,13 @@ Chromium native offline emulation: runtime HTTP(S) requests=0; critical page err
 
 Six committed PNG captures under docs/screenshots show First Light, factory, actual rejection inspection, restored lens link, ideal folded package and mobile lens placement. Korean font is installed on the QA host only, not in the artifact. Main component/routing/typography and mobile controls were visually reviewed. Hardware is the largest workbench surface, detailed instruments are collapsed by default, and text distinguishes model assumptions and error/achievement. Internal full-page engine captures are in ignored tmp/qa.
 
-Development checks caught closed-Advanced read assertions and an overlay intercepting Receiver input; tests were adapted to actual disclosure controls and optical overlays made pointer-transparent. A fixed display extent ensures Receiver movement visibly changes its position. The complete final suite was rerun; earlier failures are not counted as final success. No human first-play observation or fun/learning-effect study was performed.
+Development checks caught closed-Advanced read assertions and an overlay intercepting Receiver input; tests were adapted to actual disclosure controls and optical overlays made pointer-transparent. A fixed display extent ensures Receiver movement visibly changes its position. Cross-browser CI also found SVG focus lost after the first Lens keyboard movement in Firefox/WebKit; focus is now restored after both state renders in a microtask. The complete local final suite was rerun; earlier failures are not counted as final success. No human first-play observation or fun/learning-effect study was performed.
 
 ## CI / artifact verification
 
 Stacked PR CI runs Node, deterministic rebuild/committed-source check, archive/SHA256/source-byte verification, and real Chromium/Firefox/WebKit local-file campaigns. Actual completed counts/versions are reported in the PR after execution, not pre-counted here. Chromium/Firefox use native offline; WebKit aborts HTTP(S) requests because native-offline prevents file navigation on the runner. WebKit network independence is tested; native WebKit offline-emulation navigation is not claimed. Five CDP Touch assertions are Chromium-only.
 
-`python3 scripts/release.py --verify` checks manifest hashes, all archive names/CRC/SHA256SUMS and exact HTML/document/screenshot bytes. v0.4 HTML/ZIP and older artifacts are unchanged. The vertical-slice HTML is a frozen intermediate snapshot, distinct from the polished final campaign. It is validated in browser as supplied, not claimed rebuilt from the current final source. No attachment/company bytes or credentials are redistributed.
+`python3 scripts/release.py --verify` checks manifest hashes, all archive names/CRC/SHA256SUMS and exact HTML/document/screenshot bytes. v0.4 HTML/ZIP and older artifacts are unchanged. The vertical-slice HTML is a direct-access review build generated from final source with the isolated memory-only flag. The initial intermediate snapshot remains in phase history. No attachment/company bytes or credentials are redistributed.
 
 ## Known issues / unverified work
 

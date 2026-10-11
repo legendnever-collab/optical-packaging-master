@@ -19,4 +19,4 @@ New interaction changes include lens installation before refocus, actual product
 
 Quantitative release review records whether each mission has a visible objective, state-derived output, its retained unique policy and actual wrong-condition rejection. Automated scripted play is evidence of functional consistency, not proof of fun or teaching effect. No human novice observation occurred. Next review should observe unprompted First Light, rejection inspection and lens installation before expanding complexity.
 
-The isolated vertical-slice file directly opens 01/05/09 without touching existing storage. It is a preserved intermediate snapshot for review; the final campaign includes subsequent polish.
+The isolated vertical-slice file directly opens 01/05/09 without touching existing storage. It is a direct-access review build generated from the final source; earlier intermediate work is preserved in the phase commit.

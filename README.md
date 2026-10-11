@@ -36,7 +36,7 @@ Interface Builder도 처음부터 열립니다. Source/Target Waist, 입력 Wais
 
 Free Practice는 처음부터 열립니다. X/Y, Tilt, Radius, Matched/Fixed Pair, Wavelength와 Fixed Loss를 자유롭게 실험하며 Campaign 성과를 바꾸지 않습니다. Mouse/Touch Drag, Sliders와 Arrow keys가 같은 State를 공유합니다. Shift+Arrow는 미세 조정입니다. Sound는 기본 OFF이며 켜면 오프라인 Web Audio로 성공음을 합성합니다. Retry는 현재 실험만 초기화합니다.
 
-[Vertical Slice HTML](dist/optical-packaging-master-v0.5-vertical-slice.html)은 01/05/09를 순서 제한 없이 바로 열어볼 수 있는 중간 Snapshot입니다. 기존 저장을 읽거나 덮어쓰지 않는 메모리 플레이이며, 최종 Campaign은 기존 Unlock 규칙을 유지합니다.
+[Vertical Slice HTML](dist/optical-packaging-master-v0.5-vertical-slice.html)은 01/05/09를 순서 제한 없이 바로 열어볼 수 있는 독립 검토 빌드입니다. 초기 중간 Snapshot은 Phase Commit에 보존했습니다. 기존 저장을 읽거나 덮어쓰지 않는 메모리 플레이이며, 최종 Campaign은 기존 Unlock 규칙을 유지합니다.
 
 ## 저장과 호환
 
