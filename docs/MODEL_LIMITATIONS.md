@@ -13,3 +13,8 @@
 - UI의 Structure / SSC mode evolution은 개념도입니다. Facet의 Radius/Orientation contour와 q Beam envelope는 선택한 모델 값을 사용하지만 Relative Intensity 색 Gradient 자체가 Field Measurement는 아닙니다. SMF Cladding은 확대 Facet 그림의 밖에 있고 Core와 Mode는 구분됩니다.
 - Legacy Lab의 q/ABCD와 Common-plane Angular 모델은 원래 경계 그대로 독립적인 실험입니다. 새로운 Relay/Factory Adapter의 통합 결과와 혼동하지 않습니다.
 - Human First-play / Learning Effect / Enjoyment / Native Android Device / Safari/Firefox 수동 인증은 수행하지 않았습니다. 실제 실행한 자동 테스트와 CI 상태만 보고합니다.
+
+
+## v0.8 additive FAU Packaging
+
+Chapter 1–6의 모델과 완료 기록을 유지하며 Chapter 7의 4→8→16-channel Array를 추가합니다. Campaign Schema 1 / Content 8은 Content 7을 검증 후 이관하며 Interface Model v7.1을 변경하지 않습니다. Array Geometry / Process / All-channel Acceptance / UX / Migration / 모델 경계의 상세 사항은 [FAU_PACKAGING.md](FAU_PACKAGING.md)를 참조하세요. v0.7 HTML·ZIP·Manifest·Preview는 그대로 보존합니다.

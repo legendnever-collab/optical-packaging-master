@@ -38,3 +38,8 @@ Observation Count, 임의 점수, 경험 횟수는 물리 성능을 바꾸거나
 SENKO / Teramount / Broadcom을 특정 제품 재현으로 구현하지 않습니다. v0.7은 공개 문헌으로 설명 가능한 물리 문제와 모델 경계에 집중합니다. 업체별 산업 구조 비교는 후속 단계이며 비공개 Parameter를 사용하지 않습니다.
 
 인간 대상 Learning / Enjoyment / First-play 연구는 수행하지 않았습니다. 자동 UI/Physics QA는 해당 연구를 대신하지 않습니다.
+
+
+## v0.8 additive FAU Packaging
+
+Chapter 1–6의 모델과 완료 기록을 유지하며 Chapter 7의 4→8→16-channel Array를 추가합니다. Campaign Schema 1 / Content 8은 Content 7을 검증 후 이관하며 Interface Model v7.1을 변경하지 않습니다. Array Geometry / Process / All-channel Acceptance / UX / Migration / 모델 경계의 상세 사항은 [FAU_PACKAGING.md](FAU_PACKAGING.md)를 참조하세요. v0.7 HTML·ZIP·Manifest·Preview는 그대로 보존합니다.

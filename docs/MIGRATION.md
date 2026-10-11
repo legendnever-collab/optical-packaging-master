@@ -25,3 +25,8 @@ Offline `file://`의 LocalStorage는 브라우저/프로필/파일 경로별로 
 Chapter 1–4 Preview와 Vertical Slice는 저장된 Key를 읽거나 쓰지 않는 별도 Memory-only 플레이입니다. Preview는 기존 완료 기록을 영향을 주지 않습니다.
 
 검증: Node의 Schema 1–4 이관, Future/Blocked/Corrupt 데이터 보존, Archive/Refreeze 전달 검증; Legacy Browser QA의 실제 v0.2–v0.5 파일 이관; 새 Campaign의 Refresh / Text Backup / Valid+Invalid Paste / Future Schema / Restricted Storage 실행.
+
+
+## v0.8 additive FAU Packaging
+
+Chapter 1–6의 모델과 완료 기록을 유지하며 Chapter 7의 4→8→16-channel Array를 추가합니다. Campaign Schema 1 / Content 8은 Content 7을 검증 후 이관하며 Interface Model v7.1을 변경하지 않습니다. Array Geometry / Process / All-channel Acceptance / UX / Migration / 모델 경계의 상세 사항은 [FAU_PACKAGING.md](FAU_PACKAGING.md)를 참조하세요. v0.7 HTML·ZIP·Manifest·Preview는 그대로 보존합니다.

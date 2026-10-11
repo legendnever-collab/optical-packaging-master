@@ -131,3 +131,14 @@ select.next-target{border:2px solid #e9c68d;box-shadow:0 0 0 4px #e9c68d22}
 @media(max-width:900px){.pc-chapter{min-height:58px}.pc-console .fine-controls .fine-button{min-width:44px}}
 
 @media(min-width:901px){.pc-project-title{display:none}.pc-chapter small{display:none}.pc-chapter{min-height:48px}.pc-project-tools{margin-top:8px}.pc-project-tools details{padding:0}.pc-project-tools summary{padding:5px 0}.pc-nav-panel{padding-bottom:12px}.pc-heading{margin:14px 0}.pc-heading h2{font-size:26px;margin-top:6px}.pc-hud{padding:12px 16px}}
+/* v0.8: array metrics reuse the persistent HUD and existing two-column workbench. */
+.pc-fau-metrics {display:flex;gap:24px;border-top:1px solid #334456;padding-top:6px;margin-top:6px}
+.pc-fau-metrics[hidden] {display:none}
+.pc-fau-metrics div {display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pc-fau-metrics span {font-size:10px;letter-spacing:.06em;color:var(--muted)}
+.pc-fau-metrics strong {font-size:22px;font-variant-numeric:tabular-nums}
+.pc-fau-stages {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:16px;font-size:13px;color:var(--muted)}
+.pc-fau-stages .active {border:1px solid var(--cyan);border-radius:8px;padding:8px;color:var(--text)}
+#pc-scene [data-fau-channel] {cursor:pointer;outline:none}
+#pc-scene [data-fau-channel]:focus-visible {outline:2px solid #f8f3d9;outline-offset:3px}
+@media(max-width:600px) {.pc-fau-metrics {gap:14px}.pc-fau-metrics div {gap:6px}.pc-fau-metrics strong {font-size:18px}.pc-fau-metrics span {font-size:9px}}

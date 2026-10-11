@@ -25,3 +25,8 @@ Changing Glass to Silicon is explicitly announced as a new platform challenge. O
 Mouse, captured Pointer/Touch and keyboard control the supported source facet / lens / receiver / Carrier. Shift+Arrow is fine movement. Basic decisions and actual power are visible first; advanced assumptions/calculations stay collapsed. All labels include non-color status. Reduced motion keeps calculated results while shortening the optional first-ten production visualization.
 
 Preview HTML: Chapter 1–4, memory-only, no storage reads/writes. The full RC saves/auto-resumes at a separate versioned key; Backup/Paste Restore requires no upload.
+
+
+## v0.8 additive FAU Packaging
+
+Chapter 1–6의 모델과 완료 기록을 유지하며 Chapter 7의 4→8→16-channel Array를 추가합니다. Campaign Schema 1 / Content 8은 Content 7을 검증 후 이관하며 Interface Model v7.1을 변경하지 않습니다. Array Geometry / Process / All-channel Acceptance / UX / Migration / 모델 경계의 상세 사항은 [FAU_PACKAGING.md](FAU_PACKAGING.md)를 참조하세요. v0.7 HTML·ZIP·Manifest·Preview는 그대로 보존합니다.

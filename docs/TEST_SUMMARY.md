@@ -1,3 +1,29 @@
+# v0.8 FAU Release Candidate QA
+
+최종 배포 HTML의 SHA256은 `release-manifest-v0.8.json` 및 Browser / Campaign JSON Report의 `artifact.sha256`과 일치해야 합니다. 이전 보고서는 아래 보존합니다.
+
+| 실제 Local 실행 | PASS | FAIL |
+|---|---:|---:|
+| Node Physics / Gameplay / Persistence / Build | 282 | 0 |
+| Retained Legacy / q·ABCD / Factory Browser | 123 | 0 |
+| Chapter 1–6 / Guidance / Responsive Layout | 101 | 0 |
+| Chapter 7 FAU 4→8→16 / Process / Mobile | 25 | 0 |
+| 합계 | 531 | 0 |
+
+Local 환경: Node 24.19.0 / Chromium 141.0.7390.0 / native offline emulation / reduced-motion 및 기존 일반 Motion 검사. Firefox / WebKit은 Local 실행으로 집계하지 않으며 GitHub CI Matrix에서 각각 실제 설치·실행합니다. PR의 최종 SHA 기준 CI 결과를 별도로 확인합니다.
+
+**변경되지 않은 것:** 기존 Gaussian / Elliptical Overlap / Converter Solver / Gaussian Propagation / q·ABCD / 기존 Independent Factory Model의 계산 코드는 수정하지 않았습니다. **실행한 Regression:** 위 Node 및 실제 브라우저 Chapter 1–6·Legacy 전체, Converter의 동일 478/1000 Passive 결과, Relay / Mirror / Assembly Lock·Test, Seed·Wilson·Bounds, Persistence·Legacy Migration, Preview·Offline·Mouse·Keyboard·Touch·Reduced Motion를 실행했습니다. 변경 없음과 검증 실행을 구분합니다.
+
+추가 FAU 검증: 해석 Rigid Rotation / Half-slot Pitch 오차 / Geometry vs Phase Tilt / 모든 채널 AND Acceptance / 평균이 좋은 15/16 제품의 Reject / 상관된 Shared 오차와 독립 Local 오차 / 재현되는 동일 Cohort / 독립 최종 Seed / 중앙 검사 False Accept / 검사 범위가 Optical Yield를 바꾸지 않음 / Precision의 경제 조건 / Active의 비용·시간 초과 / Edited Draft와 Frozen 제품 / Content 7→8 / Invalid·Future Save Byte 보존 / 기존 v0.7 전체 Release Hash.
+
+실제 Chapter 7 브라우저 여정은 먼저 실행한 기존 6개 Chapter의 완료 Save를 이관하고 4→8→16을 조작합니다. ± / Bound / Mouse Drag의 전달된 실제 SVG 좌표 / Keyboard Focus / CDP Touch / 선택 채널 / Sample의 실제 HUD / Independent Qualification / Refresh / Chapter Replay / 320·390·768·1024·1440 px 고정 지표·No Overflow / Zero HTTP·Page Error를 검증합니다.
+
+스크린샷 환경의 한계: 이 Linux 이미지에는 Korean Font가 없어 한글 Glyph가 네모로 표시됩니다. DOM의 한국어 문구·안내·접근성·치수를 검증했고, 실제 Korean System Font의 Glyph Rendering은 이 환경에서 검증했다고 주장하지 않습니다. HTML은 기존 System Font Stack과 Offline 방식을 유지하며 원격 Font를 요청하지 않습니다. 실제 모바일 기기 / 공장 실측 / EM Solver 검증은 포함하지 않습니다.
+
+Release 검증은 재현 가능한 Source→HTML, ZIP CRC, 모든 Entry와 현재 Source의 byte equality, SHA256SUMS, HTML·ZIP Manifest Hash를 확인합니다. 이전 v0.7 HTML / ZIP / Manifest / Preview는 별도 Hash Regression으로 byte-identical을 검증합니다.
+
+---
+
 # v0.7.0 Play Layout — executed evidence
 
 ## Local execution — 2026-10-11
